@@ -1,0 +1,57 @@
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { LOCAL_STORAGE_KEYS, ERROR_MESSAGES } from "@/constants";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+
+export const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 10000, // 10 seconds timeout
+});
+
+// Request Interceptor: Attach authentication token if available
+apiClient.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem(LOCAL_STORAGE_KEYS.token);
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response Interceptor: standard error handling
+apiClient.interceptors.response.use(
+  (response) => response.data,
+  (error: AxiosError) => {
+    let message: string = ERROR_MESSAGES.generic;
+    
+    if (error.response) {
+      // Server responded with non-2xx code
+      const data = error.response.data as { message?: string } | undefined;
+      message = data?.message || error.message;
+
+      // Handle 401 Unauthorized
+      if (error.response.status === 401 && typeof window !== "undefined") {
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.token);
+        // Optional: window.location.href = '/login';
+      }
+    } else if (error.request) {
+      // Request was made but no response received
+      message = ERROR_MESSAGES.network;
+    }
+
+    return Promise.reject({
+      message,
+      statusCode: error.response?.status,
+      error: error.code || "API_ERROR",
+    });
+  }
+);
