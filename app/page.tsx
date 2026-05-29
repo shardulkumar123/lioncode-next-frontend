@@ -347,9 +347,10 @@ export default function Home() {
         </section>
 
         {/* 2. SERVICES SECTION */}
+        <div id="services" className="scroll-mt-20" />
         <section
-          id="services"
-          className="mx-auto max-w-7xl px-4 py-24 sm:py-32 lg:px-8 border-b border-border/40"
+          id="industries"
+          className="mx-auto max-w-7xl px-4 py-24 sm:py-32 lg:px-8 border-b border-border/40 scroll-mt-20"
         >
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-xs font-semibold leading-7 text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
@@ -403,7 +404,7 @@ export default function Home() {
         {/* 3. OUR WORK SECTION */}
         <section
           id="work"
-          className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 border-b border-border/40 bg-muted/10"
+          className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 border-b border-border/40 bg-muted/10 scroll-mt-20"
         >
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-base font-semibold leading-7 text-primary uppercase tracking-widest">
@@ -477,7 +478,7 @@ export default function Home() {
         {/* 4. TESTIMONIALS SECTION */}
         <section
           id="testimonials"
-          className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 border-b border-border/40"
+          className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 border-b border-border/40 scroll-mt-20"
         >
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-base font-semibold leading-7 text-primary uppercase tracking-widest">

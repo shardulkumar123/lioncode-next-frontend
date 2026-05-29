@@ -24,22 +24,22 @@ export function Navbar() {
             </span>
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-muted-foreground">
-            <Link href="#services" className="transition-colors hover:text-foreground">
+            <Link href="/services" className="transition-colors hover:text-foreground">
               Services
             </Link>
-            <Link href="#industries" className="transition-colors hover:text-foreground">
+            <Link href="/industries" className="transition-colors hover:text-foreground">
               Industries
             </Link>
-            <Link href="#work" className="transition-colors hover:text-foreground">
+            <Link href="/projects" className="transition-colors hover:text-foreground">
               Projects
             </Link>
-            <Link href="#about" className="transition-colors hover:text-foreground">
+            <Link href="/about" className="transition-colors hover:text-foreground">
               About
             </Link>
-            <Link href="#careers" className="transition-colors hover:text-foreground">
+            <Link href="/careers" className="transition-colors hover:text-foreground">
               Careers
             </Link>
-            <Link href="#contact" className="transition-colors hover:text-foreground">
+            <Link href="/contact" className="transition-colors hover:text-foreground">
               Contact
             </Link>
           </nav>
