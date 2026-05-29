@@ -18,7 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "LionCode | IT Services & Consulting",
-  description: "Enterprise-grade software engineering, IT systems consulting, and state-of-the-art AI solutions.",
+  description:
+    "Enterprise-grade software engineering, IT systems consulting, and state-of-the-art AI solutions.",
 };
 
 export default function RootLayout({
