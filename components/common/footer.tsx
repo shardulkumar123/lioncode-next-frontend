@@ -13,7 +13,8 @@ export function Footer() {
               LionCode
             </span>
             <p className="text-center text-xs text-muted-foreground md:text-left">
-              &copy; {currentYear} LionCode Inc. All rights reserved. High-performance software engineering.
+              &copy; {currentYear} LionCode Inc. All rights reserved. High-performance software
+              engineering.
             </p>
           </div>
 

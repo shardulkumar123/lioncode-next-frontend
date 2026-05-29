@@ -1,12 +1,12 @@
 # Features Folder (Modular / Domain-Driven Design)
 
-To maintain a clean and scalable codebase as the application grows, we use a **feature-driven structure** (sometimes called screaming architecture). 
+To maintain a clean and scalable codebase as the application grows, we use a **feature-driven structure** (sometimes called screaming architecture).
 
 Instead of scattering a single feature's components, hooks, api-services, and types across global folders, group them inside a feature folder inside this directory.
 
 ## Recommended Feature Structure
 
-Every folder in `features/` should represent a cohesive business domain or module (e.g., `auth`, `dashboard`, `checkout`, `orders`, `profile`). 
+Every folder in `features/` should represent a cohesive business domain or module (e.g., `auth`, `dashboard`, `checkout`, `orders`, `profile`).
 
 A fully realized feature folder looks like this:
 

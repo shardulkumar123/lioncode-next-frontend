@@ -32,7 +32,7 @@ apiClient.interceptors.response.use(
   (response) => response.data,
   (error: AxiosError) => {
     let message: string = ERROR_MESSAGES.generic;
-    
+
     if (error.response) {
       // Server responded with non-2xx code
       const data = error.response.data as { message?: string } | undefined;

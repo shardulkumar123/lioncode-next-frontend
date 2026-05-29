@@ -82,13 +82,8 @@ export default function Home() {
 
   const logAction = (actionType: string, payload?: unknown) => {
     const timestamp = new Date().toLocaleTimeString();
-    const payloadStr = payload
-      ? ` with payload: ${JSON.stringify(payload)}`
-      : "";
-    setActionLogs((prev) => [
-      `[${timestamp}] ${actionType}${payloadStr}`,
-      ...prev.slice(0, 5),
-    ]);
+    const payloadStr = payload ? ` with payload: ${JSON.stringify(payload)}` : "";
+    setActionLogs((prev) => [`[${timestamp}] ${actionType}${payloadStr}`, ...prev.slice(0, 5)]);
   };
 
   const handleToggleTheme = () => {
@@ -110,9 +105,7 @@ export default function Home() {
 
   // Filter projects by category
   const filteredProjects =
-    activeTab === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeTab);
+    activeTab === "All" ? projects : projects.filter((p) => p.category === activeTab);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors duration-300">
@@ -143,8 +136,8 @@ export default function Home() {
                 <span className="font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-4">
                   {config.userName}
                 </span>
-                ! We build enterprise-grade software architectures, clean global
-                states, and high-performance server systems.
+                ! We build enterprise-grade software architectures, clean global states, and
+                high-performance server systems.
               </p>
 
               {/* CTA Buttons */}
@@ -176,9 +169,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h2 className="text-base font-bold">State Customizer</h2>
-                      <p className="text-xs text-muted-foreground">
-                        Modify global store variables
-                      </p>
+                      <p className="text-xs text-muted-foreground">Modify global store variables</p>
                     </div>
                   </div>
 
@@ -232,9 +223,7 @@ export default function Home() {
                 <div className="flex items-center justify-between pb-4 border-b border-zinc-800/80">
                   <div className="flex items-center gap-2">
                     <Terminal className="h-4 w-4 text-emerald-500 animate-pulse" />
-                    <span className="text-xs font-bold text-zinc-400">
-                      REDUX_DEV_TOOLS
-                    </span>
+                    <span className="text-xs font-bold text-zinc-400">REDUX_DEV_TOOLS</span>
                   </div>
                   <div className="flex gap-1.5">
                     <span className="h-2 w-2 rounded-full bg-red-500/60" />
@@ -249,31 +238,23 @@ export default function Home() {
                       State Object
                     </span>
                     <pre className="text-[11px] text-emerald-400/90 leading-relaxed bg-zinc-900/40 p-3 rounded-lg border border-zinc-900 overflow-x-auto">
-                      {JSON.stringify(
-                        { theme: { mode: theme }, config },
-                        null,
-                        2,
-                      )}
+                      {JSON.stringify({ theme: { mode: theme }, config }, null, 2)}
                     </pre>
                   </div>
 
                   <div>
                     <span className="text-[10px] text-zinc-500 uppercase tracking-widest block mb-1 flex items-center gap-1">
-                      <RefreshCw className="h-3 w-3 animate-spin-slow" />{" "}
-                      Dispatches log
+                      <RefreshCw className="h-3 w-3 animate-spin-slow" /> Dispatches log
                     </span>
                     <div className="text-[11px] text-zinc-400 space-y-1 bg-zinc-900/30 p-2.5 rounded-lg border border-zinc-900 max-h-[100px] overflow-y-auto">
                       {actionLogs.length > 0 ? (
                         actionLogs.map((log, index) => (
                           <div key={index} className="truncate">
-                            <span className="text-emerald-500/50 font-semibold">{`>>>`}</span>{" "}
-                            {log}
+                            <span className="text-emerald-500/50 font-semibold">{`>>>`}</span> {log}
                           </div>
                         ))
                       ) : (
-                        <div className="text-zinc-600 italic">
-                          No dispatches yet...
-                        </div>
+                        <div className="text-zinc-600 italic">No dispatches yet...</div>
                       )}
                     </div>
                   </div>
@@ -301,8 +282,8 @@ export default function Home() {
               High-Performance Engineering Services
             </p>
             <p className="mt-4 text-lg text-muted-foreground">
-              We design and construct software solutions that deliver high
-              performance, absolute security, and architectural purity.
+              We design and construct software solutions that deliver high performance, absolute
+              security, and architectural purity.
             </p>
           </div>
 
@@ -315,8 +296,8 @@ export default function Home() {
                 </div>
                 <h3 className="mt-4 text-lg font-bold">AI & Agentic Systems</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Custom LLM agents, automated reasoning loops, and prompt
-                  fine-tuning tailored for business logic automation.
+                  Custom LLM agents, automated reasoning loops, and prompt fine-tuning tailored for
+                  business logic automation.
                 </p>
               </div>
             </div>
@@ -329,8 +310,8 @@ export default function Home() {
                 </div>
                 <h3 className="mt-4 text-lg font-bold">Full-Stack Apps</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Interactive React layouts, responsive components, and robust
-                  Next.js server actions optimized for latency.
+                  Interactive React layouts, responsive components, and robust Next.js server
+                  actions optimized for latency.
                 </p>
               </div>
             </div>
@@ -343,8 +324,8 @@ export default function Home() {
                 </div>
                 <h3 className="mt-4 text-lg font-bold">Cloud & Edge Routing</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Sub-second edge functions, secure API routing gates,
-                  serverless scale-outs, and Kubernetes cluster setups.
+                  Sub-second edge functions, secure API routing gates, serverless scale-outs, and
+                  Kubernetes cluster setups.
                 </p>
               </div>
             </div>
@@ -357,8 +338,8 @@ export default function Home() {
                 </div>
                 <h3 className="mt-4 text-lg font-bold">Database Systems</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  Complex index optimizations, real-time message stream
-                  channels, transaction safety layers, and vector stores.
+                  Complex index optimizations, real-time message stream channels, transaction safety
+                  layers, and vector stores.
                 </p>
               </div>
             </div>
@@ -378,8 +359,7 @@ export default function Home() {
               Proven Production Deployments
             </p>
             <p className="mt-4 text-lg text-muted-foreground">
-              A record of scaling microservices and crafting seamless, modern
-              user interfaces.
+              A record of scaling microservices and crafting seamless, modern user interfaces.
             </p>
 
             {/* Categories filter tabs */}
@@ -434,9 +414,7 @@ export default function Home() {
                     View Case Study{" "}
                     <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                   </span>
-                  <span
-                    className={`h-2.5 w-2.5 rounded-full bg-gradient-to-r ${project.color}`}
-                  />
+                  <span className={`h-2.5 w-2.5 rounded-full bg-gradient-to-r ${project.color}`} />
                 </div>
               </div>
             ))}
@@ -456,8 +434,7 @@ export default function Home() {
               Trusted by Product Leaders
             </p>
             <p className="mt-4 text-lg text-muted-foreground">
-              Read how our production code helps tech engineering departments
-              succeed.
+              Read how our production code helps tech engineering departments succeed.
             </p>
           </div>
 
@@ -474,10 +451,7 @@ export default function Home() {
                   {/* Star Rating */}
                   <div className="flex gap-1 mb-4">
                     {[...Array(t.stars)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 fill-amber-400 text-amber-400"
-                      />
+                      <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
 
