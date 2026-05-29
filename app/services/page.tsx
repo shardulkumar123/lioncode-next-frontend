@@ -168,7 +168,7 @@ export default function ServicesPage() {
         {/* Header Hero Section */}
         <section className="relative overflow-hidden px-4 py-20 lg:py-24 border-b border-border/40">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80" />
-          
+
           <div className="mx-auto max-w-5xl text-center space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 dark:bg-indigo-950/40 px-3.5 py-1.5 text-xs font-bold tracking-wide text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40">
               Capabilities
@@ -180,7 +180,8 @@ export default function ServicesPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              We engineer custom software systems, automation pipelines, and high-performance applications designed to scale with your business requirements.
+              We engineer custom software systems, automation pipelines, and high-performance
+              applications designed to scale with your business requirements.
             </p>
           </div>
         </section>
@@ -196,12 +197,16 @@ export default function ServicesPage() {
                   className="group relative flex flex-col justify-between rounded-3xl border border-border/60 bg-card p-8 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
                 >
                   {/* Decorative background gradient */}
-                  <div className={`absolute top-0 right-0 h-32 w-32 bg-gradient-to-br ${service.color} opacity-5 blur-2xl group-hover:opacity-10 transition-opacity`} />
-                  
+                  <div
+                    className={`absolute top-0 right-0 h-32 w-32 bg-gradient-to-br ${service.color} opacity-5 blur-2xl group-hover:opacity-10 transition-opacity`}
+                  />
+
                   <div>
                     {/* Header */}
                     <div className="flex items-center justify-between">
-                      <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.color} text-white shadow-md`}>
+                      <div
+                        className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${service.color} text-white shadow-md`}
+                      >
                         <IconComp className="h-6 w-6" />
                       </div>
                       <span className="text-[10px] font-extrabold tracking-wider px-3 py-1 rounded-full bg-muted text-muted-foreground border border-border/40">
@@ -212,7 +217,7 @@ export default function ServicesPage() {
                     <h3 className="mt-6 text-xl font-bold text-neutral-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {service.title}
                     </h3>
-                    
+
                     <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                       {service.desc}
                     </p>
@@ -220,7 +225,10 @@ export default function ServicesPage() {
                     {/* Features checklist */}
                     <ul className="mt-6 space-y-2.5">
                       {service.features.map((feat, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5 text-xs text-neutral-700 dark:text-neutral-300">
+                        <li
+                          key={idx}
+                          className="flex items-start gap-2.5 text-xs text-neutral-700 dark:text-neutral-300"
+                        >
                           <CheckCircle2 className="h-4.5 w-4.5 text-indigo-500 shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
@@ -244,22 +252,24 @@ export default function ServicesPage() {
                 How We Deliver Value
               </p>
               <p className="text-base text-muted-foreground">
-                A systematic, engineering-first development lifecycle ensuring speed, precision, and reliable deployment.
+                A systematic, engineering-first development lifecycle ensuring speed, precision, and
+                reliable deployment.
               </p>
             </div>
 
             <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-5">
               {processes.map((proc, index) => (
-                <div key={index} className="relative flex flex-col items-start p-6 bg-card border border-border/40 rounded-2xl shadow-sm">
+                <div
+                  key={index}
+                  className="relative flex flex-col items-start p-6 bg-card border border-border/40 rounded-2xl shadow-sm"
+                >
                   <span className="text-4xl font-black text-indigo-100 dark:text-indigo-950/40 select-none">
                     {proc.step}
                   </span>
                   <h3 className="mt-4 text-base font-extrabold text-neutral-900 dark:text-white">
                     {proc.title}
                   </h3>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                    {proc.desc}
-                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{proc.desc}</p>
                 </div>
               ))}
             </div>
@@ -272,7 +282,8 @@ export default function ServicesPage() {
             Ready to Build Your System?
           </h2>
           <p className="mx-auto max-w-xl text-muted-foreground text-sm leading-relaxed">
-            Get in touch for a technical consultation. We will analyze your workflows and design a system customized for your business.
+            Get in touch for a technical consultation. We will analyze your workflows and design a
+            system customized for your business.
           </p>
           <div className="flex justify-center gap-4">
             <Button

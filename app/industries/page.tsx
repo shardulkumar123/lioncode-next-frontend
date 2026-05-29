@@ -100,7 +100,7 @@ export default function IndustriesPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden px-4 py-20 lg:py-24 border-b border-border/40">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80" />
-          
+
           <div className="mx-auto max-w-5xl text-center space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 dark:bg-indigo-950/40 px-3.5 py-1.5 text-xs font-bold tracking-wide text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40">
               Industry Verticals
@@ -112,7 +112,8 @@ export default function IndustriesPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              We design software based on the unique realities of your business domain, avoiding generic templates.
+              We design software based on the unique realities of your business domain, avoiding
+              generic templates.
             </p>
           </div>
         </section>
@@ -144,15 +145,19 @@ export default function IndustriesPage() {
           {/* Active Industry Content Card */}
           <div className="mt-12 mx-auto max-w-5xl rounded-3xl border border-border/60 bg-card p-8 sm:p-12 shadow-md relative overflow-hidden transition-all duration-300">
             {/* Soft decorative background glow */}
-            <div className={`absolute -top-12 -right-12 h-64 w-64 bg-gradient-to-br ${selectedIndustry.color} opacity-5 blur-3xl`} />
+            <div
+              className={`absolute -top-12 -right-12 h-64 w-64 bg-gradient-to-br ${selectedIndustry.color} opacity-5 blur-3xl`}
+            />
 
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
               {/* Left Details */}
               <div className="lg:col-span-7 space-y-6 text-left">
-                <div className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${selectedIndustry.color} text-white shadow-md`}>
+                <div
+                  className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${selectedIndustry.color} text-white shadow-md`}
+                >
                   <SelectedIcon className="h-6 w-6" />
                 </div>
-                
+
                 <div>
                   <h2 className="text-2xl font-black text-neutral-900 dark:text-white sm:text-3xl">
                     {selectedIndustry.name}
@@ -172,7 +177,10 @@ export default function IndustriesPage() {
                   </h4>
                   <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     {selectedIndustry.solutions.map((sol, index) => (
-                      <li key={index} className="flex items-start gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+                      <li
+                        key={index}
+                        className="flex items-start gap-2 text-xs text-neutral-700 dark:text-neutral-300"
+                      >
                         <CheckCircle className="h-4 w-4 text-indigo-500 shrink-0 mt-0.5" />
                         <span>{sol}</span>
                       </li>
@@ -203,7 +211,8 @@ export default function IndustriesPage() {
               </div>
               <h3 className="text-base font-bold">Compliant & Secure</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Our code conforms to modern data standards, incorporating secure uploads, RBAC systems, and encryption.
+                Our code conforms to modern data standards, incorporating secure uploads, RBAC
+                systems, and encryption.
               </p>
             </div>
             <div className="text-center space-y-3">
@@ -212,7 +221,8 @@ export default function IndustriesPage() {
               </div>
               <h3 className="text-base font-bold">Performance First</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Utilizing Server-Side Rendering (SSR) and edge configurations to achieve sub-second content loads.
+                Utilizing Server-Side Rendering (SSR) and edge configurations to achieve sub-second
+                content loads.
               </p>
             </div>
             <div className="text-center space-y-3">
@@ -221,7 +231,8 @@ export default function IndustriesPage() {
               </div>
               <h3 className="text-base font-bold">Flexible APIs</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Custom GraphQL or REST interfaces that sync seamlessly with your accounting and inventory tools.
+                Custom GraphQL or REST interfaces that sync seamlessly with your accounting and
+                inventory tools.
               </p>
             </div>
           </div>
@@ -233,7 +244,8 @@ export default function IndustriesPage() {
             Let&apos;s Customize a Platform for You
           </h2>
           <p className="mx-auto max-w-xl text-muted-foreground text-sm leading-relaxed">
-            Contact our engineering team to design a secure digital architecture built specifically for your industry&apos;s requirements.
+            Contact our engineering team to design a secure digital architecture built specifically
+            for your industry&apos;s requirements.
           </p>
           <div className="flex justify-center gap-4">
             <Button

@@ -85,9 +85,7 @@ export default function CareersPage() {
   const [activeDept, setActiveDept] = useState("All");
 
   const filteredJobs =
-    activeDept === "All"
-      ? jobsData
-      : jobsData.filter((job) => job.department === activeDept);
+    activeDept === "All" ? jobsData : jobsData.filter((job) => job.department === activeDept);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors duration-300">
@@ -97,7 +95,7 @@ export default function CareersPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden px-4 py-20 lg:py-24 border-b border-border/40">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80" />
-          
+
           <div className="mx-auto max-w-5xl text-center space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 dark:bg-indigo-950/40 px-3.5 py-1.5 text-xs font-bold tracking-wide text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40">
               Join Our Team
@@ -109,7 +107,8 @@ export default function CareersPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              We are looking for dedicated engineers and designers who value speed, security, clean code, and operational excellence.
+              We are looking for dedicated engineers and designers who value speed, security, clean
+              code, and operational excellence.
             </p>
           </div>
         </section>
@@ -120,16 +119,17 @@ export default function CareersPage() {
             {perks.map((perk, index) => {
               const PerkIcon = perk.icon;
               return (
-                <div key={index} className="flex flex-col items-start p-6 bg-card border border-border/40 rounded-2xl shadow-sm">
+                <div
+                  key={index}
+                  className="flex flex-col items-start p-6 bg-card border border-border/40 rounded-2xl shadow-sm"
+                >
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
                     <PerkIcon className="h-5 w-5" />
                   </div>
                   <h3 className="mt-4 text-base font-extrabold text-neutral-900 dark:text-white">
                     {perk.title}
                   </h3>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                    {perk.desc}
-                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{perk.desc}</p>
                 </div>
               );
             })}
@@ -233,7 +233,8 @@ export default function CareersPage() {
             Don&apos;t See a Matching Position?
           </h2>
           <p className="mx-auto max-w-xl text-muted-foreground text-sm leading-relaxed">
-            We are always interested in connecting with talented developers and designers. Send us an open application.
+            We are always interested in connecting with talented developers and designers. Send us
+            an open application.
           </p>
           <div className="flex justify-center gap-4">
             <Button

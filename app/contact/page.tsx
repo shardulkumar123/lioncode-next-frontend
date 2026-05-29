@@ -4,13 +4,7 @@ import React, { useState } from "react";
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
-import {
-  Mail,
-  MapPin,
-  Clock,
-  Send,
-  CheckCircle,
-} from "lucide-react";
+import { Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
 
 export default function ContactPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -39,7 +33,7 @@ export default function ContactPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden px-4 py-20 lg:py-24 border-b border-border/40">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80" />
-          
+
           <div className="mx-auto max-w-5xl text-center space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 dark:bg-indigo-950/40 px-3.5 py-1.5 text-xs font-bold tracking-wide text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40">
               Get In Touch
@@ -51,7 +45,8 @@ export default function ContactPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              Have a product idea, or need custom engineering resources? Contact our technical team today.
+              Have a product idea, or need custom engineering resources? Contact our technical team
+              today.
             </p>
           </div>
         </section>
@@ -119,7 +114,8 @@ export default function ContactPage() {
                     <div className="space-y-2">
                       <h3 className="text-2xl font-bold">Inquiry Received</h3>
                       <p className="mx-auto max-w-sm text-xs leading-relaxed text-muted-foreground">
-                        Thank you for reaching out! A technical solutions engineer from our team will email you shortly.
+                        Thank you for reaching out! A technical solutions engineer from our team
+                        will email you shortly.
                       </p>
                     </div>
                     <Button
@@ -135,7 +131,7 @@ export default function ContactPage() {
                     <h3 className="text-xl font-extrabold text-neutral-900 dark:text-white">
                       Project Specification Form
                     </h3>
-                    
+
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-muted-foreground uppercase">

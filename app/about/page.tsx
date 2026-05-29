@@ -5,15 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowRight,
-  Shield,
-  Zap,
-  Target,
-  Heart,
-  Award,
-  BookOpen,
-} from "lucide-react";
+import { ArrowRight, Shield, Zap, Target, Heart, Award, BookOpen } from "lucide-react";
 
 const values = [
   {
@@ -42,7 +34,7 @@ export default function AboutPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden px-4 py-20 lg:py-24 border-b border-border/40">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80" />
-          
+
           <div className="mx-auto max-w-5xl text-center space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 dark:bg-indigo-950/40 px-3.5 py-1.5 text-xs font-bold tracking-wide text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/40">
               Our Story
@@ -54,7 +46,8 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              LionCode is a specialized software engineering studio building performant digital tools, secure enterprise portals, and bespoke AI applications.
+              LionCode is a specialized software engineering studio building performant digital
+              tools, secure enterprise portals, and bespoke AI applications.
             </p>
           </div>
         </section>
@@ -70,22 +63,29 @@ export default function AboutPage() {
                 Our Core Mission
               </h2>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                We believe that software should fit your business operations perfectly, rather than forcing you to adjust your workflows to generic template solutions.
+                We believe that software should fit your business operations perfectly, rather than
+                forcing you to adjust your workflows to generic template solutions.
               </p>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Our focus remains squarely on software architecture, clean state management, security boundaries, and responsive interfaces that load instantly across all form factors.
+                Our focus remains squarely on software architecture, clean state management,
+                security boundaries, and responsive interfaces that load instantly across all form
+                factors.
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-6 bg-muted/20 border border-border/40 p-8 rounded-3xl relative">
               <div className="space-y-1 text-center sm:text-left">
-                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">150+</span>
+                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
+                  150+
+                </span>
                 <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
                   Projects Delivered
                 </p>
               </div>
               <div className="space-y-1 text-center sm:text-left">
-                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">50+</span>
+                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
+                  50+
+                </span>
                 <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
                   Active Clients
                 </p>
@@ -97,7 +97,9 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="space-y-1 text-center sm:text-left">
-                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">99%</span>
+                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
+                  99%
+                </span>
                 <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
                   Client Retention
                 </p>
@@ -122,16 +124,17 @@ export default function AboutPage() {
               {values.map((val, idx) => {
                 const ValueIcon = val.icon;
                 return (
-                  <div key={idx} className="flex flex-col items-start p-6 bg-card border border-border/40 rounded-2xl shadow-sm">
+                  <div
+                    key={idx}
+                    className="flex flex-col items-start p-6 bg-card border border-border/40 rounded-2xl shadow-sm"
+                  >
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
                       <ValueIcon className="h-5 w-5" />
                     </div>
                     <h3 className="mt-4 text-base font-extrabold text-neutral-900 dark:text-white">
                       {val.title}
                     </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                      {val.desc}
-                    </p>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{val.desc}</p>
                   </div>
                 );
               })}
