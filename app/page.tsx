@@ -346,8 +346,6 @@ export default function Home() {
           </div>
         </section>
 
-
-
         {/* 2. SERVICES SECTION */}
         <section
           id="services"
@@ -361,7 +359,9 @@ export default function Home() {
               We know your industry
             </p>
             <p className="mt-4 text-base text-muted-foreground">
-              {"We don't build generic software. Every solution is designed around the real problems of your specific business."}
+              {
+                "We don't build generic software. Every solution is designed around the real problems of your specific business."
+              }
             </p>
           </div>
 
