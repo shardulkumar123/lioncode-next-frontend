@@ -4,34 +4,43 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { toggleTheme } from "@/lib/redux/slices/theme-slice";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Zap } from "lucide-react";
 
 export function Navbar() {
   const dispatch = useAppDispatch();
   const theme = useAppSelector((state) => state.theme.mode);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand/Logo */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="bg-gradient-to-r from-neutral-900 to-neutral-500 bg-clip-text text-xl font-extrabold tracking-tight text-transparent dark:from-neutral-100 dark:to-neutral-400">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
+              <Zap className="h-5 w-5 fill-white" />
+            </div>
+            <span className="text-xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
               LionCode
             </span>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-            <Link href="#features" className="transition-colors hover:text-foreground">
-              Features
-            </Link>
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-muted-foreground">
             <Link href="#services" className="transition-colors hover:text-foreground">
               Services
             </Link>
-            <Link href="#pricing" className="transition-colors hover:text-foreground">
-              Pricing
+            <Link href="#industries" className="transition-colors hover:text-foreground">
+              Industries
+            </Link>
+            <Link href="#work" className="transition-colors hover:text-foreground">
+              Projects
             </Link>
             <Link href="#about" className="transition-colors hover:text-foreground">
               About
+            </Link>
+            <Link href="#careers" className="transition-colors hover:text-foreground">
+              Careers
+            </Link>
+            <Link href="#contact" className="transition-colors hover:text-foreground">
+              Contact
             </Link>
           </nav>
         </div>
@@ -53,11 +62,12 @@ export function Navbar() {
             )}
           </Button>
 
-          <Button variant="ghost" size="sm" asChild className="hidden sm:inline-flex">
-            <Link href="/login">Sign In</Link>
-          </Button>
-          <Button size="sm" asChild>
-            <Link href="/signup">Get Started</Link>
+          <Button
+            size="sm"
+            asChild
+            className="rounded-xl px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all"
+          >
+            <Link href="/start-project">Start a Project</Link>
           </Button>
         </div>
       </div>
