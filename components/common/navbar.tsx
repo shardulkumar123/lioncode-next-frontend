@@ -4,46 +4,58 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { toggleTheme } from "@/lib/redux/slices/theme-slice";
-import { Sun, Moon, Zap } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Sun, Moon } from "lucide-react";
+import { Logo } from "@/components/common/logo";
 
 export function Navbar() {
   const dispatch = useAppDispatch();
   const theme = useAppSelector((state) => state.theme.mode);
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Services", href: "/services" },
+    { name: "Industries", href: "/industries" },
+    { name: "Projects", href: "/projects" },
+    { name: "About", href: "/about" },
+    { name: "Careers", href: "/careers" },
+    { name: "Contact", href: "/contact" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand/Logo */}
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
-              <Zap className="h-5 w-5 fill-white" />
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600/10 dark:bg-indigo-600/20 p-1 border border-indigo-500/20">
+              <Logo size={32} />
             </div>
             <span className="text-xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-              LionCode
+              LionCode Technologies
             </span>
           </Link>
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-muted-foreground">
-            <Link href="/services" className="transition-colors hover:text-foreground">
-              Services
-            </Link>
-            <Link href="/industries" className="transition-colors hover:text-foreground">
-              Industries
-            </Link>
-            <Link href="/projects" className="transition-colors hover:text-foreground">
-              Projects
-            </Link>
-            <Link href="/about" className="transition-colors hover:text-foreground">
-              About
-            </Link>
-            <Link href="/careers" className="transition-colors hover:text-foreground">
-              Careers
-            </Link>
-            <Link href="/contact" className="transition-colors hover:text-foreground">
-              Contact
-            </Link>
-          </nav>
         </div>
+
+        {/* Center Navigation Menus */}
+        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-2">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`transition-all duration-200 px-3.5 py-1.5 rounded-xl text-sm font-semibold ${
+                  isActive
+                    ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-500/20"
+                    : "text-muted-foreground hover:text-foreground border border-transparent"
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
 
         {/* Action Controls */}
         <div className="flex items-center gap-3">
@@ -67,7 +79,7 @@ export function Navbar() {
             asChild
             className="rounded-xl px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all"
           >
-            <Link href="/start-project">Start a Project</Link>
+            <Link href="/contact">Start a Project</Link>
           </Button>
         </div>
       </div>

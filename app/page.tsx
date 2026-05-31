@@ -62,7 +62,7 @@ const projects = [
 const testimonials = [
   {
     quote:
-      "LionCode transformed our backend system into a high-performance engine. Their architecture scales seamlessly and their attention to detail is outstanding.",
+      "LionCode Technologies transformed our backend system into a high-performance engine. Their architecture scales seamlessly and their attention to detail is outstanding.",
     author: "Elena Rostova",
     role: "VP of Engineering, Justravels",
     stars: 5,

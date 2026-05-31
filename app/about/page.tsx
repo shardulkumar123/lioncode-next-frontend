@@ -46,7 +46,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              LionCode is a specialized software engineering studio building performant digital
+              LionCode Technologies is a specialized software engineering studio building performant digital
               tools, secure enterprise portals, and bespoke AI applications.
             </p>
           </div>
@@ -156,7 +156,7 @@ export default function AboutPage() {
               asChild
               className="rounded-xl px-7 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-12 shadow-lg shadow-indigo-600/10"
             >
-              <Link href="/start-project" className="flex items-center gap-2">
+              <Link href="/contact" className="flex items-center gap-2">
                 Start a Project <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

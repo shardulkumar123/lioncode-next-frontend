@@ -46,6 +46,19 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Theme color configuration mapping */
+  --color-indigo-50: var(--indigo-50);
+  --color-indigo-100: var(--indigo-100);
+  --color-indigo-200: var(--indigo-200);
+  --color-indigo-300: var(--indigo-300);
+  --color-indigo-400: var(--indigo-400);
+  --color-indigo-500: var(--indigo-500);
+  --color-indigo-600: var(--indigo-600);
+  --color-indigo-700: var(--indigo-700);
+  --color-indigo-800: var(--indigo-800);
+  --color-indigo-900: var(--indigo-900);
+  --color-indigo-950: var(--indigo-950);
 }
 
 :root {
@@ -81,17 +94,30 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+
+  /* Theme Brand Colors (Custom Orange/Terracotta based on #D95D39) */
+  --indigo-50: #fdf6f4;
+  --indigo-100: #fbece8;
+  --indigo-200: #f6d0c5;
+  --indigo-300: #eea693;
+  --indigo-400: #e47e63;
+  --indigo-500: #dc684a;
+  --indigo-600: #d95d39; /* Brand Core Button Color */
+  --indigo-700: #b44627;
+  --indigo-800: #953a20;
+  --indigo-900: #7a311d;
+  --indigo-950: #42180c;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #110B11;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: #110B11;
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: #110B11;
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary-foreground: #110B11;
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -115,6 +141,19 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Brand Colors in dark mode */
+  --indigo-50: #fdf6f4;
+  --indigo-100: #fbece8;
+  --indigo-200: #f6d0c5;
+  --indigo-300: #eea693;
+  --indigo-400: #e47e63;
+  --indigo-500: #dc684a;
+  --indigo-600: #d95d39;
+  --indigo-700: #b44627;
+  --indigo-800: #953a20;
+  --indigo-900: #7a311d;
+  --indigo-950: #42180c;
 }
 
 @layer base {

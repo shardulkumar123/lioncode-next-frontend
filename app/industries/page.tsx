@@ -253,7 +253,7 @@ export default function IndustriesPage() {
               asChild
               className="rounded-xl px-7 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-12 shadow-lg shadow-indigo-600/10"
             >
-              <Link href="/start-project" className="flex items-center gap-2">
+              <Link href="/contact" className="flex items-center gap-2">
                 Start a Project <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

@@ -263,7 +263,7 @@ export default function ServicesPage() {
                   key={index}
                   className="relative flex flex-col items-start p-6 bg-card border border-border/40 rounded-2xl shadow-sm"
                 >
-                  <span className="text-4xl font-black text-indigo-100 dark:text-indigo-950/40 select-none">
+                  <span className="text-4xl font-black text-indigo-600/15 dark:text-indigo-400/25 select-none">
                     {proc.step}
                   </span>
                   <h3 className="mt-4 text-base font-extrabold text-neutral-900 dark:text-white">
@@ -291,7 +291,7 @@ export default function ServicesPage() {
               asChild
               className="rounded-xl px-7 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-12 shadow-lg shadow-indigo-600/10"
             >
-              <Link href="/start-project" className="flex items-center gap-2">
+              <Link href="/contact" className="flex items-center gap-2">
                 Start a Project <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

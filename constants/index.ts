@@ -3,7 +3,7 @@
  */
 
 export const APP_CONFIG = {
-  name: "LionCode",
+  name: "LionCode Technologies",
   description: "High-performance software and AI solutions.",
   baseUrl: typeof window !== "undefined" ? window.location.origin : "http://localhost:3000",
 } as const;
