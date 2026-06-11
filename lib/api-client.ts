@@ -3,13 +3,15 @@ import { LOCAL_STORAGE_KEYS, ERROR_MESSAGES } from "@/constants";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
-export const apiClient = axios.create({
+export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
   timeout: 10000, // 10 seconds timeout
 });
+
+export const apiClient = axiosInstance;
 
 // Request Interceptor: Attach authentication token if available
 apiClient.interceptors.request.use(

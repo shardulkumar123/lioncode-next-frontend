@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { Logo } from "@/components/common/logo";
 import { Mail, Lock, ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
-import { apiClient } from "@/lib/api-client";
+import { axiosInstance } from "@/lib/api-client";
+import { useLogin } from "@/features/auth/hooks/use-login";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const loginMutation = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -37,13 +39,8 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
-      // 1. Try hitting the NestJS backend API /auth/login (configured via process.env.NEXT_PUBLIC_API_URL or defaults)
-      const response = await apiClient.post("/auth/login", { email, password }) as {
-        access_token?: string;
-        token?: string;
-        accessToken?: string;
-        data?: { token?: string };
-      };
+      // 1. Try hitting the NestJS backend API /auth/login using useLogin hook
+      const response = await loginMutation.mutateAsync({ email, password });
       
       const token = response.access_token || response.token || response.accessToken || (response.data && response.data.token);
       if (token) {
