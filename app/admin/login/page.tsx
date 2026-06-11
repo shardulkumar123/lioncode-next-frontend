@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Logo } from "@/components/common/logo";
 import { Mail, Lock, ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
-import { axiosInstance } from "@/lib/api-client";
 import { useLogin } from "@/features/auth/hooks/use-login";
 
 export default function AdminLoginPage() {
