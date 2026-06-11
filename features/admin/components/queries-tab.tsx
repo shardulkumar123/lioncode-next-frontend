@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { ContactQuery } from "../types";
-import { getQueries, saveQueries } from "../services/mock-data";
+import { useContactQueries } from "@/features/contact/hooks/use-contact";
+import { saveQueries } from "../services/mock-data";
 import { Search, Eye, Trash2, X, MessageSquare, Send, CheckCircle, Mail, Phone, Building } from "lucide-react";
 
 export function QueriesTab() {
+  const { data: apiQueries = [], isLoading: isQueriesLoading } = useContactQueries();
   const [queries, setQueries] = useState<ContactQuery[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -16,10 +18,12 @@ export function QueriesTab() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setQueries(getQueries());
+      if (apiQueries.length > 0) {
+        setQueries(apiQueries);
+      }
     }, 0);
     return () => clearTimeout(timer);
-  }, []);
+  }, [apiQueries]);
 
   const handleDelete = (id: string) => {
     if (confirm("Are you sure you want to delete this query submission?")) {
@@ -143,7 +147,16 @@ export function QueriesTab() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border/20 text-xs font-semibold text-foreground">
-              {filtered.length > 0 ? (
+              {isQueriesLoading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-10 text-center text-muted-foreground">
+                    <div className="flex justify-center items-center gap-2">
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
+                      <span>Loading customer queries...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : filtered.length > 0 ? (
                 filtered.map((q) => (
                   <tr key={q.id} className="hover:bg-muted/10 transition-colors">
                     <td className="px-6 py-4.5">

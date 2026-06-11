@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Industry } from "../types";
-import { getIndustries, saveIndustries } from "../services/mock-data";
+import { useIndustries, useCreateIndustry, useUpdateIndustry, useDeleteIndustry } from "@/features/industries/hooks/use-industries";
 import {
   Plus,
   Search,
@@ -18,7 +18,10 @@ import {
   Network,
   Terminal,
   Cloud,
-  Layers
+  Layers,
+  Utensils,
+  Factory,
+  CalendarDays
 } from "lucide-react";
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -31,11 +34,18 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Network,
   Terminal,
   Cloud,
-  Layers
+  Layers,
+  Utensils,
+  Factory,
+  CalendarDays
 };
 
 export function IndustriesTab() {
-  const [industries, setIndustries] = useState<Industry[]>([]);
+  const { data: industries = [], isLoading } = useIndustries();
+  const createMutation = useCreateIndustry();
+  const updateMutation = useUpdateIndustry();
+  const deleteMutation = useDeleteIndustry();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingIndustry, setEditingIndustry] = useState<Industry | null>(null);
@@ -46,13 +56,13 @@ export function IndustriesTab() {
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState("Globe");
   const [status, setStatus] = useState<"Active" | "Inactive">("Active");
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIndustries(getIndustries());
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
+  
+  // Extra fields mapping to NestJS ServicesDomain
+  const [tagline, setTagline] = useState("");
+  const [color, setColor] = useState("from-indigo-600 to-cyan-500");
+  const [statValue, setStatValue] = useState("");
+  const [statLabel, setStatLabel] = useState("");
+  const [solutions, setSolutions] = useState("");
 
   const openCreateModal = () => {
     setEditingIndustry(null);
@@ -61,6 +71,11 @@ export function IndustriesTab() {
     setDescription("");
     setIcon("Globe");
     setStatus("Active");
+    setTagline("");
+    setColor("from-indigo-600 to-cyan-500");
+    setStatValue("");
+    setStatLabel("");
+    setSolutions("");
     setIsModalOpen(true);
   };
 
@@ -71,6 +86,11 @@ export function IndustriesTab() {
     setDescription(ind.description);
     setIcon(ind.icon);
     setStatus(ind.status);
+    setTagline(ind.tagline || "");
+    setColor(ind.color || "from-indigo-600 to-cyan-500");
+    setStatValue(ind.stats?.value || "");
+    setStatLabel(ind.stats?.label || "");
+    setSolutions(ind.solutions?.join("\n") || "");
     setIsModalOpen(true);
   };
 
@@ -86,9 +106,7 @@ export function IndustriesTab() {
 
   const handleDelete = (id: string) => {
     if (confirm("Are you sure you want to delete this industry?")) {
-      const updated = industries.filter((ind) => ind.id !== id);
-      setIndustries(updated);
-      saveIndustries(updated);
+      deleteMutation.mutate(id);
     }
   };
 
@@ -99,30 +117,36 @@ export function IndustriesTab() {
       return;
     }
 
-    if (editingIndustry) {
-      const updated = industries.map((ind) =>
-        ind.id === editingIndustry.id
-          ? { ...ind, name, slug, description, icon, status }
-          : ind
-      );
-      setIndustries(updated);
-      saveIndustries(updated);
-    } else {
-      const newInd: Industry = {
-        id: `ind-${Date.now()}`,
-        name,
-        slug,
-        description,
-        icon,
-        status,
-        createdAt: new Date().toISOString()
-      };
-      const updated = [...industries, newInd];
-      setIndustries(updated);
-      saveIndustries(updated);
-    }
+    const solArray = solutions.split("\n").filter((s) => s.trim() !== "");
 
-    setIsModalOpen(false);
+    const payload: Partial<Industry> = {
+      name,
+      slug,
+      description,
+      icon,
+      status,
+      tagline,
+      color,
+      stats: { value: statValue || "100%", label: statLabel || "Satisfaction" },
+      solutions: solArray
+    };
+
+    if (editingIndustry) {
+      updateMutation.mutate(
+        { id: editingIndustry.id, data: payload },
+        {
+          onSuccess: () => {
+            setIsModalOpen(false);
+          }
+        }
+      );
+    } else {
+      createMutation.mutate(payload, {
+        onSuccess: () => {
+          setIsModalOpen(false);
+        }
+      });
+    }
   };
 
   const filtered = industries.filter((ind) =>
@@ -155,13 +179,20 @@ export function IndustriesTab() {
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.length > 0 ? (
+        {isLoading ? (
+          <div className="col-span-full py-12 text-center text-muted-foreground">
+            <div className="flex justify-center items-center gap-2">
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
+              <span>Loading targeted industries...</span>
+            </div>
+          </div>
+        ) : filtered.length > 0 ? (
           filtered.map((ind) => {
             const IndustryIcon = ICON_MAP[ind.icon] || Globe;
             return (
               <div
                 key={ind.id}
-                className="flex flex-col justify-between p-6 bg-card border border-border/40 rounded-2xl relative group shadow-sm"
+                className="flex flex-col justify-between p-6 bg-card border border-border/40 rounded-2xl relative group shadow-sm animate-fade-in"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -187,6 +218,12 @@ export function IndustriesTab() {
                       /{ind.slug}
                     </p>
                   </div>
+
+                  {ind.tagline && (
+                    <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 italic">
+                      &quot;{ind.tagline}&quot;
+                    </p>
+                  )}
 
                   <p className="text-xs leading-relaxed text-muted-foreground line-clamp-3">
                     {ind.description}
@@ -219,8 +256,8 @@ export function IndustriesTab() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="relative w-full max-w-lg rounded-2xl border border-border/40 bg-card p-6 shadow-2xl space-y-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="relative my-8 w-full max-w-lg rounded-2xl border border-border/40 bg-card p-6 shadow-2xl space-y-6">
             <div className="flex items-center justify-between border-b border-border/40 pb-4">
               <h3 className="text-base font-extrabold text-neutral-900 dark:text-white">
                 {editingIndustry ? "Modify Industry Profile" : "Create Targeted Industry"}
@@ -233,7 +270,7 @@ export function IndustriesTab() {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                   Industry Name *
@@ -276,21 +313,77 @@ export function IndustriesTab() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                    Visual Icon
+                  </label>
+                  <select
+                    value={icon}
+                    onChange={(e) => setIcon(e.target.value)}
+                    className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+                  >
+                    {Object.keys(ICON_MAP).map((k) => (
+                      <option key={k} value={k}>
+                        {k}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                    Glow Color (CSS gradient classes)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}
+                    placeholder="e.g. from-orange-500 to-rose-500"
+                    className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                  Visual Icon Representing Industry
+                  Tagline *
                 </label>
-                <select
-                  value={icon}
-                  onChange={(e) => setIcon(e.target.value)}
+                <input
+                  type="text"
+                  required
+                  value={tagline}
+                  onChange={(e) => setTagline(e.target.value)}
+                  placeholder="e.g. Speed, Guest Satisfaction, and Zero Friction"
                   className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
-                >
-                  {Object.keys(ICON_MAP).map((k) => (
-                    <option key={k} value={k}>
-                      {k}
-                    </option>
-                  ))}
-                </select>
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                    Stat Value
+                  </label>
+                  <input
+                    type="text"
+                    value={statValue}
+                    onChange={(e) => setStatValue(e.target.value)}
+                    placeholder="e.g. 99.9% or -60%"
+                    className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                    Stat Label
+                  </label>
+                  <input
+                    type="text"
+                    value={statLabel}
+                    onChange={(e) => setStatLabel(e.target.value)}
+                    placeholder="e.g. Inventory sync accuracy"
+                    className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+                  />
+                </div>
               </div>
 
               <div className="space-y-1">
@@ -299,10 +392,23 @@ export function IndustriesTab() {
                 </label>
                 <textarea
                   required
-                  rows={4}
+                  rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Detail the industry scope, pain points we address, and value proposition..."
+                  placeholder="Detail the industry scope..."
+                  className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                  Core Solutions (one per line)
+                </label>
+                <textarea
+                  rows={4}
+                  value={solutions}
+                  onChange={(e) => setSolutions(e.target.value)}
+                  placeholder="Integrated POS & Kitchen Displays&#10;QR Code Table Ordering & Loyalty Apps"
                   className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
                 />
               </div>
@@ -317,9 +423,10 @@ export function IndustriesTab() {
                 </button>
                 <button
                   type="submit"
-                  className="rounded-xl bg-indigo-600 hover:bg-indigo-700 px-6 py-2.5 text-xs font-bold text-white shadow-lg shadow-indigo-600/10 transition-all"
+                  disabled={createMutation.isPending || updateMutation.isPending}
+                  className="rounded-xl bg-indigo-600 hover:bg-indigo-700 px-6 py-2.5 text-xs font-bold text-white shadow-lg shadow-indigo-600/10 transition-all disabled:opacity-50"
                 >
-                  {editingIndustry ? "Update Profile" : "Add Industry"}
+                  {createMutation.isPending || updateMutation.isPending ? "Saving..." : (editingIndustry ? "Update Profile" : "Add Industry")}
                 </button>
               </div>
             </form>
@@ -329,3 +436,4 @@ export function IndustriesTab() {
     </div>
   );
 }
+

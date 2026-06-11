@@ -13,10 +13,11 @@ import {
   Settings,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  FolderGit
 } from "lucide-react";
 
-export type AdminTab = "dashboard" | "jobs" | "industries" | "services" | "staff" | "queries" | "settings";
+export type AdminTab = "dashboard" | "jobs" | "industries" | "services" | "staff" | "queries" | "settings" | "projects";
 
 interface AdminSidebarProps {
   activeTab: AdminTab;
@@ -31,6 +32,7 @@ export function AdminSidebar({ activeTab, setActiveTab, collapsed, setCollapsed 
     { id: "jobs", label: "Manage Jobs", icon: Briefcase },
     { id: "industries", label: "Industries", icon: Building2 },
     { id: "services", label: "Services", icon: Cpu },
+    { id: "projects", label: "Projects", icon: FolderGit },
     { id: "staff", label: "Staff & Roles", icon: Users },
     { id: "queries", label: "Queries", icon: MessageSquare },
     { id: "settings", label: "Portal Settings", icon: Settings },

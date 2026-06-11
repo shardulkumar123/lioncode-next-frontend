@@ -21,6 +21,11 @@ export interface Industry {
   icon: string; // Lucide icon name
   status: "Active" | "Inactive";
   createdAt: string;
+  tagline?: string;
+  color?: string;
+  stats?: { value: string; label: string };
+  solutions?: string[];
+  desc?: string;
 }
 
 export interface Service {
@@ -75,4 +80,16 @@ export interface SystemSettings {
   maintenanceMode: boolean;
   allowPublicApplications: boolean;
   maxUploadSizeMb: number;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  category: string;
+  desc: string;
+  longDesc: string;
+  stats: string;
+  techStack: string[];
+  color: string;
+  createdAt: string;
 }

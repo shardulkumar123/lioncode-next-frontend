@@ -1,36 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
-import {
-  Utensils,
-  BedDouble,
-  Factory,
-  Package,
-  CalendarDays,
-  GitMerge,
-  ShoppingBag,
-  LayoutDashboard,
-  ArrowRight,
-  TrendingUp,
-  Shield,
-  Zap,
-  Building,
-  Truck,
-  Users,
-  CheckCircle,
-} from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { useIndustries } from "@/features/industries/hooks/use-industries";
+import { Industry } from "@/features/admin/types";
 
-const industriesData = [
+const defaultIndustriesData: Industry[] = [
   {
     id: "hospitality",
     name: "Hospitality & Food Service",
+    slug: "hospitality",
     tagline: "Speed, Guest Satisfaction, and Zero Friction",
     desc: "From busy local cafes to multi-property hotels and resorts, we build the digital backbone that keeps guest experiences seamless and kitchen staff coordinated.",
-    icon: Utensils,
+    description: "From busy local cafes to multi-property hotels and resorts, we build the digital backbone that keeps guest experiences seamless and kitchen staff coordinated.",
+    icon: "Utensils",
     color: "from-orange-500 to-rose-500",
     stats: { value: "40%", label: "Faster order fulfillment" },
     solutions: [
@@ -39,13 +26,17 @@ const industriesData = [
       "QR Code Table Ordering & Loyalty Apps",
       "Real-time Inventory & Ingredient Audits",
     ],
+    status: "Active",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "manufacturing",
     name: "Manufacturing & Supply Chain",
+    slug: "manufacturing",
     tagline: "Efficiency, Automation, and Real-Time Visibility",
     desc: "We digitize the factory floor, sync warehouse operations, and automate quality control steps to eliminate manual logging and reduce material waste.",
-    icon: Factory,
+    description: "We digitize the factory floor, sync warehouse operations, and automate quality control steps to eliminate manual logging and reduce material waste.",
+    icon: "Factory",
     color: "from-blue-600 to-indigo-600",
     stats: { value: "99.9%", label: "Inventory sync accuracy" },
     solutions: [
@@ -54,13 +45,17 @@ const industriesData = [
       "Automated Stock Level Alerts & Supplier Sync",
       "Compliance Audits & Operator Logs",
     ],
+    status: "Active",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "retail",
     name: "Retail & E-Commerce",
+    slug: "retail",
     tagline: "Headless Performance and Higher Conversions",
     desc: "We build modern retail environments, including fast B2C headless storefronts, custom CRM architectures, and complex wholesale B2B checkout portals.",
-    icon: ShoppingBag,
+    description: "We build modern retail environments, including fast B2C headless storefronts, custom CRM architectures, and complex wholesale B2B checkout portals.",
+    icon: "ShoppingBag",
     color: "from-purple-500 to-pink-500",
     stats: { value: "2.4x", label: "Average page-speed boost" },
     solutions: [
@@ -69,13 +64,17 @@ const industriesData = [
       "Automatic Abandoned Cart Recovery Sequences",
       "Omnichannel Stock & Fulfillment Sync",
     ],
+    status: "Active",
+    createdAt: new Date().toISOString(),
   },
   {
     id: "services",
     name: "Professional & Booking Services",
+    slug: "services",
     tagline: "Optimized Calendars and Higher Utilization",
     desc: "Designed for medical clinics, consultancies, and service-based teams to optimize scheduling, minimize no-shows, and accept secure payments.",
-    icon: CalendarDays,
+    description: "Designed for medical clinics, consultancies, and service-based teams to optimize scheduling, minimize no-shows, and accept secure payments.",
+    icon: "CalendarDays",
     color: "from-emerald-500 to-teal-500",
     stats: { value: "-60%", label: "Reduction in appointment no-shows" },
     solutions: [
@@ -84,13 +83,36 @@ const industriesData = [
       "Secure Online Deposits & Invoicing",
       "Staff Scheduling & Utilization Metrics",
     ],
+    status: "Active",
+    createdAt: new Date().toISOString(),
   },
 ];
 
 export default function IndustriesPage() {
+  const { data: apiIndustries = [], isLoading } = useIndustries();
   const [activeTab, setActiveTab] = useState("hospitality");
-  const selectedIndustry = industriesData.find((ind) => ind.id === activeTab) || industriesData[0];
-  const SelectedIcon = selectedIndustry.icon;
+
+  // Combine or fallback to default hardcoded data if api returns empty
+  const activeIndustriesList = apiIndustries.length > 0 ? apiIndustries : defaultIndustriesData;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (activeIndustriesList.length > 0) {
+        const exists = activeIndustriesList.some((ind) => ind.id === activeTab);
+        if (!exists) {
+          setActiveTab(activeIndustriesList[0].id);
+        }
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [activeIndustriesList, activeTab]);
+
+  const selectedIndustry = activeIndustriesList.find((ind) => ind.id === activeTab) || activeIndustriesList[0];
+  
+  // Dynamically resolve icon component
+  const SelectedIcon = selectedIndustry
+    ? ((LucideIcons[selectedIndustry.icon as keyof typeof LucideIcons] || LucideIcons.Globe) as React.ComponentType<{ className?: string }>)
+    : LucideIcons.Globe;
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors duration-300">
@@ -120,86 +142,105 @@ export default function IndustriesPage() {
 
         {/* Interactive Industry Showcase */}
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          {/* Industry Selection Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 border-b border-border/60 pb-8">
-            {industriesData.map((ind) => {
-              const TabIcon = ind.icon;
-              const isActive = activeTab === ind.id;
-              return (
-                <button
-                  key={ind.id}
-                  onClick={() => setActiveTab(ind.id)}
-                  className={`flex items-center gap-2.5 px-6 py-3.5 rounded-2xl text-sm font-bold tracking-wide border transition-all duration-300 ${
-                    isActive
-                      ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-600/10"
-                      : "bg-card border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/40"
-                  }`}
-                >
-                  <TabIcon className="h-4.5 w-4.5" />
-                  {ind.name.split(" & ")[0]}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Active Industry Content Card */}
-          <div className="mt-12 mx-auto max-w-5xl rounded-3xl border border-border/60 bg-card p-8 sm:p-12 shadow-md relative overflow-hidden transition-all duration-300">
-            {/* Soft decorative background glow */}
-            <div
-              className={`absolute -top-12 -right-12 h-64 w-64 bg-gradient-to-br ${selectedIndustry.color} opacity-5 blur-3xl`}
-            />
-
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
-              {/* Left Details */}
-              <div className="lg:col-span-7 space-y-6 text-left">
-                <div
-                  className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${selectedIndustry.color} text-white shadow-md`}
-                >
-                  <SelectedIcon className="h-6 w-6" />
-                </div>
-
-                <div>
-                  <h2 className="text-2xl font-black text-neutral-900 dark:text-white sm:text-3xl">
-                    {selectedIndustry.name}
-                  </h2>
-                  <p className="mt-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400">
-                    {selectedIndustry.tagline}
-                  </p>
-                </div>
-
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  {selectedIndustry.desc}
-                </p>
-
-                <div className="space-y-3 pt-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                    Core Solutions Provided:
-                  </h4>
-                  <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    {selectedIndustry.solutions.map((sol, index) => (
-                      <li
-                        key={index}
-                        className="flex items-start gap-2 text-xs text-neutral-700 dark:text-neutral-300"
-                      >
-                        <CheckCircle className="h-4 w-4 text-indigo-500 shrink-0 mt-0.5" />
-                        <span>{sol}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Right Stats Callout */}
-              <div className="lg:col-span-5 flex flex-col justify-center items-center p-8 rounded-2xl bg-muted/20 border border-border/40 text-center space-y-3">
-                <span className="text-6xl font-black bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
-                  {selectedIndustry.stats.value}
-                </span>
-                <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide max-w-[200px]">
-                  {selectedIndustry.stats.label}
-                </span>
+          {isLoading ? (
+            <div className="py-20 text-center text-muted-foreground">
+              <div className="flex flex-col justify-center items-center gap-3">
+                <span className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+                <span className="text-sm font-bold tracking-wide">Syncing verticals...</span>
               </div>
             </div>
-          </div>
+          ) : (
+            <>
+              {/* Industry Selection Tabs */}
+              <div className="flex flex-wrap justify-center gap-3 border-b border-border/60 pb-8">
+                {activeIndustriesList.map((ind) => {
+                  const TabIcon = ((LucideIcons[ind.icon as keyof typeof LucideIcons] || LucideIcons.Globe) as React.ComponentType<{ className?: string }>);
+                  const isActive = activeTab === ind.id;
+                  return (
+                    <button
+                      key={ind.id}
+                      onClick={() => setActiveTab(ind.id)}
+                      className={`flex items-center gap-2.5 px-6 py-3.5 rounded-2xl text-sm font-bold tracking-wide border transition-all duration-300 ${
+                        isActive
+                          ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-600/10"
+                          : "bg-card border-border/80 text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                      }`}
+                    >
+                      <TabIcon className="h-4.5 w-4.5" />
+                      {ind.name.split(" & ")[0]}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Active Industry Content Card */}
+              {selectedIndustry && (
+                <div className="mt-12 mx-auto max-w-5xl rounded-3xl border border-border/60 bg-card p-8 sm:p-12 shadow-md relative overflow-hidden transition-all duration-300">
+                  {/* Soft decorative background glow */}
+                  <div
+                    className={`absolute -top-12 -right-12 h-64 w-64 bg-gradient-to-br ${selectedIndustry.color || "from-indigo-600 to-cyan-500"} opacity-5 blur-3xl`}
+                  />
+
+                  <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+                    {/* Left Details */}
+                    <div className="lg:col-span-7 space-y-6 text-left">
+                      <div
+                        className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${selectedIndustry.color || "from-indigo-600 to-cyan-500"} text-white shadow-md`}
+                      >
+                        <SelectedIcon className="h-6 w-6" />
+                      </div>
+
+                      <div>
+                        <h2 className="text-2xl font-black text-neutral-900 dark:text-white sm:text-3xl">
+                          {selectedIndustry.name}
+                        </h2>
+                        {selectedIndustry.tagline && (
+                          <p className="mt-1.5 text-sm font-bold text-indigo-600 dark:text-indigo-400">
+                            {selectedIndustry.tagline}
+                          </p>
+                        )}
+                      </div>
+
+                      <p className="text-sm leading-relaxed text-muted-foreground">
+                        {selectedIndustry.desc || selectedIndustry.description}
+                      </p>
+
+                      {selectedIndustry.solutions && selectedIndustry.solutions.length > 0 && (
+                        <div className="space-y-3 pt-2">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                            Core Solutions Provided:
+                          </h4>
+                          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            {selectedIndustry.solutions.map((sol, index) => (
+                              <li
+                                key={index}
+                                className="flex items-start gap-2 text-xs text-neutral-700 dark:text-neutral-300"
+                              >
+                                <LucideIcons.CheckCircle className="h-4 w-4 text-indigo-500 shrink-0 mt-0.5" />
+                                <span>{sol}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Right Stats Callout */}
+                    {selectedIndustry.stats && (
+                      <div className="lg:col-span-5 flex flex-col justify-center items-center p-8 rounded-2xl bg-muted/20 border border-border/40 text-center space-y-3">
+                        <span className="text-6xl font-black bg-gradient-to-br from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
+                          {selectedIndustry.stats.value}
+                        </span>
+                        <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide max-w-[200px]">
+                          {selectedIndustry.stats.label}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </section>
 
         {/* Core Architecture Trust / Focus */}
@@ -207,7 +248,7 @@ export default function IndustriesPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 gap-12 sm:grid-cols-3">
             <div className="text-center space-y-3">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
-                <Shield className="h-6 w-6" />
+                <LucideIcons.Shield className="h-6 w-6" />
               </div>
               <h3 className="text-base font-bold">Compliant & Secure</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -217,7 +258,7 @@ export default function IndustriesPage() {
             </div>
             <div className="text-center space-y-3">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
-                <Zap className="h-6 w-6" />
+                <LucideIcons.Zap className="h-6 w-6" />
               </div>
               <h3 className="text-base font-bold">Performance First</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -227,7 +268,7 @@ export default function IndustriesPage() {
             </div>
             <div className="text-center space-y-3">
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
-                <GitMerge className="h-6 w-6" />
+                <LucideIcons.GitMerge className="h-6 w-6" />
               </div>
               <h3 className="text-base font-bold">Flexible APIs</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -254,7 +295,7 @@ export default function IndustriesPage() {
               className="rounded-xl px-7 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-12 shadow-lg shadow-indigo-600/10"
             >
               <Link href="/contact" className="flex items-center gap-2">
-                Start a Project <ArrowRight className="h-4 w-4" />
+                Start a Project <LucideIcons.ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -265,3 +306,4 @@ export default function IndustriesPage() {
     </div>
   );
 }
+

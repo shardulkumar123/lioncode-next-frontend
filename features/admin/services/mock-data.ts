@@ -6,6 +6,7 @@ import {
   RolePermissions,
   ContactQuery,
   SystemSettings,
+  Project,
 } from "../types";
 import {
   INITIAL_JOBS,
@@ -15,6 +16,7 @@ import {
   INITIAL_ROLES,
   INITIAL_QUERIES,
   INITIAL_SETTINGS,
+  INITIAL_PROJECTS,
 } from "@/constants/admin-dummy";
 
 const getStorageItem = <T>(key: string, defaultValue: T): T => {
@@ -62,3 +64,7 @@ export const saveQueries = (queries: ContactQuery[]): void =>
 export const getSettings = (): SystemSettings => getStorageItem("admin_settings", INITIAL_SETTINGS);
 export const saveSettings = (settings: SystemSettings): void =>
   setStorageItem("admin_settings", settings);
+
+export const getProjects = (): Project[] => getStorageItem("admin_projects", INITIAL_PROJECTS);
+export const saveProjects = (projects: Project[]): void =>
+  setStorageItem("admin_projects", projects);

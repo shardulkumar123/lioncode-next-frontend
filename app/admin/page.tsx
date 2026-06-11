@@ -9,10 +9,11 @@ import { ServicesTab } from "@/features/admin/components/services-tab";
 import { StaffTab } from "@/features/admin/components/staff-tab";
 import { QueriesTab } from "@/features/admin/components/queries-tab";
 import { SettingsTab } from "@/features/admin/components/settings-tab";
+import { ProjectsTab } from "@/features/admin/components/projects-tab";
 
 // KPI Icons
-import { Briefcase, Building2, Cpu, Users, MessageSquare, ArrowUpRight, Clock, Loader2 } from "lucide-react";
-import { getJobs, getIndustries, getServices, getStaff, getQueries } from "@/features/admin/services/mock-data";
+import { Briefcase, Building2, Cpu, Users, MessageSquare, ArrowUpRight, Clock, Loader2, FolderGit } from "lucide-react";
+import { getJobs, getIndustries, getServices, getStaff, getQueries, getProjects } from "@/features/admin/services/mock-data";
 import { Job, ContactQuery } from "@/features/admin/types";
 import { useRouter } from "next/navigation";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
@@ -42,7 +43,8 @@ export default function AdminPage() {
     industries: 0,
     services: 0,
     staffCount: 0,
-    unreadQueries: 0
+    unreadQueries: 0,
+    projectsCount: 0
   });
 
   const [recentQueries, setRecentQueries] = useState<ContactQuery[]>([]);
@@ -56,13 +58,15 @@ export default function AdminPage() {
       const srvs = getServices();
       const stf = getStaff();
       const qrs = getQueries();
+      const projs = getProjects();
 
       setStats({
         activeJobs: jobs.filter((j) => j.status === "Active").length,
         industries: inds.filter((i) => i.status === "Active").length,
         services: srvs.filter((s) => s.status === "Active").length,
         staffCount: stf.filter((s) => s.status === "Active").length,
-        unreadQueries: qrs.filter((q) => q.status === "New").length
+        unreadQueries: qrs.filter((q) => q.status === "New").length,
+        projectsCount: projs.length
       });
 
       setRecentQueries(qrs.slice(0, 3));
@@ -81,6 +85,8 @@ export default function AdminPage() {
         return <IndustriesTab />;
       case "services":
         return <ServicesTab />;
+      case "projects":
+        return <ProjectsTab />;
       case "staff":
         return <StaffTab />;
       case "queries":
@@ -128,13 +134,20 @@ export default function AdminPage() {
         icon: MessageSquare,
         color: stats.unreadQueries > 0 ? "rose" : "indigo",
         desc: "New contact leads waiting"
+      },
+      {
+        title: "Projects",
+        value: stats.projectsCount,
+        icon: FolderGit,
+        color: "indigo",
+        desc: "Case studies listed"
       }
     ];
 
     return (
       <div className="space-y-8 animate-fade-in">
         {/* KPI Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5">
           {kpiCards.map((kpi, idx) => {
             const Icon = kpi.icon;
             const isRose = kpi.color === "rose";

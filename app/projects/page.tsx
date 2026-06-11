@@ -7,9 +7,13 @@ import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
+import { useProjects } from "@/features/projects/hooks/use-projects";
+import { Project } from "@/features/admin/types";
+
 // Expanded projects list matching homepage
-const projectsData = [
+const defaultProjectsData: Project[] = [
   {
+    id: "project-1",
     title: "Justravels Booking Engine",
     category: "Web Apps",
     desc: "A highly-scalable Nest.js and Next.js booking infrastructure built for rapid seat allocation and automated platform dues calculations.",
@@ -18,8 +22,10 @@ const projectsData = [
     stats: "2.5M+ requests/day",
     techStack: ["Next.js", "Nest.js", "Redis", "PostgreSQL", "Docker"],
     color: "from-blue-500 to-indigo-500",
+    createdAt: new Date().toISOString()
   },
   {
+    id: "project-2",
     title: "Aegis AI Agent",
     category: "AI/ML",
     desc: "A context-aware developer assistant capable of scanning directory contexts and suggesting secure edits via structured tool calls.",
@@ -28,8 +34,10 @@ const projectsData = [
     stats: "99.8% precision",
     techStack: ["TypeScript", "Python", "OpenAI API", "LangChain", "VectorDB"],
     color: "from-purple-500 to-pink-500",
+    createdAt: new Date().toISOString()
   },
   {
+    id: "project-3",
     title: "Vatsalya Portal",
     category: "Web Apps",
     desc: "A secure state welfare portal ensuring reliable distribution workflows, supporting encrypted PDF/TIFF uploads and strict compliance audits.",
@@ -38,8 +46,10 @@ const projectsData = [
     stats: "500k+ active users",
     techStack: ["React", "Express.js", "AWS S3", "Tailwind CSS", "Jest"],
     color: "from-emerald-500 to-teal-500",
+    createdAt: new Date().toISOString()
   },
   {
+    id: "project-4",
     title: "LionStream Edge Cache",
     category: "Cloud API",
     desc: "Custom edge routing middleware designed to optimize dynamic API requests and reduce database stress under extreme load spikes.",
@@ -48,16 +58,20 @@ const projectsData = [
     stats: "15ms avg latency",
     techStack: ["Go", "Cloudflare Workers", "gRPC", "Redis Enterprise"],
     color: "from-amber-500 to-orange-500",
+    createdAt: new Date().toISOString()
   },
 ];
 
 const categories = ["All", "Web Apps", "AI/ML", "Cloud API"];
 
 export default function ProjectsPage() {
+  const { data: apiProjects = [], isLoading } = useProjects();
   const [activeTab, setActiveTab] = useState("All");
 
+  const activeProjectsList = apiProjects.length > 0 ? apiProjects : defaultProjectsData;
+
   const filteredProjects =
-    activeTab === "All" ? projectsData : projectsData.filter((p) => p.category === activeTab);
+    activeTab === "All" ? activeProjectsList : activeProjectsList.filter((p) => p.category === activeTab);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors duration-300">
@@ -104,11 +118,19 @@ export default function ProjectsPage() {
             ))}
           </div>
 
-          {/* Grid Layout */}
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:max-w-none">
-            {filteredProjects.map((project, index) => (
-              <div
-                key={index}
+          {isLoading ? (
+            <div className="py-20 text-center text-muted-foreground">
+              <div className="flex flex-col justify-center items-center gap-3">
+                <span className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+                <span className="text-sm font-bold tracking-wide">Syncing case studies...</span>
+              </div>
+            </div>
+          ) : (
+            /* Grid Layout */
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:max-w-none">
+              {filteredProjects.map((project, index) => (
+                <div
+                  key={project.id || index}
                 className="group relative flex flex-col justify-between rounded-3xl border border-border/60 bg-card overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
                 {/* Header Graphic Gradient */}
@@ -157,6 +179,7 @@ export default function ProjectsPage() {
               </div>
             ))}
           </div>
+          )}
         </section>
 
         {/* CTA section */}
