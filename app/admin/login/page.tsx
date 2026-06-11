@@ -39,12 +39,13 @@ export default function AdminLoginPage() {
     try {
       // 1. Try hitting the NestJS backend API /auth/login (configured via process.env.NEXT_PUBLIC_API_URL or defaults)
       const response = await apiClient.post("/auth/login", { email, password }) as {
+        access_token?: string;
         token?: string;
         accessToken?: string;
         data?: { token?: string };
       };
       
-      const token = response.token || response.accessToken || (response.data && response.data.token);
+      const token = response.access_token || response.token || response.accessToken || (response.data && response.data.token);
       if (token) {
         localStorage.setItem(LOCAL_STORAGE_KEYS.token, token);
         setSuccessMsg("Logged in successfully! Redirecting...");
