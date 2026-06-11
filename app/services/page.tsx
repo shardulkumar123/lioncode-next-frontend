@@ -16,12 +16,6 @@ import {
   LayoutDashboard,
   ArrowRight,
   CheckCircle2,
-  Cpu,
-  Layers,
-  Zap,
-  Shield,
-  Smartphone,
-  Globe,
 } from "lucide-react";
 
 const detailedServices = [

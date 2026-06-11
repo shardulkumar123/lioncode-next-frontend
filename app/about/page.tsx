@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Shield, Zap, Target, Heart, Award, BookOpen } from "lucide-react";
+import { ArrowRight, Shield, Zap, Target, Heart } from "lucide-react";
 
 const values = [
   {
