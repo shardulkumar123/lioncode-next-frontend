@@ -81,11 +81,16 @@ const perks = [
   },
 ];
 
+import { useCareers } from "@/features/careers/hooks/use-careers";
+
 export default function CareersPage() {
+  const { data: apiJobs = [] } = useCareers();
   const [activeDept, setActiveDept] = useState("All");
 
+  const jobsList = apiJobs.length > 0 ? apiJobs : jobsData;
+
   const filteredJobs =
-    activeDept === "All" ? jobsData : jobsData.filter((job) => job.department === activeDept);
+    activeDept === "All" ? jobsList : jobsList.filter((job) => job.department === activeDept);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors duration-300">
@@ -167,56 +172,73 @@ export default function CareersPage() {
 
             {/* List */}
             <div className="space-y-6">
-              {filteredJobs.map((job) => (
-                <div
-                  key={job.id}
-                  className="bg-card border border-border/60 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all duration-300 text-left space-y-6"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div className="space-y-1.5">
-                      <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
-                        {job.title}
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Briefcase className="h-3.5 w-3.5" /> {job.department}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="h-3.5 w-3.5" /> {job.location}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3.5 w-3.5" /> {job.type}
-                        </span>
-                        <span className="flex items-center gap-1 font-semibold text-indigo-600 dark:text-indigo-400">
-                          <DollarSign className="h-3.5 w-3.5" /> {job.salary}
-                        </span>
+              {filteredJobs.map((item) => {
+                const job = item as {
+                  id: string;
+                  title: string;
+                  department: string;
+                  location: string;
+                  type: string;
+                  salary?: string;
+                  salaryRange?: string;
+                  desc?: string;
+                  description?: string;
+                  requirements: string[];
+                };
+                const displaySalary = job.salary || job.salaryRange || "";
+                const displayDesc = job.desc || job.description || "";
+                
+                return (
+                  <div
+                    key={job.id}
+                    className="bg-card border border-border/60 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all duration-300 text-left space-y-6"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="space-y-1.5">
+                        <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
+                          {job.title}
+                        </h3>
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <Briefcase className="h-3.5 w-3.5" /> {job.department}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <MapPin className="h-3.5 w-3.5" /> {job.location}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="h-3.5 w-3.5" /> {job.type}
+                          </span>
+                          <span className="flex items-center gap-1 font-semibold text-indigo-600 dark:text-indigo-400">
+                            <DollarSign className="h-3.5 w-3.5" /> {displaySalary}
+                          </span>
+                        </div>
                       </div>
+                      <Button
+                        size="sm"
+                        className="rounded-xl px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-10 w-fit"
+                        asChild
+                      >
+                        <Link href={`/contact?role=${job.id}`}>Apply Now</Link>
+                      </Button>
                     </div>
-                    <Button
-                      size="sm"
-                      className="rounded-xl px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-10 w-fit"
-                      asChild
-                    >
-                      <Link href={`/contact?role=${job.id}`}>Apply Now</Link>
-                    </Button>
-                  </div>
 
-                  <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground">
-                    {job.desc}
-                  </p>
+                    <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                      {displayDesc}
+                    </p>
 
-                  <div className="space-y-2 pt-2 border-t border-border/20">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                      Requirements:
-                    </h4>
-                    <ul className="list-disc pl-4 text-xs space-y-1.5 text-neutral-700 dark:text-neutral-300">
-                      {job.requirements.map((req, index) => (
-                        <li key={index}>{req}</li>
-                      ))}
-                    </ul>
+                    <div className="space-y-2 pt-2 border-t border-border/20">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                        Requirements:
+                      </h4>
+                      <ul className="list-disc pl-4 text-xs space-y-1.5 text-neutral-700 dark:text-neutral-300">
+                        {job.requirements.map((req, index) => (
+                          <li key={index}>{req}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {filteredJobs.length === 0 && (
                 <div className="text-center py-12 text-muted-foreground">

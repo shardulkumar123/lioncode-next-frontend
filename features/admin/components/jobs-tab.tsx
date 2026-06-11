@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Job } from "../types";
-import { getJobs, saveJobs } from "../services/mock-data";
+import { useCareers, useCreateCareer, useUpdateCareer, useDeleteCareer } from "@/features/careers/hooks/use-careers";
 import { Plus, Search, Edit, Trash2, X, MapPin, Briefcase, DollarSign, Calendar } from "lucide-react";
 
 export function JobsTab() {
-  const [jobs, setJobs] = useState<Job[]>([]);
+  const { data: jobs = [], isLoading: isCareersLoading } = useCareers();
+  const createMutation = useCreateCareer();
+  const updateMutation = useUpdateCareer();
+  const deleteMutation = useDeleteCareer();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("All");
   const [typeFilter, setTypeFilter] = useState<string>("All");
@@ -24,13 +28,6 @@ export function JobsTab() {
   const [requirements, setRequirements] = useState("");
   const [benefits, setBenefits] = useState("");
   const [status, setStatus] = useState<"Active" | "Draft" | "Closed">("Active");
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setJobs(getJobs());
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
 
   const openCreateModal = () => {
     setEditingJob(null);
@@ -64,9 +61,7 @@ export function JobsTab() {
 
   const handleDelete = (id: string) => {
     if (confirm("Are you sure you want to delete this job opening?")) {
-      const updated = jobs.filter((j) => j.id !== id);
-      setJobs(updated);
-      saveJobs(updated);
+      deleteMutation.mutate(id);
     }
   };
 
@@ -80,49 +75,35 @@ export function JobsTab() {
     const reqArray = requirements.split("\n").filter((r) => r.trim() !== "");
     const benArray = benefits.split("\n").filter((b) => b.trim() !== "");
 
-    if (editingJob) {
-      // Edit mode
-      const updated = jobs.map((j) =>
-        j.id === editingJob.id
-          ? {
-              ...j,
-              title,
-              department,
-              location,
-              locationType,
-              type,
-              salaryRange,
-              description,
-              requirements: reqArray,
-              benefits: benArray,
-              status
-            }
-          : j
-      );
-      setJobs(updated);
-      saveJobs(updated);
-    } else {
-      // Create mode
-      const newJob: Job = {
-        id: `job-${Date.now()}`,
-        title,
-        department,
-        location,
-        locationType,
-        type,
-        salaryRange,
-        description,
-        requirements: reqArray,
-        benefits: benArray,
-        status,
-        createdAt: new Date().toISOString()
-      };
-      const updated = [newJob, ...jobs];
-      setJobs(updated);
-      saveJobs(updated);
-    }
+    const payload = {
+      title,
+      department,
+      location,
+      locationType,
+      type,
+      salaryRange,
+      description,
+      requirements: reqArray,
+      benefits: benArray,
+      status
+    };
 
-    setIsModalOpen(false);
+    if (editingJob) {
+      updateMutation.mutate(
+        { id: editingJob.id, data: payload },
+        {
+          onSuccess: () => {
+            setIsModalOpen(false);
+          }
+        }
+      );
+    } else {
+      createMutation.mutate(payload, {
+        onSuccess: () => {
+          setIsModalOpen(false);
+        }
+      });
+    }
   };
 
   const filteredJobs = jobs.filter((j) => {
@@ -198,7 +179,16 @@ export function JobsTab() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border/20 text-xs font-semibold text-foreground">
-              {filteredJobs.length > 0 ? (
+              {isCareersLoading ? (
+                <tr>
+                  <td colSpan={4} className="px-6 py-10 text-center text-muted-foreground">
+                    <div className="flex justify-center items-center gap-2">
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
+                      <span>Loading job openings...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredJobs.length > 0 ? (
                 filteredJobs.map((job) => (
                   <tr key={job.id} className="hover:bg-muted/10 transition-colors">
                     <td className="px-6 py-4.5">
