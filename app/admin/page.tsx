@@ -11,14 +11,30 @@ import { QueriesTab } from "@/features/admin/components/queries-tab";
 import { SettingsTab } from "@/features/admin/components/settings-tab";
 
 // KPI Icons
-import { Briefcase, Building2, Cpu, Users, MessageSquare, ArrowUpRight, Clock } from "lucide-react";
+import { Briefcase, Building2, Cpu, Users, MessageSquare, ArrowUpRight, Clock, Loader2 } from "lucide-react";
 import { getJobs, getIndustries, getServices, getStaff, getQueries } from "@/features/admin/services/mock-data";
 import { Job, ContactQuery } from "@/features/admin/types";
+import { useRouter } from "next/navigation";
+import { LOCAL_STORAGE_KEYS } from "@/constants";
 
 export default function AdminPage() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<AdminTab>("dashboard");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const token = localStorage.getItem(LOCAL_STORAGE_KEYS.token);
+      if (!token) {
+        router.push("/admin/login");
+      } else {
+        setIsAuthenticated(true);
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   // Dashboard stats
   const [stats, setStats] = useState({
@@ -268,6 +284,19 @@ export default function AdminPage() {
       </div>
     );
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex-1 min-h-screen flex items-center justify-center bg-background text-foreground">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+          <span className="text-xs font-bold text-muted-foreground tracking-wide">
+            Checking administrative session...
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex min-h-screen overflow-hidden bg-background">
