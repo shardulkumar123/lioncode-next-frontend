@@ -17,7 +17,7 @@ export function Footer() {
                 <Logo size={28} />
               </div>
               <span className="text-lg font-black tracking-tight text-neutral-900 dark:text-white">
-                LionCode Technologies
+                Hopes Technologies
               </span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-sm">
@@ -31,8 +31,8 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 shrink-0 text-indigo-500" />
-                <a href="mailto:hello@lioncode.in" className="hover:text-foreground transition-colors">
-                  hello@lioncode.in
+                <a href="mailto:hello@hopestechnologies.com" className="hover:text-foreground transition-colors">
+                  hello@hopestechnologies.com
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
@@ -134,7 +134,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border/40 flex flex-col items-center justify-between gap-4 sm:flex-row text-xs text-muted-foreground">
           <p className="text-center sm:text-left">
-            &copy; {currentYear} LionCode Technologies Inc. All rights reserved. High-performance software engineering.
+            &copy; {currentYear} Hopes Technologies Inc. All rights reserved. High-performance software engineering.
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-foreground transition-colors">

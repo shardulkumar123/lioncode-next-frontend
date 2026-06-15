@@ -3,7 +3,7 @@
  */
 
 export const APP_CONFIG = {
-  name: "LionCode Technologies",
+  name: "Hopes Technologies",
   description: "High-performance software and AI solutions.",
   baseUrl: typeof window !== "undefined" ? window.location.origin : "http://localhost:3000",
 } as const;
@@ -21,8 +21,8 @@ export const API_ROUTES = {
 } as const;
 
 export const LOCAL_STORAGE_KEYS = {
-  token: "lioncode_auth_token",
-  theme: "lioncode_theme",
+  token: "hopes_auth_token",
+  theme: "hopes_theme",
 } as const;
 
 export const ERROR_MESSAGES = {

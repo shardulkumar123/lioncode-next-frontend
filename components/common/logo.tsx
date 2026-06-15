@@ -16,64 +16,55 @@ export function Logo({ className = "", size = 36 }: LogoProps) {
       className={className}
     >
       <defs>
-        {/* Modern high-tech gradients driven by CSS variables */}
-        <linearGradient id="lion-glow" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="var(--indigo-300)" />
-          <stop offset="50%" stopColor="var(--indigo-500)" />
+        {/* Deep tech gradients matching the premium aesthetic */}
+        <linearGradient id="hopes-left" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="var(--indigo-400)" />
+          <stop offset="100%" stopColor="var(--indigo-700)" />
+        </linearGradient>
+        <linearGradient id="hopes-right" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="var(--cyan-400)" />
           <stop offset="100%" stopColor="var(--indigo-600)" />
         </linearGradient>
-        <linearGradient id="mane-left" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="var(--indigo-400)" />
-          <stop offset="100%" stopColor="var(--indigo-800)" />
-        </linearGradient>
-        <linearGradient id="mane-right" x1="100%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="var(--indigo-400)" />
-          <stop offset="100%" stopColor="var(--indigo-800)" />
+        <linearGradient id="hopes-glow" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="var(--indigo-500)" />
+          <stop offset="100%" stopColor="var(--cyan-300)" />
         </linearGradient>
       </defs>
 
-      {/* Outer Mane / Crown - Left */}
-      <polygon points="50,10 20,25 32,55 50,42" fill="url(#mane-left)" />
-      {/* Outer Mane / Crown - Right */}
-      <polygon points="50,10 80,25 68,55 50,42" fill="url(#mane-right)" />
-
-      {/* Side Cheeks - Left */}
-      <polygon points="20,25 10,55 35,70 32,55" fill="url(#mane-left)" opacity="0.8" />
-      {/* Side Cheeks - Right */}
-      <polygon points="80,25 90,55 65,70 68,55" fill="url(#mane-right)" opacity="0.8" />
-
-      {/* Central Face Bridge - Left */}
-      <polygon points="50,42 32,55 35,70 50,88" fill="url(#lion-glow)" />
-      {/* Central Face Bridge - Right */}
-      <polygon points="50,42 68,55 65,70 50,88" fill="url(#lion-glow)" opacity="0.9" />
-
-      {/* Tech Eyes (Slanted, minimalist & sharp) */}
-      <polygon points="38,53 47,56 45,58 38,55" fill="#FFFFFF" />
-      <polygon points="62,53 53,56 55,58 62,55" fill="#FFFFFF" />
-
-      {/* Code Brackets Integrated into lower face/muzzle structure */}
-      {/* Left Code Bracket "<" */}
-      <path
-        d="M 30,62 L 25,66 L 30,70"
-        stroke="#FFFFFF"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity="0.9"
-      />
-      {/* Right Code Bracket ">" */}
-      <path
-        d="M 70,62 L 75,66 L 70,70"
-        stroke="#FFFFFF"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity="0.9"
+      {/* Left wing / pillar of 'H' */}
+      <polygon
+        points="22,25 38,32 38,78 22,70"
+        fill="url(#hopes-left)"
+        rx="2"
       />
 
-      {/* Nose/Mouth area (Geometric) */}
-      <polygon points="50,70 44,76 56,76" fill="#FFFFFF" opacity="0.95" />
-      <polygon points="50,88 44,76 56,76" fill="var(--indigo-950)" />
+      {/* Right wing / pillar of 'H' */}
+      <polygon
+        points="62,32 78,25 78,70 62,78"
+        fill="url(#hopes-right)"
+        rx="2"
+      />
+
+      {/* Upward soaring central chevron 1 (Hope / Growth) */}
+      <polygon
+        points="50,15 62,35 50,29 38,35"
+        fill="url(#hopes-glow)"
+      />
+
+      {/* Connecting middle chevron 2 */}
+      <polygon
+        points="50,38 62,53 50,47 38,53"
+        fill="url(#hopes-glow)"
+        opacity="0.8"
+      />
+
+      {/* Lower connecting chevron 3 */}
+      <polygon
+        points="50,60 62,72 50,67 38,72"
+        fill="url(#hopes-left)"
+        opacity="0.6"
+      />
     </svg>
   );
 }
+

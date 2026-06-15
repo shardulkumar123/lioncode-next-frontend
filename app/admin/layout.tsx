@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Admin Portal | LionCode Technologies",
+  title: "Admin Portal | Hopes Technologies",
   description:
     "Secure administrative dashboard to coordinate jobs, industries, services, staff members, queries, and system properties.",
 };

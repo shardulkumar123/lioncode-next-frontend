@@ -46,7 +46,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              LionCode Technologies is a specialized software engineering studio building performant digital
+              Hopes Technologies is a specialized software engineering studio building performant digital
               tools, secure enterprise portals, and bespoke AI applications.
             </p>
           </div>

@@ -57,7 +57,7 @@ export default function AdminLoginPage() {
       
       // 2. Offline simulation fallback: Allow testing with seeded roles
       if (
-        (email === "shardul@lioncode.com" || email === "aditya@lioncode.com" || email === "neha.s@lioncode.com" || email === "rohan.v@lioncode.com") &&
+        (email === "shardul@hopestechnologies.com" || email === "aditya@hopestechnologies.com" || email === "neha.s@hopestechnologies.com" || email === "rohan.v@hopestechnologies.com") &&
         password === "admin123"
       ) {
         localStorage.setItem(LOCAL_STORAGE_KEYS.token, `simulated_token_${email}_${Date.now()}`);
@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
         }, 1000);
       } else {
         setErrorMsg(
-          error.message || "Invalid credentials. Use 'shardul@lioncode.com' and 'admin123' to test offline."
+          error.message || "Invalid credentials. Use 'shardul@hopestechnologies.com' and 'admin123' to test offline."
         );
       }
     } finally {
@@ -187,14 +187,14 @@ export default function AdminLoginPage() {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onClick={() => handleQuickFill("shardul@lioncode.com")}
+                onClick={() => handleQuickFill("shardul@hopestechnologies.com")}
                 className="rounded-lg border border-border hover:bg-muted py-1.5 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors"
               >
                 Shardul (Admin)
               </button>
               <button
                 type="button"
-                onClick={() => handleQuickFill("neha.s@lioncode.com")}
+                onClick={() => handleQuickFill("neha.s@hopestechnologies.com")}
                 className="rounded-lg border border-border hover:bg-muted py-1.5 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors"
               >
                 Neha (Editor)

@@ -50,7 +50,7 @@ const projects = [
     color: "from-emerald-500 to-teal-500",
   },
   {
-    title: "LionStream Edge Cache",
+    title: "HopesStream Edge Cache",
     category: "Cloud API",
     desc: "Edge-routing middleware caching dynamic API responses under 10ms.",
     stats: "15ms avg latency",
@@ -62,7 +62,7 @@ const projects = [
 const testimonials = [
   {
     quote:
-      "LionCode Technologies transformed our backend system into a high-performance engine. Their architecture scales seamlessly and their attention to detail is outstanding.",
+      "Hopes Technologies transformed our backend system into a high-performance engine. Their architecture scales seamlessly and their attention to detail is outstanding.",
     author: "Elena Rostova",
     role: "VP of Engineering, Justravels",
     stars: 5,

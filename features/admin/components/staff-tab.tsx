@@ -376,7 +376,7 @@ export function StaffTab() {
                   required
                   value={staffEmail}
                   onChange={(e) => setStaffEmail(e.target.value)}
-                  placeholder="e.g. shardul@lioncode.com"
+                  placeholder="e.g. shardul@hopestechnologies.com"
                   className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
                 />
               </div>

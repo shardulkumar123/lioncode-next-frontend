@@ -32,7 +32,7 @@ export function Navbar() {
               <Logo size={32} />
             </div>
             <span className="text-xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-              LionCode Technologies
+              Hopes Technologies
             </span>
           </Link>
         </div>

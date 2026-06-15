@@ -70,7 +70,7 @@ export function SettingsTab() {
                 required
                 value={siteName}
                 onChange={(e) => setSiteName(e.target.value)}
-                placeholder="e.g. LionCode Portal"
+                placeholder="e.g. Hopes Technologies Portal"
                 className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
               />
             </div>
@@ -107,7 +107,7 @@ export function SettingsTab() {
                 required
                 value={siteEmail}
                 onChange={(e) => setSiteEmail(e.target.value)}
-                placeholder="admin@lioncode.com"
+                placeholder="admin@hopestechnologies.com"
                 className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
               />
             </div>

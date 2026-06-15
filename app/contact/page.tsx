@@ -89,7 +89,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold">Email Us</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5">hello@lioncode.in</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">hello@hopestechnologies.com</p>
                   </div>
                 </div>
 
@@ -217,7 +217,11 @@ export default function ContactPage() {
                       >
                         <option value="software">Custom Enterprise Software / ERP</option>
                         <option value="website">Headless E-Commerce / Website</option>
+                        <option value="mobile">Mobile Application (iOS / Android)</option>
                         <option value="ai">AI Agent / LLM Integration</option>
+                        <option value="devops">Cloud Infrastructure & DevOps</option>
+                        <option value="data">Data Engineering & Analytics</option>
+                        <option value="design">UI/UX Design & Prototyping</option>
                         <option value="consulting">Operational Tech Consulting</option>
                       </select>
                     </div>

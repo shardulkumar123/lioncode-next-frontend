@@ -154,7 +154,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-1",
     name: "Aditya Vardhan",
-    email: "aditya@lioncode.com",
+    email: "aditya@hopestechnologies.com",
     role: "Super Admin",
     status: "Active",
     joinedDate: "2024-01-10"
@@ -162,7 +162,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-2",
     name: "Neha Sharma",
-    email: "neha.s@lioncode.com",
+    email: "neha.s@hopestechnologies.com",
     role: "Editor",
     status: "Active",
     joinedDate: "2025-03-15"
@@ -170,7 +170,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-3",
     name: "Shardul Kumar",
-    email: "shardul@lioncode.com",
+    email: "shardul@hopestechnologies.com",
     role: "Super Admin",
     status: "Active",
     joinedDate: "2024-06-20"
@@ -178,7 +178,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-4",
     name: "Rohan Verma",
-    email: "rohan.v@lioncode.com",
+    email: "rohan.v@hopestechnologies.com",
     role: "Recruiter",
     status: "Active",
     joinedDate: "2025-11-01"
@@ -259,8 +259,8 @@ export const INITIAL_QUERIES: ContactQuery[] = [
 ];
 
 export const INITIAL_SETTINGS: SystemSettings = {
-  siteName: "LionCode Technologies Portal",
-  siteEmail: "admin@lioncode.com",
+  siteName: "Hopes Technologies Portal",
+  siteEmail: "admin@hopestechnologies.com",
   contactPhone: "+91 98765 43210",
   address: "Sector 62, Noida, Uttar Pradesh, India",
   maintenanceMode: false,
@@ -304,10 +304,10 @@ export const INITIAL_PROJECTS: Project[] = [
   },
   {
     id: "project-4",
-    title: "LionStream Edge Cache",
+    title: "HopesStream Edge Cache",
     category: "Cloud API",
     desc: "Custom edge routing middleware designed to optimize dynamic API requests and reduce database stress under extreme load spikes.",
-    longDesc: "Built for dynamic e-commerce catalog API loads, LionStream caches complex database query results at the network edge, ensuring sub-15ms response latencies and seamless auto-scaling.",
+    longDesc: "Built for dynamic e-commerce catalog API loads, HopesStream caches complex database query results at the network edge, ensuring sub-15ms response latencies and seamless auto-scaling.",
     stats: "15ms avg latency",
     techStack: ["Go", "Cloudflare Workers", "gRPC", "Redis Enterprise"],
     color: "from-amber-500 to-orange-500",

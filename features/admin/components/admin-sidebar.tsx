@@ -50,7 +50,7 @@ export function AdminSidebar({ activeTab, setActiveTab, collapsed, setCollapsed 
           <Logo size={collapsed ? 28 : 34} />
           {!collapsed && (
             <span className="font-extrabold text-sm tracking-tight bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              LIONCODE
+              HOPES TECH
             </span>
           )}
         </Link>

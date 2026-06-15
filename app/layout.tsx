@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LionCode Technologies | IT Services & Consulting",
+  title: "Hopes Technologies | IT Services & Consulting",
   description:
     "Enterprise-grade software engineering, IT systems consulting, and state-of-the-art AI solutions.",
 };
