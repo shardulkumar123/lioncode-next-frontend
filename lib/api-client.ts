@@ -1,7 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { LOCAL_STORAGE_KEYS, ERROR_MESSAGES } from "@/constants";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 export const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -34,11 +34,21 @@ apiClient.interceptors.response.use(
   (response) => response.data,
   (error: AxiosError) => {
     let message: string = ERROR_MESSAGES.generic;
+    let validationDetails: string[] | undefined = undefined;
 
     if (error.response) {
       // Server responded with non-2xx code
-      const data = error.response.data as { message?: string } | undefined;
-      message = data?.message || error.message;
+      const data = error.response.data as { message?: string | string[] } | undefined;
+      if (data?.message) {
+        if (Array.isArray(data.message)) {
+          validationDetails = data.message;
+          message = data.message.join(". ");
+        } else {
+          message = data.message;
+        }
+      } else {
+        message = error.message;
+      }
 
       // Handle 401 Unauthorized
       if (error.response.status === 401 && typeof window !== "undefined") {
@@ -54,6 +64,7 @@ apiClient.interceptors.response.use(
       message,
       statusCode: error.response?.status,
       error: error.code || "API_ERROR",
+      validationDetails,
     });
   }
 );

@@ -9,29 +9,30 @@ export interface CareerBackendModel {
   title: string;
   department: string;
   location: string;
+  locationType: "Remote" | "Hybrid" | "Onsite";
   type: string;
-  salary: string;
-  desc: string;
+  salaryRange: string;
+  description: string;
   requirements: string[];
+  benefits: string[];
+  status: "Active" | "Draft" | "Closed";
   createdAt: string;
 }
 
 // Convert backend schema to frontend Job schema
-export const mapBackendToFrontendJob = (c: CareerBackendModel): Job & { salary: string; desc: string } => ({
+export const mapBackendToFrontendJob = (c: CareerBackendModel): Job => ({
   id: c.id,
   title: c.title,
   department: c.department,
   location: c.location,
-  locationType: "Remote", // Default fallback
+  locationType: c.locationType,
   type: c.type as Job["type"],
-  salaryRange: c.salary,
-  description: c.desc,
+  salaryRange: c.salaryRange,
+  description: c.description,
   requirements: c.requirements,
-  benefits: [],
-  status: "Active", // Default backend list displays active items
+  benefits: c.benefits || [],
+  status: c.status,
   createdAt: c.createdAt,
-  salary: c.salary,
-  desc: c.desc
 });
 
 // Convert frontend Job schema to backend schema
@@ -39,27 +40,44 @@ export const mapFrontendToBackendCareer = (j: Partial<Job>) => ({
   title: j.title,
   department: j.department,
   location: j.location,
+  locationType: j.locationType,
   type: j.type,
-  salary: j.salaryRange,
-  desc: j.description,
-  requirements: j.requirements || []
+  salaryRange: j.salaryRange,
+  description: j.description,
+  requirements: j.requirements || [],
+  benefits: j.benefits || [],
+  status: j.status,
 });
+
+interface ApiErrorType {
+  message: string;
+  statusCode?: number;
+  error?: string;
+}
+
+const checkAndPropagateError = (err: unknown) => {
+  const apiError = err as ApiErrorType;
+  if (apiError && typeof apiError.statusCode === "number") {
+    throw new Error(apiError.message || "Request failed");
+  }
+};
 
 export const useCareers = () => {
   return useQuery<Job[], Error>({
     queryKey: ["careers"],
     queryFn: async () => {
       try {
-        const response = await axiosInstance.get("/career") as CareerBackendModel[];
+        const response = (await axiosInstance.get("/career")) as CareerBackendModel[];
         if (Array.isArray(response)) {
           return response.map(mapBackendToFrontendJob);
         }
         throw new Error("Invalid response format");
       } catch (err) {
+        checkAndPropagateError(err);
         console.warn("Backend /career API is offline. Using simulated localStorage database.", err);
         return getJobs();
       }
-    }
+    },
   });
 };
 
@@ -69,9 +87,10 @@ export const useCreateCareer = () => {
     mutationFn: async (newJob) => {
       try {
         const payload = mapFrontendToBackendCareer(newJob);
-        const response = await axiosInstance.post("/career", payload) as CareerBackendModel;
+        const response = (await axiosInstance.post("/career", payload)) as CareerBackendModel;
         return mapBackendToFrontendJob(response);
       } catch (err) {
+        checkAndPropagateError(err);
         console.warn("Backend /career API is offline. Creating in simulated local database.", err);
         // Fallback: update localStorage
         const jobs = getJobs();
@@ -87,7 +106,7 @@ export const useCreateCareer = () => {
           requirements: newJob.requirements || [],
           benefits: newJob.benefits || [],
           status: newJob.status || "Active",
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
         };
         saveJobs([createdJob, ...jobs]);
         return createdJob;
@@ -95,7 +114,7 @@ export const useCreateCareer = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["careers"] });
-    }
+    },
   });
 };
 
@@ -105,9 +124,13 @@ export const useUpdateCareer = () => {
     mutationFn: async ({ id, data }) => {
       try {
         const payload = mapFrontendToBackendCareer(data);
-        const response = await axiosInstance.patch(`/career/${id}`, payload) as CareerBackendModel;
+        const response = (await axiosInstance.patch(
+          `/career/${id}`,
+          payload
+        )) as CareerBackendModel;
         return mapBackendToFrontendJob(response);
       } catch (err) {
+        checkAndPropagateError(err);
         console.warn("Backend /career API is offline. Updating in simulated local database.", err);
         // Fallback: update localStorage
         const jobs = getJobs();
@@ -115,7 +138,7 @@ export const useUpdateCareer = () => {
           j.id === id
             ? {
                 ...j,
-                ...data
+                ...data,
               }
             : j
         );
@@ -125,7 +148,7 @@ export const useUpdateCareer = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["careers"] });
-    }
+    },
   });
 };
 
@@ -136,7 +159,11 @@ export const useDeleteCareer = () => {
       try {
         await axiosInstance.delete(`/career/${id}`);
       } catch (err) {
-        console.warn("Backend /career API is offline. Deleting from simulated local database.", err);
+        checkAndPropagateError(err);
+        console.warn(
+          "Backend /career API is offline. Deleting from simulated local database.",
+          err
+        );
         // Fallback: update localStorage
         const jobs = getJobs();
         const updated = jobs.filter((j) => j.id !== id);
@@ -145,6 +172,6 @@ export const useDeleteCareer = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["careers"] });
-    }
+    },
   });
 };

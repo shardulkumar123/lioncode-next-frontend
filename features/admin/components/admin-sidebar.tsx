@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Logo } from "@/components/common/logo";
+import { useAuth } from "@/features/auth/context/auth-context";
 import {
   LayoutDashboard,
   Briefcase,
@@ -21,22 +22,43 @@ export type AdminTab = "dashboard" | "jobs" | "industries" | "services" | "staff
 
 interface AdminSidebarProps {
   activeTab: AdminTab;
-  setActiveTab: (tab: AdminTab) => void;
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
+  onNavigate?: () => void;
 }
 
-export function AdminSidebar({ activeTab, setActiveTab, collapsed, setCollapsed }: AdminSidebarProps) {
+export function AdminSidebar({ activeTab, collapsed, setCollapsed, onNavigate }: AdminSidebarProps) {
+  const { user, logout } = useAuth();
+  
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "jobs", label: "Manage Jobs", icon: Briefcase },
-    { id: "industries", label: "Industries", icon: Building2 },
-    { id: "services", label: "Services", icon: Cpu },
-    { id: "projects", label: "Projects", icon: FolderGit },
-    { id: "staff", label: "Staff & Roles", icon: Users },
-    { id: "queries", label: "Queries", icon: MessageSquare },
-    { id: "settings", label: "Portal Settings", icon: Settings },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/admin/dashboard" },
+    { id: "jobs", label: "Manage Jobs", icon: Briefcase, href: "/admin/manage-jobs" },
+    { id: "industries", label: "Industries", icon: Building2, href: "/admin/industries" },
+    { id: "services", label: "Services", icon: Cpu, href: "/admin/services" },
+    { id: "projects", label: "Projects", icon: FolderGit, href: "/admin/projects" },
+    { id: "staff", label: "Staff & Roles", icon: Users, href: "/admin/staff" },
+    { id: "queries", label: "Queries", icon: MessageSquare, href: "/admin/queries" },
+    { id: "settings", label: "Portal Settings", icon: Settings, href: "/admin/settings" },
   ] as const;
+
+  const getInitials = () => {
+    if (!user?.email) return "AP";
+    const namePart = user.email.split("@")[0];
+    const parts = namePart.split(/[\._-]/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return namePart.substring(0, 2).toUpperCase();
+  };
+
+  const getDisplayName = () => {
+    if (!user?.email) return "Administrator";
+    const namePart = user.email.split("@")[0];
+    return namePart
+      .split(/[\._-]/)
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+  };
 
   return (
     <aside
@@ -46,7 +68,7 @@ export function AdminSidebar({ activeTab, setActiveTab, collapsed, setCollapsed 
     >
       {/* Header section */}
       <div className="flex h-16 items-center justify-between px-4 border-b border-border/40">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3" onClick={onNavigate}>
           <Logo size={collapsed ? 28 : 34} />
           {!collapsed && (
             <span className="font-extrabold text-sm tracking-tight bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
@@ -68,9 +90,10 @@ export function AdminSidebar({ activeTab, setActiveTab, collapsed, setCollapsed 
           const Icon = item.icon;
           const isActive = activeTab === item.id;
           return (
-            <button
+            <Link
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
+              href={item.href}
+              onClick={onNavigate}
               className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold transition-all duration-200 ${
                 isActive
                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/15"
@@ -79,7 +102,7 @@ export function AdminSidebar({ activeTab, setActiveTab, collapsed, setCollapsed 
             >
               <Icon className="h-4.5 w-4.5 shrink-0" />
               {!collapsed && <span>{item.label}</span>}
-            </button>
+            </Link>
           );
         })}
       </nav>
@@ -87,24 +110,26 @@ export function AdminSidebar({ activeTab, setActiveTab, collapsed, setCollapsed 
       {/* Footer Profile */}
       <div className="border-t border-border/40 p-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-600 to-indigo-400 text-white font-bold text-sm">
-            SK
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-indigo-600 to-indigo-400 text-white font-bold text-sm select-none">
+            {getInitials()}
           </div>
           {!collapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-bold truncate text-foreground">Shardul Kumar</p>
-              <p className="text-[10px] text-muted-foreground truncate">Super Admin</p>
+              <p className="text-xs font-bold truncate text-foreground leading-normal">{getDisplayName()}</p>
+              <p className="text-[10px] text-muted-foreground truncate font-semibold uppercase leading-normal">
+                {user?.role || "PORTAL USER"}
+              </p>
             </div>
           )}
         </div>
         {!collapsed && (
-          <Link
-            href="/"
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 hover:border-destructive/30 hover:bg-destructive/5 py-2 text-xs font-bold text-muted-foreground hover:text-destructive transition-all"
+          <button
+            onClick={() => logout()}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 hover:border-destructive/30 hover:bg-destructive/5 py-2 text-xs font-bold text-muted-foreground hover:text-destructive transition-all cursor-pointer"
           >
             <LogOut className="h-3.5 w-3.5" />
             <span>Exit Portal</span>
-          </Link>
+          </button>
         )}
       </div>
     </aside>

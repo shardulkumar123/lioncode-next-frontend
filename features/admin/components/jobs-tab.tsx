@@ -28,6 +28,22 @@ export function JobsTab() {
   const [requirements, setRequirements] = useState("");
   const [benefits, setBenefits] = useState("");
   const [status, setStatus] = useState<"Active" | "Draft" | "Closed">("Active");
+  const [isActive, setIsActive] = useState(true);
+
+  const handleStatusChange = (newStatus: "Active" | "Draft" | "Closed") => {
+    setStatus(newStatus);
+    setIsActive(newStatus === "Active");
+  };
+
+  const handleToggleActiveState = () => {
+    const newActiveState = !isActive;
+    setIsActive(newActiveState);
+    if (newActiveState) {
+      setStatus("Active");
+    } else if (status === "Active") {
+      setStatus("Closed");
+    }
+  };
 
   const openCreateModal = () => {
     setEditingJob(null);
@@ -41,6 +57,7 @@ export function JobsTab() {
     setRequirements("");
     setBenefits("");
     setStatus("Active");
+    setIsActive(true);
     setIsModalOpen(true);
   };
 
@@ -56,6 +73,7 @@ export function JobsTab() {
     setRequirements(job.requirements.join("\n"));
     setBenefits(job.benefits.join("\n"));
     setStatus(job.status);
+    setIsActive(job.status === "Active");
     setIsModalOpen(true);
   };
 
@@ -63,6 +81,17 @@ export function JobsTab() {
     if (confirm("Are you sure you want to delete this job opening?")) {
       deleteMutation.mutate(id);
     }
+  };
+
+  const handleToggleActive = (job: Job) => {
+    const newStatus = job.status === "Active" ? "Closed" : "Active";
+    updateMutation.mutate({
+      id: job.id,
+      data: {
+        ...job,
+        status: newStatus
+      }
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -85,7 +114,7 @@ export function JobsTab() {
       description,
       requirements: reqArray,
       benefits: benArray,
-      status
+      status: status as "Active" | "Draft" | "Closed"
     };
 
     if (editingJob) {
@@ -175,13 +204,14 @@ export function JobsTab() {
                 <th className="px-6 py-4">Job Info</th>
                 <th className="px-6 py-4">Location & Salary</th>
                 <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4">Visibility</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/20 text-xs font-semibold text-foreground">
               {isCareersLoading ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-10 text-center text-muted-foreground">
+                  <td colSpan={5} className="px-6 py-10 text-center text-muted-foreground">
                     <div className="flex justify-center items-center gap-2">
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-600 border-t-transparent" />
                       <span>Loading job openings...</span>
@@ -231,6 +261,28 @@ export function JobsTab() {
                         {job.status}
                       </span>
                     </td>
+                    <td className="px-6 py-4.5">
+                      <button
+                        onClick={() => handleToggleActive(job)}
+                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold border transition-colors cursor-pointer ${
+                          job.status === "Active"
+                            ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50"
+                            : job.status === "Draft"
+                              ? "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border-amber-100 dark:border-amber-900/30 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+                              : "bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border-rose-100 dark:border-rose-900/30 hover:bg-rose-100 dark:hover:bg-rose-900/50"
+                        }`}
+                        title={job.status === "Active" ? "Click to Deactivate" : "Click to Activate"}
+                      >
+                        <span className={`h-1.5 w-1.5 rounded-full ${
+                          job.status === "Active"
+                            ? "bg-emerald-500"
+                            : job.status === "Draft"
+                              ? "bg-amber-500"
+                              : "bg-rose-500"
+                        }`} />
+                        <span>{job.status}</span>
+                      </button>
+                    </td>
                     <td className="px-6 py-4.5 text-right space-x-2">
                       <button
                         onClick={() => openEditModal(job)}
@@ -251,7 +303,7 @@ export function JobsTab() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="px-6 py-10 text-center text-muted-foreground">
+                  <td colSpan={5} className="px-6 py-10 text-center text-muted-foreground">
                     No job openings found matching the criteria.
                   </td>
                 </tr>
@@ -352,7 +404,7 @@ export function JobsTab() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                     Salary Range *
@@ -372,13 +424,36 @@ export function JobsTab() {
                   </label>
                   <select
                     value={status}
-                    onChange={(e) => setStatus(e.target.value as "Active" | "Draft" | "Closed")}
+                    onChange={(e) => handleStatusChange(e.target.value as "Active" | "Draft" | "Closed")}
                     className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
                   >
                     <option value="Active">Active / Public</option>
                     <option value="Draft">Draft</option>
                     <option value="Closed">Closed</option>
                   </select>
+                </div>
+                <div className="space-y-1.5 flex flex-col justify-end pb-1.5">
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-1">
+                    Job Visibility Toggle
+                  </label>
+                  <div className="flex items-center gap-3 bg-muted/10 border border-border rounded-xl px-4 py-2 w-full h-[38px] justify-between">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                      {isActive ? "Active" : "Inactive"}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleToggleActiveState}
+                      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                        isActive ? "bg-indigo-600" : "bg-neutral-300 dark:bg-neutral-700"
+                      }`}
+                    >
+                      <span
+                        className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                          isActive ? "translate-x-4" : "translate-x-0"
+                        }`}
+                      />
+                    </button>
+                  </div>
                 </div>
               </div>
 

@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { AuthProvider } from "@/features/auth/context/auth-context";
+
+import { AdminLayoutWrapper } from "@/features/admin/components/admin-layout-wrapper";
 
 export const metadata: Metadata = {
   title: "Admin Portal | Hopes Technologies",
@@ -11,5 +14,9 @@ export default function AdminRouteLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="flex-1 flex min-h-screen overflow-hidden bg-background">{children}</div>;
+  return (
+    <AuthProvider>
+      <AdminLayoutWrapper>{children}</AdminLayoutWrapper>
+    </AuthProvider>
+  );
 }
