@@ -93,3 +93,17 @@ export interface Project {
   color: string;
   createdAt: string;
 }
+
+export interface About {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  missionTitle: string;
+  missionPoints: string[];
+  stats: { value: string; label: string }[];
+  values: { title: string; desc: string; icon: string }[];
+  ctaTitle: string;
+  ctaDescription: string;
+  createdAt?: string;
+}

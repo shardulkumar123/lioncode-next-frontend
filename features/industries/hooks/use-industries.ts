@@ -6,40 +6,59 @@ import { getIndustries, saveIndustries } from "@/features/admin/services/mock-da
 export interface ServicesDomainBackendModel {
   id: string;
   name: string;
-  tagline: string;
-  desc: string;
+  slug: string;
+  description: string;
   icon: string;
-  color: string;
-  stats: { value: string; label: string };
+  status: "Active" | "Inactive";
+  tagline?: string;
+  color?: string;
+  stats?: { value: string; label: string };
   solutions: string[];
+  desc?: string;
   createdAt: string;
 }
 
 export const mapBackendToFrontendIndustry = (s: ServicesDomainBackendModel): Industry => ({
   id: s.id,
   name: s.name,
-  slug: s.id,
-  description: s.desc,
-  desc: s.desc,
+  slug: s.slug || s.id,
+  description: s.description || s.desc || "",
+  desc: s.desc || s.description || "",
   icon: s.icon,
-  status: "Active",
+  status: s.status || "Active",
   createdAt: s.createdAt || new Date().toISOString(),
-  tagline: s.tagline,
-  color: s.color,
+  tagline: s.tagline || "",
+  color: s.color || "from-indigo-600 to-cyan-500",
   stats: s.stats,
-  solutions: s.solutions,
+  solutions: s.solutions || [],
 });
 
 export const mapFrontendToBackendIndustry = (ind: Partial<Industry>) => ({
-  id: ind.slug || ind.id || `ind-${Date.now()}`,
+  id: ind.id || ind.slug || `ind-${Date.now()}`,
   name: ind.name || "",
-  tagline: ind.tagline || "Solutions for your business",
-  desc: ind.description || "",
+  slug: ind.slug || ind.id || `ind-${Date.now()}`,
+  description: ind.description || ind.desc || "",
   icon: ind.icon || "Globe",
+  status: ind.status || "Active",
+  tagline: ind.tagline || "",
   color: ind.color || "from-indigo-600 to-cyan-500",
-  stats: ind.stats || { value: "100%", label: "Satisfaction" },
+  stats: ind.stats,
   solutions: ind.solutions || [],
+  desc: ind.desc || ind.description || "",
 });
+
+interface ApiErrorType {
+  message: string;
+  statusCode?: number;
+  error?: string;
+}
+
+const checkAndPropagateError = (err: unknown) => {
+  const apiError = err as ApiErrorType;
+  if (apiError && typeof apiError.statusCode === "number") {
+    throw new Error(apiError.message || "Request failed");
+  }
+};
 
 export const useIndustries = () => {
   return useQuery<Industry[], Error>({
@@ -52,6 +71,7 @@ export const useIndustries = () => {
         }
         throw new Error("Invalid response format");
       } catch (err: unknown) {
+        checkAndPropagateError(err);
         console.warn("Backend /services-domain API is offline. Using simulated localStorage database.", err);
         return getIndustries();
       }
@@ -68,6 +88,7 @@ export const useCreateIndustry = () => {
         const response = await axiosInstance.post("/services-domain", payload) as ServicesDomainBackendModel;
         return mapBackendToFrontendIndustry(response);
       } catch (err: unknown) {
+        checkAndPropagateError(err);
         console.warn("Backend /services-domain API is offline. Creating in simulated local database.", err);
         const industries = getIndustries();
         const createdIndustry: Industry = {
@@ -102,6 +123,7 @@ export const useUpdateIndustry = () => {
         const response = await axiosInstance.patch(`/services-domain/${id}`, payload) as ServicesDomainBackendModel;
         return mapBackendToFrontendIndustry(response);
       } catch (err: unknown) {
+        checkAndPropagateError(err);
         console.warn("Backend /services-domain API is offline. Updating in simulated local database.", err);
         const industries = getIndustries();
         const updated = industries.map((ind) =>
@@ -129,6 +151,7 @@ export const useDeleteIndustry = () => {
       try {
         await axiosInstance.delete(`/services-domain/${id}`);
       } catch (err: unknown) {
+        checkAndPropagateError(err);
         console.warn("Backend /services-domain API is offline. Deleting from simulated local database.", err);
         const industries = getIndustries();
         const updated = industries.filter((ind) => ind.id !== id);

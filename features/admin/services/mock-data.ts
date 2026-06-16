@@ -7,6 +7,7 @@ import {
   ContactQuery,
   SystemSettings,
   Project,
+  About,
 } from "../types";
 import {
   INITIAL_JOBS,
@@ -68,3 +69,44 @@ export const saveSettings = (settings: SystemSettings): void =>
 export const getProjects = (): Project[] => getStorageItem("admin_projects", INITIAL_PROJECTS);
 export const saveProjects = (projects: Project[]): void =>
   setStorageItem("admin_projects", projects);
+
+export const INITIAL_ABOUT: About = {
+  id: "about-singleton",
+  title: "Engineering High-Performance",
+  subtitle: "Software",
+  description: "Hopes Technologies is a specialized software engineering studio building performant digital tools, secure enterprise portals, and bespoke AI applications.",
+  missionTitle: "Our Core Mission",
+  missionPoints: [
+    "We believe that software should fit your business operations perfectly, rather than forcing you to adjust your workflows to generic template solutions.",
+    "Our focus remains squarely on software architecture, clean state management, security boundaries, and responsive interfaces that load instantly across all form factors."
+  ],
+  stats: [
+    { value: "150+", label: "Projects Delivered" },
+    { value: "50+", label: "Active Clients" },
+    { value: "5+", label: "Years of Operations" },
+    { value: "99%", label: "Client Retention" }
+  ],
+  values: [
+    {
+      title: "Performance First",
+      desc: "We measure system speeds in milliseconds and page loading times in sub-seconds. Speed directly impacts conversions and business efficiency.",
+      icon: "Zap"
+    },
+    {
+      title: "Secure-by-Design",
+      desc: "From strict role-based access controls to encrypted file handling, data integrity and compliance form the baseline of every architecture we deploy.",
+      icon: "Shield"
+    },
+    {
+      title: "Client-Centric Collaboration",
+      desc: "We act as your technical engineering partners, translating business operations directly into custom, maintainable digital platforms.",
+      icon: "Heart"
+    }
+  ],
+  ctaTitle: "Want to Collaborate with Us?",
+  ctaDescription: "Let's build software that makes your business operations run automatically."
+};
+
+export const getAboutInfo = (): About => getStorageItem("admin_about", INITIAL_ABOUT);
+export const saveAboutInfo = (about: About): void => setStorageItem("admin_about", about);
+

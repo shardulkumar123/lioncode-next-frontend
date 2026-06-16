@@ -3,12 +3,16 @@
 import React, { useState, useEffect } from "react";
 import { SystemSettings } from "../types";
 import { getSettings, saveSettings } from "../services/mock-data";
-import { Save, Info, Sliders, ToggleLeft, ToggleRight, Mail, Phone, MapPin } from "lucide-react";
+import { Save, Info, Sliders, ToggleLeft, ToggleRight, Mail, Phone, MapPin, FileText } from "lucide-react";
+import { useAbout, useUpdateAbout } from "@/features/about/hooks/use-about";
 
 export function SettingsTab() {
   const [settings, setSettings] = useState<SystemSettings | null>(null);
+  
+  const { data: aboutData } = useAbout();
+  const updateAboutMutation = useUpdateAbout();
 
-  // Form states
+  // System settings states
   const [siteName, setSiteName] = useState("");
   const [siteEmail, setSiteEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
@@ -16,6 +20,15 @@ export function SettingsTab() {
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [allowPublicApplications, setAllowPublicApplications] = useState(true);
   const [maxUploadSizeMb, setMaxUploadSizeMb] = useState(10);
+
+  // About page states
+  const [aboutTitle, setAboutTitle] = useState("");
+  const [aboutSubtitle, setAboutSubtitle] = useState("");
+  const [aboutDesc, setAboutDesc] = useState("");
+  const [missionTitle, setMissionTitle] = useState("");
+  const [missionPointsText, setMissionPointsText] = useState("");
+  const [aboutCtaTitle, setAboutCtaTitle] = useState("");
+  const [aboutCtaDesc, setAboutCtaDesc] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,6 +45,21 @@ export function SettingsTab() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (aboutData) {
+      const timer = setTimeout(() => {
+        setAboutTitle(aboutData.title || "");
+        setAboutSubtitle(aboutData.subtitle || "");
+        setAboutDesc(aboutData.description || "");
+        setMissionTitle(aboutData.missionTitle || "");
+        setMissionPointsText(aboutData.missionPoints?.join("\n") || "");
+        setAboutCtaTitle(aboutData.ctaTitle || "");
+        setAboutCtaDesc(aboutData.ctaDescription || "");
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [aboutData]);
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     const updated: SystemSettings = {
@@ -45,7 +73,26 @@ export function SettingsTab() {
     };
     saveSettings(updated);
     setSettings(updated);
-    alert("Portal system settings saved successfully!");
+
+    // Save About settings
+    const aboutPayload = {
+      title: aboutTitle,
+      subtitle: aboutSubtitle,
+      description: aboutDesc,
+      missionTitle,
+      missionPoints: missionPointsText.split("\n").map(x => x.trim()).filter(Boolean),
+      ctaTitle: aboutCtaTitle,
+      ctaDescription: aboutCtaDesc,
+    };
+    
+    updateAboutMutation.mutate(aboutPayload, {
+      onSuccess: () => {
+        alert("Portal system settings and About page content saved successfully!");
+      },
+      onError: (err) => {
+        alert("System settings saved, but failed to save About content: " + err.message);
+      }
+    });
   };
 
   if (!settings) return null;
@@ -188,6 +235,114 @@ export function SettingsTab() {
                   <ToggleLeft className="h-8 w-8 text-muted-foreground" />
                 )}
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* About Page Content */}
+        <div className="rounded-2xl border border-border/40 bg-card p-6 space-y-4">
+          <h3 className="text-sm font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <FileText className="h-4.5 w-4.5 text-indigo-600 dark:text-indigo-400" />
+            <span>About Page Content Editor</span>
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                Hero Main Title *
+              </label>
+              <input
+                type="text"
+                required
+                value={aboutTitle}
+                onChange={(e) => setAboutTitle(e.target.value)}
+                placeholder="e.g. Engineering High-Performance"
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                Hero Subtitle (Glow text) *
+              </label>
+              <input
+                type="text"
+                required
+                value={aboutSubtitle}
+                onChange={(e) => setAboutSubtitle(e.target.value)}
+                placeholder="e.g. Software"
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+              Hero Description *
+            </label>
+            <textarea
+              required
+              rows={2}
+              value={aboutDesc}
+              onChange={(e) => setAboutDesc(e.target.value)}
+              placeholder="Hopes Technologies is a specialized software engineering studio..."
+              className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+              Core Mission Title *
+            </label>
+            <input
+              type="text"
+              required
+              value={missionTitle}
+              onChange={(e) => setMissionTitle(e.target.value)}
+              placeholder="e.g. Our Core Mission"
+              className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+              Mission Points / Paragraphs (One per line)
+            </label>
+            <textarea
+              required
+              rows={4}
+              value={missionPointsText}
+              onChange={(e) => setMissionPointsText(e.target.value)}
+              placeholder="We believe that software should fit your business operations perfectly..."
+              className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                CTA Section Title *
+              </label>
+              <input
+                type="text"
+                required
+                value={aboutCtaTitle}
+                onChange={(e) => setAboutCtaTitle(e.target.value)}
+                placeholder="Want to Collaborate with Us?"
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                CTA Section Description *
+              </label>
+              <input
+                type="text"
+                required
+                value={aboutCtaDesc}
+                onChange={(e) => setAboutCtaDesc(e.target.value)}
+                placeholder="Let's build software that makes your business operations run automatically."
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+              />
             </div>
           </div>
         </div>

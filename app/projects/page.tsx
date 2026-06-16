@@ -62,13 +62,13 @@ const defaultProjectsData: Project[] = [
   },
 ];
 
-const categories = ["All", "Web Apps", "AI/ML", "Cloud API"];
-
 export default function ProjectsPage() {
   const { data: apiProjects = [], isLoading } = useProjects();
   const [activeTab, setActiveTab] = useState("All");
 
   const activeProjectsList = apiProjects.length > 0 ? apiProjects : defaultProjectsData;
+
+  const categories = ["All", ...Array.from(new Set(activeProjectsList.map((p) => p.category).filter(Boolean)))];
 
   const filteredProjects =
     activeTab === "All" ? activeProjectsList : activeProjectsList.filter((p) => p.category === activeTab);

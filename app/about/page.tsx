@@ -6,26 +6,67 @@ import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Zap, Target, Heart } from "lucide-react";
+import { useAbout } from "@/features/about/hooks/use-about";
 
-const values = [
-  {
-    title: "Performance First",
-    desc: "We measure system speeds in milliseconds and page loading times in sub-seconds. Speed directly impacts conversions and business efficiency.",
-    icon: Zap,
-  },
-  {
-    title: "Secure-by-Design",
-    desc: "From strict role-based access controls to encrypted file handling, data integrity and compliance form the baseline of every architecture we deploy.",
-    icon: Shield,
-  },
-  {
-    title: "Client-Centric Collaboration",
-    desc: "We act as your technical engineering partners, translating business operations directly into custom, maintainable digital platforms.",
-    icon: Heart,
-  },
-];
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  Zap,
+  Shield,
+  Heart,
+  Target,
+};
 
 export default function AboutPage() {
+  const { data: about, isLoading } = useAbout();
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background text-foreground antialiased">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center py-20">
+          <div className="flex flex-col items-center gap-3">
+            <span className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+            <span className="text-sm font-bold tracking-wide">Loading studio details...</span>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  const title = about?.title || "Engineering High-Performance";
+  const subtitle = about?.subtitle || "Software";
+  const description = about?.description || "Hopes Technologies is a specialized software engineering studio building performant digital tools, secure enterprise portals, and bespoke AI applications.";
+  const missionTitle = about?.missionTitle || "Our Core Mission";
+  const missionPoints = about?.missionPoints || [
+    "We believe that software should fit your business operations perfectly, rather than forcing you to adjust your workflows to generic template solutions.",
+    "Our focus remains squarely on software architecture, clean state management, security boundaries, and responsive interfaces that load instantly across all form factors."
+  ];
+  const stats = about?.stats || [
+    { value: "150+", label: "Projects Delivered" },
+    { value: "50+", label: "Active Clients" },
+    { value: "5+", label: "Years of Operations" },
+    { value: "99%", label: "Client Retention" }
+  ];
+  const values = about?.values || [
+    {
+      title: "Performance First",
+      desc: "We measure system speeds in milliseconds and page loading times in sub-seconds. Speed directly impacts conversions and business efficiency.",
+      icon: "Zap"
+    },
+    {
+      title: "Secure-by-Design",
+      desc: "From strict role-based access controls to encrypted file handling, data integrity and compliance form the baseline of every architecture we deploy.",
+      icon: "Shield"
+    },
+    {
+      title: "Client-Centric Collaboration",
+      desc: "We act as your technical engineering partners, translating business operations directly into custom, maintainable digital platforms.",
+      icon: "Heart"
+    }
+  ];
+  const ctaTitle = about?.ctaTitle || "Want to Collaborate with Us?";
+  const ctaDescription = about?.ctaDescription || "Let's build software that makes your business operations run automatically.";
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors duration-300">
       <Navbar />
@@ -40,14 +81,13 @@ export default function AboutPage() {
               Our Story
             </div>
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl text-neutral-900 dark:text-white">
-              Engineering High-Performance{" "}
+              {title}{" "}
               <span className="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent font-black">
-                Software
+                {subtitle}
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              Hopes Technologies is a specialized software engineering studio building performant digital
-              tools, secure enterprise portals, and bespoke AI applications.
+              {description}
             </p>
           </div>
         </section>
@@ -60,50 +100,26 @@ export default function AboutPage() {
                 <Target className="h-6 w-6" />
               </div>
               <h2 className="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-                Our Core Mission
+                {missionTitle}
               </h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                We believe that software should fit your business operations perfectly, rather than
-                forcing you to adjust your workflows to generic template solutions.
-              </p>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Our focus remains squarely on software architecture, clean state management,
-                security boundaries, and responsive interfaces that load instantly across all form
-                factors.
-              </p>
+              {missionPoints.map((point, idx) => (
+                <p key={idx} className="text-sm leading-relaxed text-muted-foreground">
+                  {point}
+                </p>
+              ))}
             </div>
 
             <div className="grid grid-cols-2 gap-6 bg-muted/20 border border-border/40 p-8 rounded-3xl relative">
-              <div className="space-y-1 text-center sm:text-left">
-                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
-                  150+
-                </span>
-                <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
-                  Projects Delivered
-                </p>
-              </div>
-              <div className="space-y-1 text-center sm:text-left">
-                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
-                  50+
-                </span>
-                <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
-                  Active Clients
-                </p>
-              </div>
-              <div className="space-y-1 text-center sm:text-left">
-                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">5+</span>
-                <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
-                  Years of Operations
-                </p>
-              </div>
-              <div className="space-y-1 text-center sm:text-left">
-                <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
-                  99%
-                </span>
-                <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
-                  Client Retention
-                </p>
-              </div>
+              {stats.map((stat, idx) => (
+                <div key={idx} className="space-y-1 text-center sm:text-left">
+                  <span className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
+                    {stat.value}
+                  </span>
+                  <p className="text-xs font-bold text-neutral-800 dark:text-neutral-200 uppercase tracking-wide">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -122,7 +138,7 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               {values.map((val, idx) => {
-                const ValueIcon = val.icon;
+                const ValueIcon = ICON_MAP[val.icon] || Heart;
                 return (
                   <div
                     key={idx}
@@ -145,10 +161,10 @@ export default function AboutPage() {
         {/* CTA section */}
         <section className="mx-auto max-w-5xl px-4 py-20 sm:py-24 text-center space-y-8">
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Want to Collaborate with Us?
+            {ctaTitle}
           </h2>
           <p className="mx-auto max-w-xl text-muted-foreground text-sm leading-relaxed">
-            Let&apos;s build software that makes your business operations run automatically.
+            {ctaDescription}
           </p>
           <div className="flex justify-center gap-4">
             <Button
