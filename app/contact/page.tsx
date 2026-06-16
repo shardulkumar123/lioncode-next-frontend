@@ -26,6 +26,9 @@ export default function ContactPage() {
       {
         name: formData.name,
         email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        projectType: formData.projectType,
         subject: formData.projectType,
         message: formData.message,
       },

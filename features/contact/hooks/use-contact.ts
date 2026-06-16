@@ -6,6 +6,9 @@ import { getQueries, saveQueries } from "@/features/admin/services/mock-data";
 export interface ContactQueryPayload {
   name: string;
   email: string;
+  phone?: string;
+  company?: string;
+  projectType?: string;
   subject?: string;
   message: string;
 }
@@ -14,6 +17,9 @@ export interface ContactQueryBackendModel {
   id: string;
   name: string;
   email: string;
+  phone?: string;
+  company?: string;
+  projectType?: string;
   subject?: string;
   message: string;
   createdAt?: string;
@@ -24,9 +30,9 @@ export const mapBackendToFrontendQuery = (q: ContactQueryBackendModel): ContactQ
   id: q.id,
   name: q.name,
   email: q.email,
-  phone: "",
-  company: "",
-  serviceInterest: q.subject || "General Inquiry",
+  phone: q.phone || "",
+  company: q.company || "",
+  serviceInterest: q.projectType || q.subject || "General Inquiry",
   message: q.message,
   status: "New", // Default status on backend
   createdAt: q.createdAt || new Date().toISOString()
@@ -66,9 +72,9 @@ export const useCreateContactQuery = () => {
           id: `query-${Date.now()}`,
           name: payload.name,
           email: payload.email,
-          phone: "",
-          company: "",
-          serviceInterest: payload.subject || "General Inquiry",
+          phone: payload.phone || "",
+          company: payload.company || "",
+          serviceInterest: payload.projectType || payload.subject || "General Inquiry",
           message: payload.message,
           status: "New",
           createdAt: new Date().toISOString()
