@@ -10,7 +10,6 @@ import {
   Briefcase,
   MapPin,
   Clock,
-  Code,
   DollarSign,
   Coffee,
   Heart,

@@ -1,16 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
 
 import { useCreateContactQuery } from "@/features/contact/hooks/use-contact";
+import { getSettings } from "@/features/admin/services/mock-data";
+import { SystemSettings } from "@/features/admin/types";
 
 export default function ContactPage() {
   const createQueryMutation = useCreateContactQuery();
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [settings, setSettings] = useState<SystemSettings | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +22,17 @@ export default function ContactPage() {
     projectType: "software",
     message: "",
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSettings(getSettings());
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const contactEmail = settings?.siteEmail || "hello@hopestechnologies.com";
+  const address = settings?.address || "Indiranagar, Bangalore, Karnataka, India — 560038";
+  const supportHours = settings?.supportHours || "Monday - Friday: 9:00 AM - 6:00 PM IST";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +106,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold">Email Us</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5">hello@hopestechnologies.com</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{contactEmail}</p>
                   </div>
                 </div>
 
@@ -102,9 +116,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold">Main Office</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      Indiranagar, Bangalore, Karnataka, India — 560038
-                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{address}</p>
                   </div>
                 </div>
 
@@ -114,9 +126,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-sm font-bold">Business Hours</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      Monday - Friday: 9:00 AM - 6:00 PM IST
-                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{supportHours}</p>
                   </div>
                 </div>
               </div>

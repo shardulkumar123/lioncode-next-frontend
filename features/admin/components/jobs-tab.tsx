@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Job } from "../types";
 import { useCareers, useCreateCareer, useUpdateCareer, useDeleteCareer } from "@/features/careers/hooks/use-careers";
-import { Plus, Search, Edit, Trash2, X, MapPin, Briefcase, DollarSign, Calendar } from "lucide-react";
+import { Plus, Search, Edit, Trash2, X, MapPin, Briefcase, DollarSign } from "lucide-react";
 
 export function JobsTab() {
   const { data: jobs = [], isLoading: isCareersLoading } = useCareers();

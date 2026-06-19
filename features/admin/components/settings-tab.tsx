@@ -100,7 +100,7 @@ export function SettingsTab() {
       onSuccess: () => {
         success("Portal system settings and About page content saved successfully!");
       },
-      onError: (err: any) => {
+      onError: (err: Error) => {
         error("System settings saved, but failed to save About content: " + err.message);
       }
     });

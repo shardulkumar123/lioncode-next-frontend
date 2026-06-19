@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { StaffMember, RolePermissions } from "../types";
 import { getStaff, saveStaff, getRoles, saveRoles } from "../services/mock-data";
-import { Plus, Search, Edit, Trash2, X, Shield, ShieldAlert, Check, CheckSquare, Square } from "lucide-react";
+import { Plus, Search, Edit, Trash2, X, Shield, ShieldAlert, Check } from "lucide-react";
 
 export function StaffTab() {
   const [staff, setStaff] = useState<StaffMember[]>([]);
