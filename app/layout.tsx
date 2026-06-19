@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { StoreProvider } from "@/components/providers/store-provider";
 import { ThemeSyncProvider } from "@/components/providers/theme-sync-provider";
+import { ToastProvider } from "@/components/ui/toast";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -35,7 +36,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <StoreProvider>
           <ThemeSyncProvider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </QueryProvider>
           </ThemeSyncProvider>
         </StoreProvider>
       </body>

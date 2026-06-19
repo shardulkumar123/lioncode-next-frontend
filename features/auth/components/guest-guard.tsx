@@ -17,7 +17,11 @@ export const GuestGuard: React.FC<GuestGuardProps> = ({ children }) => {
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
       // If user is logged in, redirect them to the dashboard or requested page
-      const redirect = searchParams.get("redirect") || "/admin";
+      let redirect = searchParams.get("redirect") || "/admin";
+      // Avoid infinite redirect loops back to login page
+      if (redirect.includes("/admin/login")) {
+        redirect = "/admin";
+      }
       router.push(redirect);
     }
   }, [isLoading, isAuthenticated, router, searchParams]);

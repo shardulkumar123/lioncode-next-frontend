@@ -80,6 +80,9 @@ export interface SystemSettings {
   maintenanceMode: boolean;
   allowPublicApplications: boolean;
   maxUploadSizeMb: number;
+  supportHours: string;
+  privacyPolicy: string;
+  termsOfService: string;
 }
 
 export interface Project {

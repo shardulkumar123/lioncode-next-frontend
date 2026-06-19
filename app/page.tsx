@@ -24,39 +24,15 @@ import {
   GitMerge,
   ShoppingBag,
   LayoutDashboard,
+  Globe,
+  Activity,
+  ShieldCheck,
+  Workflow,
+  Heart,
 } from "lucide-react";
 
-// Portfolio project data
-const projects = [
-  {
-    title: "Justravels Booking Engine",
-    category: "Web Apps",
-    desc: "Scalable Nest.js backend architecture with integrated platform dues calculations.",
-    stats: "2.5M+ requests/day",
-    color: "from-blue-500 to-indigo-500",
-  },
-  {
-    title: "Aegis AI Agent",
-    category: "AI/ML",
-    desc: "Context-aware coding assistant executing automated codebase modifications safely.",
-    stats: "99.8% precision",
-    color: "from-purple-500 to-pink-500",
-  },
-  {
-    title: "Vatsalya Portal",
-    category: "Web Apps",
-    desc: "Unified secure portal for state welfare distribution with encrypted uploads.",
-    stats: "500k+ active users",
-    color: "from-emerald-500 to-teal-500",
-  },
-  {
-    title: "HopesStream Edge Cache",
-    category: "Cloud API",
-    desc: "Edge-routing middleware caching dynamic API responses under 10ms.",
-    stats: "15ms avg latency",
-    color: "from-amber-500 to-orange-500",
-  },
-];
+import { useProjects } from "@/features/projects/hooks/use-projects";
+import { useIndustries } from "@/features/industries/hooks/use-industries";
 
 // Testimonials data
 const testimonials = [
@@ -76,73 +52,60 @@ const testimonials = [
   },
 ];
 
-// Services data matching mockup
-const services = [
-  {
-    title: "Restaurants",
-    tag: "Hospitality",
-    desc: "POS, table ordering, kitchen display, delivery integration, and loyalty programs.",
-    icon: Utensils,
-    color: "bg-orange-500/10 text-orange-500 dark:bg-orange-500/20",
-  },
-  {
-    title: "Hotels",
-    tag: "Hospitality",
-    desc: "Booking engines, front desk systems, housekeeping apps, and guest portals.",
-    icon: BedDouble,
-    color: "bg-blue-500/10 text-blue-500 dark:bg-blue-500/20",
-  },
-  {
-    title: "Manufacturing",
-    tag: "Enterprise",
-    desc: "Production tracking, quality control, shift management, and supply chain dashboards.",
-    icon: Factory,
-    color: "bg-slate-500/10 text-slate-500 dark:bg-slate-500/20",
-  },
-  {
-    title: "Inventory Systems",
-    tag: "Operations",
-    desc: "Real-time stock management, barcode scanning, reorder alerts, and supplier portals.",
-    icon: Package,
-    color: "bg-amber-500/10 text-amber-500 dark:bg-amber-500/20",
-  },
-  {
-    title: "Booking Platforms",
-    tag: "Service",
-    desc: "Appointment scheduling, resource booking, calendar sync, and customer reminders.",
-    icon: CalendarDays,
-    color: "bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20",
-  },
-  {
-    title: "Business Automation",
-    tag: "Enterprise",
-    desc: "Workflow automation, data pipelines, API integrations, and process digitization.",
-    icon: GitMerge,
-    color: "bg-purple-500/10 text-purple-500 dark:bg-purple-500/20",
-  },
-  {
-    title: "E-Commerce",
-    tag: "Retail",
-    desc: "B2C and B2B online stores with catalog management, payments, and logistics.",
-    icon: ShoppingBag,
-    color: "bg-rose-500/10 text-rose-500 dark:bg-rose-500/20",
-  },
-  {
-    title: "Custom Portals",
-    tag: "Enterprise",
-    desc: "Partner portals, employee intranets, client dashboards, and reporting platforms.",
-    icon: LayoutDashboard,
-    color: "bg-teal-500/10 text-teal-500 dark:bg-teal-500/20",
-  },
-];
+const INDUSTRIES_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  Utensils,
+  Bed: BedDouble,
+  BedDouble,
+  Factory,
+  Package,
+  Calendar: CalendarDays,
+  CalendarDays,
+  GitMerge,
+  Workflow,
+  ShoppingBag,
+  LayoutDashboard,
+  Globe,
+  Activity,
+  ShieldCheck,
+  Stethoscope: Activity,
+  Truck: TrendingUp,
+  DollarSign: BarChart3,
+  GraduationCap: Users,
+  Heart,
+};
+
+const getIndustryColorStyles = (colorStr?: string) => {
+  if (!colorStr) return "bg-indigo-500/10 text-indigo-500 dark:bg-indigo-500/20";
+  // Match e.g. "from-orange-500"
+  const match = colorStr.match(/from-([a-z]+-\d+)/);
+  if (match && match[1]) {
+    const colorName = match[1];
+    return `bg-${colorName}/10 text-${colorName} dark:bg-${colorName}/20`;
+  }
+  return "bg-indigo-500/10 text-indigo-500 dark:bg-indigo-500/20";
+};
 
 export default function Home() {
   const config = useAppSelector((state) => state.config);
   const [activeTab, setActiveTab] = useState<string>("All");
+  
+  const { data: activeProjectsList = [] } = useProjects();
+  const { data: apiIndustries = [] } = useIndustries();
+
+  // Map API models directly
+  const resolvedIndustries = apiIndustries.map((ind) => ({
+    title: ind.name,
+    tag: ind.tagline || "Industry Solution",
+    desc: ind.description,
+    icon: ind.icon,
+    color: getIndustryColorStyles(ind.color),
+  }));
+  
+  const categories = ["All", ...Array.from(new Set(activeProjectsList.map((p) => p.category).filter(Boolean)))];
 
   // Filter projects by category
   const filteredProjects =
-    activeTab === "All" ? projects : projects.filter((p) => p.category === activeTab);
+    activeTab === "All" ? activeProjectsList : activeProjectsList.filter((p) => p.category === activeTab);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground antialiased transition-colors duration-300">
@@ -150,7 +113,7 @@ export default function Home() {
 
       <main className="flex-1">
         {/* 1. HERO SECTION */}
-        <section className="relative overflow-hidden px-4 py-20 lg:py-28 border-b border-border/40">
+        <section className="relative overflow-hidden px-4 pt-10 pb-10 lg:pt-12 lg:pb-14 border-b border-border/40">
           {/* Custom Grid Pattern matching the mockup */}
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.06)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80 dark:opacity-40" />
 
@@ -197,7 +160,7 @@ export default function Home() {
                     className="rounded-xl px-6 h-12 border-border/80 font-bold bg-background hover:bg-muted"
                   >
                     <Link
-                      href="#contact"
+                      href="/contact"
                       className="flex items-center gap-2 text-neutral-800 dark:text-neutral-200"
                     >
                       <Play className="h-4 w-4 fill-current text-indigo-600" /> Book Free
@@ -297,7 +260,7 @@ export default function Home() {
                       <div className="rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/40 dark:border-emerald-900/20 p-3 text-left">
                         <Cpu className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                         <div className="text-[10px] text-muted-foreground mt-2">Orders</div>
-                        <div className="text-sm font-black text-emerald-700 dark:text-emerald-300">
+                        <div className="text-sm font-black text-emerald-700 dark:text-indigo-300">
                           1,284
                         </div>
                       </div>
@@ -350,7 +313,7 @@ export default function Home() {
         <div id="services" className="scroll-mt-20" />
         <section
           id="industries"
-          className="mx-auto max-w-7xl px-4 py-24 sm:py-32 lg:px-8 border-b border-border/40 scroll-mt-20"
+          className="mx-auto max-w-7xl px-4 pt-12 pb-12 sm:pt-16 sm:pb-16 lg:px-8 border-b border-border/40 scroll-mt-20"
         >
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-xs font-semibold leading-7 text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
@@ -367,31 +330,53 @@ export default function Home() {
           </div>
 
           <div className="mx-auto mt-16 max-w-7xl grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((service, index) => {
-              const IconComp = service.icon;
+            {resolvedIndustries.map((service, index) => {
+              const IconComp = INDUSTRIES_ICON_MAP[service.icon] || Globe;
+              
+              // Resolve icon colors matching the screenshot mockup
+              let colorClasses = "bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 dark:bg-indigo-500/8 dark:border-indigo-500/20 dark:text-indigo-500";
+              const lowerTitle = service.title.toLowerCase();
+              if (lowerTitle.includes("restaurant")) {
+                colorClasses = "bg-orange-500/10 border border-orange-500/20 text-orange-500 dark:bg-orange-500/8 dark:border-orange-500/20 dark:text-orange-500";
+              } else if (lowerTitle.includes("hotel")) {
+                colorClasses = "bg-blue-500/10 border border-blue-500/20 text-blue-500 dark:bg-blue-500/8 dark:border-blue-500/20 dark:text-blue-500";
+              } else if (lowerTitle.includes("manufacturing")) {
+                colorClasses = "bg-slate-500/10 border border-slate-500/20 text-slate-500 dark:bg-slate-500/8 dark:border-slate-500/20 dark:text-slate-400";
+              } else if (lowerTitle.includes("inventory")) {
+                colorClasses = "bg-amber-500/10 border border-amber-500/20 text-amber-500 dark:bg-amber-500/8 dark:border-amber-500/20 dark:text-amber-500";
+              } else if (lowerTitle.includes("booking")) {
+                colorClasses = "bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 dark:bg-emerald-500/8 dark:border-emerald-500/20 dark:text-emerald-500";
+              } else if (lowerTitle.includes("automation")) {
+                colorClasses = "bg-purple-500/10 border border-purple-500/20 text-purple-500 dark:bg-purple-500/8 dark:border-purple-500/20 dark:text-purple-500";
+              } else if (lowerTitle.includes("commerce")) {
+                colorClasses = "bg-rose-500/10 border border-rose-500/20 text-rose-500 dark:bg-rose-500/8 dark:border-rose-500/20 dark:text-rose-500";
+              } else if (lowerTitle.includes("portal")) {
+                colorClasses = "bg-cyan-500/10 border border-cyan-500/20 text-cyan-500 dark:bg-cyan-500/8 dark:border-cyan-500/20 dark:text-cyan-500";
+              }
+
               return (
                 <div
                   key={index}
-                  className="flex flex-col justify-between rounded-2xl border border-border/60 bg-card p-6 shadow-sm hover:shadow-md transition-all duration-300"
+                  className="flex flex-col justify-between rounded-3xl border border-border bg-card p-8 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-indigo-500/20 dark:hover:border-indigo-500/30 dark:bg-[#141118] dark:border-white/[0.04] transition-all duration-300"
                 >
                   <div>
                     {/* Header Row: Icon + Tag */}
                     <div className="flex items-center justify-between">
                       <div
-                        className={`flex h-11 w-11 items-center justify-center rounded-xl ${service.color}`}
+                        className={`flex h-12 w-12 items-center justify-center rounded-xl ${colorClasses}`}
                       >
                         <IconComp className="h-6 w-6" />
                       </div>
-                      <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-neutral-100 dark:bg-zinc-800 text-muted-foreground">
+                      <span className="text-[10px] font-bold tracking-wider px-2.5 py-1 rounded bg-neutral-100 dark:bg-[#221e25] text-muted-foreground dark:text-[#8e8a94] border border-transparent dark:border-white/[0.04]">
                         {service.tag}
                       </span>
                     </div>
 
                     {/* Content */}
-                    <h3 className="mt-6 text-base font-extrabold text-neutral-900 dark:text-white">
+                    <h3 className="mt-8 text-lg font-bold text-neutral-900 dark:text-white">
                       {service.title}
                     </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                    <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground dark:text-[#9b97a2]">
                       {service.desc}
                     </p>
                   </div>
@@ -404,7 +389,7 @@ export default function Home() {
         {/* 3. OUR WORK SECTION */}
         <section
           id="work"
-          className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 border-b border-border/40 bg-muted/10 scroll-mt-20"
+          className="mx-auto max-w-7xl px-6 pt-12 pb-12 sm:pt-16 sm:pb-16 lg:px-8 border-b border-border/40 bg-muted/10 scroll-mt-20"
         >
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-base font-semibold leading-7 text-primary uppercase tracking-widest">
@@ -419,7 +404,7 @@ export default function Home() {
 
             {/* Categories filter tabs */}
             <div className="mt-8 flex justify-center gap-2 flex-wrap">
-              {["All", "AI/ML", "Web Apps", "Cloud API"].map((category) => (
+              {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => {
@@ -478,7 +463,7 @@ export default function Home() {
         {/* 4. TESTIMONIALS SECTION */}
         <section
           id="testimonials"
-          className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 border-b border-border/40 scroll-mt-20"
+          className="mx-auto max-w-7xl px-6 pt-12 pb-12 sm:pt-16 sm:pb-16 lg:px-8 border-b border-border/40 scroll-mt-20"
         >
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-base font-semibold leading-7 text-primary uppercase tracking-widest">

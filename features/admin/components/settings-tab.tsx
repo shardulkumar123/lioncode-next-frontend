@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { SystemSettings } from "../types";
 import { getSettings, saveSettings } from "../services/mock-data";
-import { Save, Info, Sliders, ToggleLeft, ToggleRight, Mail, Phone, MapPin, FileText } from "lucide-react";
+import { Save, Info, Sliders, ToggleLeft, ToggleRight, Mail, Phone, MapPin, FileText, Clock } from "lucide-react";
 import { useAbout, useUpdateAbout } from "@/features/about/hooks/use-about";
+import { useToast } from "@/components/ui/toast";
 
 export function SettingsTab() {
+  const { success, error } = useToast();
   const [settings, setSettings] = useState<SystemSettings | null>(null);
   
   const { data: aboutData } = useAbout();
@@ -20,6 +22,9 @@ export function SettingsTab() {
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [allowPublicApplications, setAllowPublicApplications] = useState(true);
   const [maxUploadSizeMb, setMaxUploadSizeMb] = useState(10);
+  const [supportHours, setSupportHours] = useState("");
+  const [privacyPolicy, setPrivacyPolicy] = useState("");
+  const [termsOfService, setTermsOfService] = useState("");
 
   // About page states
   const [aboutTitle, setAboutTitle] = useState("");
@@ -41,6 +46,9 @@ export function SettingsTab() {
       setMaintenanceMode(s.maintenanceMode);
       setAllowPublicApplications(s.allowPublicApplications);
       setMaxUploadSizeMb(s.maxUploadSizeMb);
+      setSupportHours(s.supportHours || "");
+      setPrivacyPolicy(s.privacyPolicy || "");
+      setTermsOfService(s.termsOfService || "");
     }, 0);
     return () => clearTimeout(timer);
   }, []);
@@ -69,7 +77,10 @@ export function SettingsTab() {
       address,
       maintenanceMode,
       allowPublicApplications,
-      maxUploadSizeMb
+      maxUploadSizeMb,
+      supportHours,
+      privacyPolicy,
+      termsOfService
     };
     saveSettings(updated);
     setSettings(updated);
@@ -87,10 +98,10 @@ export function SettingsTab() {
     
     updateAboutMutation.mutate(aboutPayload, {
       onSuccess: () => {
-        alert("Portal system settings and About page content saved successfully!");
+        success("Portal system settings and About page content saved successfully!");
       },
-      onError: (err) => {
-        alert("System settings saved, but failed to save About content: " + err.message);
+      onError: (err: any) => {
+        error("System settings saved, but failed to save About content: " + err.message);
       }
     });
   };
@@ -173,18 +184,33 @@ export function SettingsTab() {
             </div>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
-              <MapPin className="h-3 w-3 text-muted-foreground" /> Registered Address *
-            </label>
-            <input
-              type="text"
-              required
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Full physical office location"
-              className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+                <MapPin className="h-3 w-3 text-muted-foreground" /> Registered Address *
+              </label>
+              <input
+                type="text"
+                required
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Full physical office location"
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+                <Clock className="h-3 w-3 text-muted-foreground" /> Support Hours *
+              </label>
+              <input
+                type="text"
+                required
+                value={supportHours}
+                onChange={(e) => setSupportHours(e.target.value)}
+                placeholder="e.g. Mon - Fri: 9:00 AM - 6:00 PM IST"
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+              />
+            </div>
           </div>
         </div>
 
@@ -342,6 +368,42 @@ export function SettingsTab() {
                 onChange={(e) => setAboutCtaDesc(e.target.value)}
                 placeholder="Let's build software that makes your business operations run automatically."
                 className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Policies Markdown Content */}
+        <div className="rounded-2xl border border-border/40 bg-card p-6 space-y-4">
+          <h3 className="text-sm font-extrabold text-neutral-900 dark:text-white flex items-center gap-2">
+            <FileText className="h-4.5 w-4.5 text-indigo-600 dark:text-indigo-400" />
+            <span>Public Legal Policies (Markdown Support)</span>
+          </h3>
+
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                Privacy Policy Document Content
+              </label>
+              <textarea
+                rows={6}
+                value={privacyPolicy}
+                onChange={(e) => setPrivacyPolicy(e.target.value)}
+                placeholder="Markdown formatted Privacy Policy..."
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none font-mono"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                Terms of Service Document Content
+              </label>
+              <textarea
+                rows={6}
+                value={termsOfService}
+                onChange={(e) => setTermsOfService(e.target.value)}
+                placeholder="Markdown formatted Terms of Service..."
+                className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none font-mono"
               />
             </div>
           </div>

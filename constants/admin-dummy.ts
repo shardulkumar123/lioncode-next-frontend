@@ -77,76 +77,271 @@ export const INITIAL_JOBS: Job[] = [
 
 export const INITIAL_INDUSTRIES: Industry[] = [
   {
-    id: "ind-1",
-    name: "Fintech & Digital Banking",
-    slug: "fintech-digital-banking",
-    description: "High-security banking solutions, payment gateways, ledger systems, and automated reconciliation software compliant with PCI-DSS.",
-    icon: "CreditCard",
+    id: "restaurants",
+    name: "Restaurants",
+    slug: "restaurants",
+    description: "POS, table ordering, kitchen display, delivery integration, and loyalty programs.",
+    icon: "Utensils",
     status: "Active",
-    createdAt: "2026-01-15T08:00:00Z"
+    createdAt: "2026-01-15T08:00:00Z",
+    tagline: "Hospitality",
+    color: "from-orange-500 to-red-500",
+    stats: { value: "30%", label: "Increase in table turnover" },
+    solutions: [
+      "Point of Sale (POS) Systems",
+      "Contactless Table Ordering",
+      "Kitchen Display Systems (KDS)",
+      "Delivery Platform Integrations",
+      "Customer Loyalty Programs",
+    ],
   },
   {
-    id: "ind-2",
-    name: "Healthcare & Medtech",
-    slug: "healthcare-medtech",
-    description: "Secure, HIPAA-compliant patient management portals, electronic health records integrations, and telemedicine appointment schedules.",
-    icon: "Activity",
+    id: "hotels",
+    name: "Hotels",
+    slug: "hotels",
+    description: "Booking engines, front desk systems, housekeeping apps, and guest portals.",
+    icon: "BedDouble",
     status: "Active",
-    createdAt: "2026-02-20T11:30:00Z"
+    createdAt: "2026-02-20T11:30:00Z",
+    tagline: "Hospitality",
+    color: "from-blue-500 to-cyan-500",
+    stats: { value: "45%", label: "Direct booking growth" },
+    solutions: [
+      "Direct Booking Engines",
+      "Front Desk Management Systems",
+      "Housekeeping Coordination Apps",
+      "Interactive Guest Portals",
+      "Channel Manager Integrations",
+    ],
   },
   {
-    id: "ind-3",
-    name: "E-Commerce & Logistics",
-    slug: "ecommerce-logistics",
-    description: "Multi-vendor marketplaces, dynamic pricing engines, inventory automation, and real-time package delivery tracking portals.",
+    id: "manufacturing",
+    name: "Manufacturing",
+    slug: "manufacturing",
+    description: "Production tracking, quality control, shift management, and supply chain dashboards.",
+    icon: "Factory",
+    status: "Active",
+    createdAt: "2026-03-05T15:45:00Z",
+    tagline: "Enterprise",
+    color: "from-slate-600 to-gray-800",
+    stats: { value: "20%", label: "Reduction in cycle times" },
+    solutions: [
+      "Real-Time Production Tracking",
+      "Automated Quality Control",
+      "Shift & Personnel Management",
+      "Supply Chain Telemetry Dashboards",
+      "IoT Machine Integrations",
+    ],
+  },
+  {
+    id: "inventory-systems",
+    name: "Inventory Systems",
+    slug: "inventory-systems",
+    description: "Real-time stock management, barcode scanning, reorder alerts, and supplier portals.",
+    icon: "Package",
+    status: "Active",
+    createdAt: "2026-04-10T10:00:00Z",
+    tagline: "Operations",
+    color: "from-yellow-500 to-amber-600",
+    stats: { value: "99.9%", label: "Stock tracking accuracy" },
+    solutions: [
+      "Real-time Stock Level Tracking",
+      "Mobile Barcode & QR Scanning",
+      "Automated Reorder Trigger Alerts",
+      "Supplier Collaborative Portals",
+      "Warehouse Bin Management",
+    ],
+  },
+  {
+    id: "booking-platforms",
+    name: "Booking Platforms",
+    slug: "booking-platforms",
+    description: "Appointment scheduling, resource booking, calendar sync, and customer reminders.",
+    icon: "Calendar",
+    status: "Active",
+    createdAt: "2026-05-01T09:00:00Z",
+    tagline: "Service",
+    color: "from-emerald-500 to-teal-600",
+    stats: { value: "50%", label: "Fewer appointment no-shows" },
+    solutions: [
+      "Self-Service Appointment Scheduling",
+      "Resource & Equipment Booking",
+      "Two-Way Calendar Sync",
+      "Automated SMS & Email Reminders",
+      "Client Check-In Management",
+    ],
+  },
+  {
+    id: "business-automation",
+    name: "Business Automation",
+    slug: "business-automation",
+    description: "Workflow automation, data pipelines, API integrations, and process digitization.",
+    icon: "Workflow",
+    status: "Active",
+    createdAt: "2026-05-15T12:00:00Z",
+    tagline: "Enterprise",
+    color: "from-purple-500 to-indigo-600",
+    stats: { value: "10x", label: "Faster processing times" },
+    solutions: [
+      "No-Code & Low-Code Workflow Automation",
+      "Secure Data Pipelines & ETL",
+      "Custom API Integrations",
+      "Legacy Process Digitization",
+      "Automated Document Approvals",
+    ],
+  },
+  {
+    id: "e-commerce",
+    name: "E-Commerce",
+    slug: "e-commerce",
+    description: "B2C and B2B online stores with catalog management, payments, and logistics.",
     icon: "ShoppingBag",
     status: "Active",
-    createdAt: "2026-03-05T15:45:00Z"
-  }
+    createdAt: "2026-06-01T08:00:00Z",
+    tagline: "Retail",
+    color: "from-rose-500 to-pink-600",
+    stats: { value: "3.2s", label: "Average load time" },
+    solutions: [
+      "Headless B2C/B2B Storefronts",
+      "Dynamic Product Catalog Engines",
+      "Multi-Gateway Payment Rails",
+      "Automated Shipping & Logistics Integration",
+      "Tailored Discount & Coupon Systems",
+    ],
+  },
+  {
+    id: "custom-portals",
+    name: "Custom Portals",
+    slug: "custom-portals",
+    description: "Partner portals, employee intranets, client dashboards, and reporting platforms.",
+    icon: "LayoutDashboard",
+    status: "Active",
+    createdAt: "2026-06-10T14:30:00Z",
+    tagline: "Enterprise",
+    color: "from-cyan-500 to-blue-600",
+    stats: { value: "98%", label: "User adoption rate" },
+    solutions: [
+      "Vendor & Partner Collaboration Portals",
+      "Employee Intranets & Resource Centers",
+      "Personalized Customer Dashboards",
+      "Aggregated Business Reporting Panels",
+      "Strict Role-Based Access Control (RBAC)",
+    ],
+  },
 ];
 
 export const INITIAL_SERVICES: Service[] = [
   {
     id: "srv-1",
-    name: "Custom Enterprise Portal Development",
-    description: "Bespoke internal dashboards, CRM platforms, and customer-facing interfaces engineered with robust RBAC policies and state management.",
+    name: "Hotel Management & Booking",
+    description: "Robust Property Management Systems (PMS) and customized direct booking engines that reduce OTA commissions.",
     features: [
-      "Multi-tenant architectures",
-      "Custom role-based permissions (RBAC)",
-      "High-fidelity responsive UI with TailwindCSS",
-      "Real-time websocket dashboards"
+      "Channel Manager Integrations",
+      "Interactive Room & Floor Plans",
+      "Mobile Check-in & Digital Keys",
+      "Automated Guest Communication",
     ],
-    technologies: ["Next.js", "NestJS", "PostgreSQL", "TailwindCSS", "Prisma"],
+    technologies: ["Next.js", "NestJS", "PostgreSQL", "Prisma"],
     status: "Active",
     createdAt: "2026-01-10T09:00:00Z"
   },
   {
     id: "srv-2",
-    name: "AI & Large Language Model Integrations",
-    description: "Embed agentic AI agents, semantic search tools, and automatic customer assistance systems directly into your existing business pipelines.",
+    name: "Custom E-Commerce Platforms",
+    description: "High-performance online storefronts built with headless architectures for blazing-fast speed and seamless checkout experiences.",
     features: [
-      "Custom RAG (Retrieval-Augmented Generation) pipelines",
-      "Automated document summarization & categorization",
-      "Conversational AI chatbots",
-      "Data vectorization & semantic search indices"
+      "Headless CMS Integrations",
+      "Real-Time Inventory Sync",
+      "Multi-Currency & Tax Automation",
+      "One-Click Checkout & Apple Pay",
     ],
-    technologies: ["Python", "LangChain", "OpenAI API", "Qdrant", "FastAPI"],
+    technologies: ["Next.js", "Shopify GraphQL", "TailwindCSS"],
     status: "Active",
     createdAt: "2026-03-01T10:00:00Z"
   },
   {
     id: "srv-3",
-    name: "Cloud Systems Consulting & Security Auditing",
-    description: "Review your application hosting infrastructure for security loopholes, optimize cloud spending, and automate deployments.",
+    name: "HIPAA-Compliant Telehealth Portals",
+    description: "Secure, reliable, and user-friendly digital health platforms facilitating virtual consultations and clinical records access.",
     features: [
-      "Zero-downtime Blue/Green deployments",
-      "Terraform Infrastructure-as-Code setups",
-      "Penetration testing & OWASP threat scans",
-      "Database read-replica optimization"
+      "Secure Video Consultations",
+      "Prescription Routing Systems",
+      "Patient Records Management",
+      "Automated Appointment Scheduling",
+    ],
+    technologies: ["React", "WebRTC", "Express", "MongoDB"],
+    status: "Active",
+    createdAt: "2026-04-12T16:20:00Z"
+  },
+  {
+    id: "srv-4",
+    name: "Custom Payment & Ledger Solutions",
+    description: "Scalable ledger databases, payment gateways, and fraud detection layers supporting multi-tenant financial applications.",
+    features: [
+      "PCI-DSS Compliant Gateways",
+      "Automated Reconciliation Engines",
+      "Real-Time Fraud Monitoring",
+      "Multi-Tier Fee Calculations",
+    ],
+    technologies: ["NestJS", "PostgreSQL", "Stripe API"],
+    status: "Active",
+    createdAt: "2026-05-01T08:00:00Z"
+  },
+  {
+    id: "srv-5",
+    name: "Real-Time Analytics Dashboards",
+    description: "Interactive, data-rich reporting panels that aggregate telemetry, system health metrics, and business intelligence.",
+    features: [
+      "Interactive Charting & Reports",
+      "Multi-Source Data Aggregation",
+      "Customizable Alert Thresholds",
+      "Export to PDF, CSV, and Excel",
+    ],
+    technologies: ["Next.js", "GraphQL", "D3.js", "InfluxDB"],
+    status: "Active",
+    createdAt: "2026-05-15T09:00:00Z"
+  },
+  {
+    id: "srv-6",
+    name: "Cloud Migration & DevOps Automation",
+    description: "Secure cloud migrations, automated CI/CD pipelines, and Infrastructure-as-Code setups to scale operations seamlessly.",
+    features: [
+      "Infrastructure as Code (Terraform)",
+      "Zero-Downtime Docker/K8s Setups",
+      "Multi-Region Load Balancing",
+      "Cost Optimization Auditing",
     ],
     technologies: ["AWS", "Docker", "Kubernetes", "Terraform", "GitHub Actions"],
     status: "Active",
-    createdAt: "2026-04-12T16:20:00Z"
+    createdAt: "2026-06-01T10:00:00Z"
+  },
+  {
+    id: "srv-7",
+    name: "Dedicated Maintenance & SLA Support",
+    description: "Proactive monitoring, routine data backups, security audits, and continuous performance optimization.",
+    features: [
+      "24/7 System Health Monitoring",
+      "Automated Daily Database Backups",
+      "Vulnerability & Patch Auditing",
+      "Guaranteed SLA Resolution Times",
+    ],
+    technologies: ["Grafana", "Prometheus", "Sentry", "AWS CloudWatch"],
+    status: "Active",
+    createdAt: "2026-06-10T12:00:00Z"
+  },
+  {
+    id: "srv-8",
+    name: "UX Redesign & Web Modernization",
+    description: "Transform outdated web portals into fast, responsive, and search-optimized Next.js web applications.",
+    features: [
+      "Modern Component-Driven Design",
+      "Mobile-Responsive UX Auditing",
+      "SEO Schema & Meta Optimization",
+      "Sub-Second Page Load Optimization",
+    ],
+    technologies: ["Next.js", "Redux Toolkit", "Tailwind CSS", "Framer Motion"],
+    status: "Active",
+    createdAt: "2026-06-15T14:00:00Z"
   }
 ];
 
@@ -265,7 +460,36 @@ export const INITIAL_SETTINGS: SystemSettings = {
   address: "Sector 62, Noida, Uttar Pradesh, India",
   maintenanceMode: false,
   allowPublicApplications: true,
-  maxUploadSizeMb: 15
+  maxUploadSizeMb: 15,
+  supportHours: "Mon - Fri: 9:00 AM - 6:00 PM IST",
+  privacyPolicy: `# Privacy Policy
+
+Effective Date: June 17, 2026
+
+At Hopes Technologies, we value your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website or use our services.
+
+## 1. Information We Collect
+We collect information that you voluntarily provide to us when submitting inquiries, requesting consultations, or applying for jobs. This may include your name, email address, phone number, company name, and resume.
+
+## 2. How We Use Your Information
+We use the collected information to respond to your queries, process job applications, and improve our services. We do not sell or lease your personal information to third parties.
+
+## 3. Contact Us
+If you have any questions about this privacy policy, please contact us at support@hopestechnologies.com.`,
+  termsOfService: `# Terms of Service
+
+Last Updated: June 17, 2026
+
+Welcome to Hopes Technologies. By accessing or using our services, you agree to comply with and be bound by the following terms of service.
+
+## 1. Acceptable Use
+You agree to use our portal and services only for lawful purposes. You must not use our services to distribute harmful or malicious code, or engage in unauthorized access.
+
+## 2. Intellectual Property
+All code, designs, graphics, and content on this portal are the intellectual property of Hopes Technologies Inc. and may not be reproduced without prior written consent.
+
+## 3. Disclaimers
+Our services are provided on an "as-is" and "as-available" basis. We make no warranties regarding uninterrupted or error-free operations.`
 };
 
 export const INITIAL_PROJECTS: Project[] = [
@@ -312,5 +536,38 @@ export const INITIAL_PROJECTS: Project[] = [
     techStack: ["Go", "Cloudflare Workers", "gRPC", "Redis Enterprise"],
     color: "from-amber-500 to-orange-500",
     createdAt: "2026-06-10T10:00:00Z"
+  },
+  {
+    id: "project-5",
+    title: "Cloud Infrastructure & DevOps Pipeline",
+    category: "Cloud",
+    desc: "Automating cloud deployments and scaling multi-region architectures with Docker, Kubernetes, and Terraform.",
+    longDesc: "We built a zero-downtime CI/CD deployment flow for a high-volume fintech client. We provisioned secure VPC boundaries, auto-scaling Kubernetes clusters, and isolated staging environments, cutting hosting costs by 35%.",
+    stats: "35% cost reduction",
+    techStack: ["AWS", "Terraform", "Kubernetes", "Docker", "GitHub Actions"],
+    color: "from-cyan-500 to-blue-500",
+    createdAt: "2026-06-12T10:00:00Z"
+  },
+  {
+    id: "project-6",
+    title: "24/7 SLA Maintenance & Server Management",
+    category: "Maintenance",
+    desc: "Ongoing performance monitoring, regular database backups, vulnerability patching, and sub-second scaling audits.",
+    longDesc: "We provide dedicated round-the-clock maintenance SLA for large scale retail stores, running automated security patch updates, database replication checks, and immediate response logs for server bottlenecks.",
+    stats: "99.99% uptime SLA",
+    techStack: ["Grafana", "Prometheus", "Redis", "AWS CloudWatch", "PostgreSQL"],
+    color: "from-slate-500 to-slate-700",
+    createdAt: "2026-06-15T10:00:00Z"
+  },
+  {
+    id: "project-7",
+    title: "Legacy ERP Portal Redesign",
+    category: "Redesign",
+    desc: "Complete frontend modernization, transforming a slow legacy portal into a high-performance Next.js application.",
+    longDesc: "We rebuilt a slow portal into a modern dashboard. We restructured the user flow, integrated Tailwind CSS for modular layouts, and implemented client-side state caching with Redux, boosting performance by 3x.",
+    stats: "3x performance boost",
+    techStack: ["Next.js", "Redux Toolkit", "Tailwind CSS", "Framer Motion", "TypeScript"],
+    color: "from-purple-500 to-indigo-500",
+    createdAt: "2026-06-18T12:00:00Z"
   }
 ];

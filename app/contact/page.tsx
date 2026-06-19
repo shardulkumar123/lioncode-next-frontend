@@ -50,7 +50,7 @@ export default function ContactPage() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden px-4 py-20 lg:py-24 border-b border-border/40">
+        <section className="relative overflow-hidden px-4 pt-10 pb-10 lg:pt-12 lg:pb-12 border-b border-border/40">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80" />
 
           <div className="mx-auto max-w-5xl text-center space-y-6">
@@ -71,7 +71,7 @@ export default function ContactPage() {
         </section>
 
         {/* Content Section */}
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-7xl px-4 pt-10 pb-10 sm:pt-12 sm:pb-12 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-start">
             {/* Left Info Column */}
             <div className="lg:col-span-5 space-y-8 text-left lg:sticky lg:top-24">

@@ -27,6 +27,10 @@ export function AdminLayoutWrapper({ children }: AdminLayoutWrapperProps) {
     return "dashboard";
   };
 
+  if (pathname === "/admin/login") {
+    return <>{children}</>;
+  }
+
   const activeTab = getActiveTab();
 
   return (

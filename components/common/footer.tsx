@@ -1,9 +1,40 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/common/logo";
 import { Mail, MapPin, Clock } from "lucide-react";
+import { useServices } from "@/features/services/hooks/use-services";
+import { getSettings } from "@/features/admin/services/mock-data";
+import { SystemSettings } from "@/features/admin/types";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { data: services = [] } = useServices();
+  const [settings, setSettings] = useState<SystemSettings | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSettings(getSettings());
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const solutionsList = services.length > 0
+    ? services.slice(0, 5).map((s) => ({ id: s.id, name: s.name, href: "/services" }))
+    : [
+        { id: "fallback-1", name: "Hospitality POS & Booking", href: "/services" },
+        { id: "fallback-2", name: "Manufacturing & ERP", href: "/services" },
+        { id: "fallback-3", name: "Inventory & Operations", href: "/services" },
+        { id: "fallback-4", name: "E-Commerce Storefronts", href: "/services" },
+        { id: "fallback-5", name: "Custom Admin Portals", href: "/services" },
+      ];
+
+  const brandName = settings?.siteName || "Hopes Technologies";
+  const contactEmail = settings?.siteEmail || "hello@hopestechnologies.com";
+  const contactPhone = settings?.contactPhone || "+91 98765 43210";
+  const address = settings?.address || "Indiranagar, Bangalore, Karnataka, India — 560038";
+  const supportHours = settings?.supportHours || "Mon - Fri: 9:00 AM - 6:00 PM IST";
 
   return (
     <footer className="mt-auto border-t border-border/60 bg-muted/20 dark:bg-zinc-950/20">
@@ -17,7 +48,7 @@ export function Footer() {
                 <Logo size={28} />
               </div>
               <span className="text-lg font-black tracking-tight text-neutral-900 dark:text-white">
-                Hopes Technologies
+                {brandName}
               </span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-sm">
@@ -27,17 +58,25 @@ export function Footer() {
             <div className="space-y-2.5 text-xs text-muted-foreground">
               <div className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 shrink-0 text-indigo-500" />
-                <span>Indiranagar, Bangalore, Karnataka, India — 560038</span>
+                <span>{address}</span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 shrink-0 text-indigo-500" />
-                <a href="mailto:hello@hopestechnologies.com" className="hover:text-foreground transition-colors">
-                  hello@hopestechnologies.com
-                </a>
-              </div>
+              {contactEmail && (
+                <div className="flex items-center gap-2.5">
+                  <Mail className="h-4 w-4 shrink-0 text-indigo-500" />
+                  <a href={`mailto:${contactEmail}`} className="hover:text-foreground transition-colors">
+                    {contactEmail}
+                  </a>
+                </div>
+              )}
+              {contactPhone && (
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[10px] font-bold text-indigo-500 w-4 shrink-0">Tel</span>
+                  <span>{contactPhone}</span>
+                </div>
+              )}
               <div className="flex items-center gap-2.5">
                 <Clock className="h-4 w-4 shrink-0 text-indigo-500" />
-                <span>Mon - Fri: 9:00 AM - 6:00 PM IST</span>
+                <span>{supportHours}</span>
               </div>
             </div>
           </div>
@@ -48,31 +87,13 @@ export function Footer() {
               Solutions
             </h4>
             <ul className="space-y-2.5 text-xs text-muted-foreground">
-              <li>
-                <Link href="/services" className="hover:text-foreground transition-colors">
-                  Hospitality POS & Booking
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="hover:text-foreground transition-colors">
-                  Manufacturing & ERP
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="hover:text-foreground transition-colors">
-                  Inventory & Operations
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="hover:text-foreground transition-colors">
-                  E-Commerce Storefronts
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="hover:text-foreground transition-colors">
-                  Custom Admin Portals
-                </Link>
-              </li>
+              {solutionsList.map((sol) => (
+                <li key={sol.id}>
+                  <Link href={sol.href} className="hover:text-foreground transition-colors">
+                    {sol.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -134,7 +155,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border/40 flex flex-col items-center justify-between gap-4 sm:flex-row text-xs text-muted-foreground">
           <p className="text-center sm:text-left">
-            &copy; {currentYear} Hopes Technologies Inc. All rights reserved. High-performance software engineering.
+            &copy; {currentYear} {brandName} Inc. All rights reserved. High-performance software engineering.
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-foreground transition-colors">

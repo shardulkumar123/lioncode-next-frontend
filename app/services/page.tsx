@@ -160,7 +160,7 @@ export default function ServicesPage() {
 
       <main className="flex-1">
         {/* Header Hero Section */}
-        <section className="relative overflow-hidden px-4 py-20 lg:py-24 border-b border-border/40">
+        <section className="relative overflow-hidden px-4 pt-10 pb-10 lg:pt-12 lg:pb-12 border-b border-border/40">
           <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(99,102,241,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_80%,transparent_100%)] opacity-80" />
 
           <div className="mx-auto max-w-5xl text-center space-y-6">
@@ -181,7 +181,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Detailed Grid Section */}
-        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-7xl px-4 pt-10 pb-10 sm:pt-12 sm:pb-12 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {detailedServices.map((service, index) => {
               const IconComp = service.icon;
@@ -236,7 +236,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Development Process / How We Work */}
-        <section className="border-t border-b border-border/40 bg-muted/20 py-20 sm:py-28">
+        <section className="border-t border-b border-border/40 bg-muted/20 py-10 sm:py-14">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-3xl text-center space-y-4">
               <h2 className="text-xs font-semibold leading-7 text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
@@ -271,7 +271,7 @@ export default function ServicesPage() {
         </section>
 
         {/* CTA section */}
-        <section className="mx-auto max-w-5xl px-4 py-20 sm:py-28 text-center space-y-8">
+        <section className="mx-auto max-w-5xl px-4 py-10 sm:py-14 text-center space-y-8">
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
             Ready to Build Your System?
           </h2>
