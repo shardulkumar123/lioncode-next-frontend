@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
@@ -9,17 +10,42 @@ import { Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
 import { useCreateContactQuery } from "@/features/contact/hooks/use-contact";
 import { getSettings } from "@/features/admin/services/mock-data";
 import { SystemSettings } from "@/features/admin/types";
+import { useIndustries } from "@/features/industries/hooks/use-industries";
+import { useServices } from "@/features/services/hooks/use-services";
 
-export default function ContactPage() {
+function ContactFormContent() {
+  const searchParams = useSearchParams();
+  const initialType = searchParams.get("type") || "";
+
   const createQueryMutation = useCreateContactQuery();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [settings, setSettings] = useState<SystemSettings | null>(null);
+
+  const { data: apiIndustries = [] } = useIndustries();
+  const { data: services = [] } = useServices();
+
+  const dynamicOptions = [
+    ...apiIndustries.map((ind) => ({ value: ind.name, label: `${ind.name} (Industry Solution)` })),
+    ...services.map((srv) => ({ value: srv.name, label: srv.name }))
+  ];
+
+  const finalOptions = dynamicOptions.length > 0 ? dynamicOptions : [
+    { value: "Custom Enterprise Software / ERP", label: "Custom Enterprise Software / ERP" },
+    { value: "Headless E-Commerce / Website", label: "Headless E-Commerce / Website" },
+    { value: "Mobile Application (iOS / Android)", label: "Mobile Application (iOS / Android)" },
+    { value: "AI Agent / LLM Integration", label: "AI Agent / LLM Integration" },
+    { value: "Cloud Infrastructure & DevOps", label: "Cloud Infrastructure & DevOps" },
+    { value: "Data Engineering & Analytics", label: "Data Engineering & Analytics" },
+    { value: "UI/UX Design & Prototyping", label: "UI/UX Design & Prototyping" },
+    { value: "Operational Tech Consulting", label: "Operational Tech Consulting" }
+  ];
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
-    projectType: "software",
+    projectType: "",
     message: "",
   });
 
@@ -29,6 +55,12 @@ export default function ContactPage() {
     }, 0);
     return () => clearTimeout(timer);
   }, []);
+
+  // Compute selected project type dynamically on-the-fly to avoid cascading renders
+  const selectedProjectType = formData.projectType || (() => {
+    const match = finalOptions.find(opt => opt.value.toLowerCase() === initialType.toLowerCase());
+    return match ? match.value : (initialType || finalOptions[0]?.value || "");
+  })();
 
   const contactEmail = settings?.siteEmail || "hello@hopestechnologies.com";
   const address = settings?.address || "Indiranagar, Bangalore, Karnataka, India — 560038";
@@ -42,8 +74,8 @@ export default function ContactPage() {
         email: formData.email,
         phone: formData.phone,
         company: formData.company,
-        projectType: formData.projectType,
-        subject: formData.projectType,
+        projectType: selectedProjectType,
+        subject: selectedProjectType,
         message: formData.message,
       },
       {
@@ -98,73 +130,70 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {/* Info Cards */}
-              <div className="space-y-4">
-                <div className="flex gap-4 p-5 rounded-2xl border border-border/60 bg-card">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border border-indigo-100/50 dark:border-indigo-900/30 shrink-0">
                     <Mail className="h-5 w-5" />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold">Email Us</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5">{contactEmail}</p>
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-bold">Email Specification</h3>
+                    <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium select-all">
+                      {contactEmail}
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4 p-5 rounded-2xl border border-border/60 bg-card">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border border-indigo-100/50 dark:border-indigo-900/30 shrink-0">
                     <MapPin className="h-5 w-5" />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold">Main Office</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5">{address}</p>
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-bold">Studio Headquarters</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {address}
+                    </p>
                   </div>
                 </div>
 
-                <div className="flex gap-4 p-5 rounded-2xl border border-border/60 bg-card">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border border-indigo-100/50 dark:border-indigo-900/30 shrink-0">
                     <Clock className="h-5 w-5" />
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold">Business Hours</h4>
-                    <p className="text-xs text-muted-foreground mt-0.5">{supportHours}</p>
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-bold">Operating Hours</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {supportHours}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Contact Form Column */}
+            {/* Right Form Card */}
             <div className="lg:col-span-7">
-              <div className="rounded-3xl border border-border/60 bg-card p-6 sm:p-10 shadow-sm relative overflow-hidden">
+              <div className="rounded-3xl border border-border/40 bg-card p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 -mt-6 -mr-6 h-32 w-32 rounded-full bg-indigo-600/5 blur-2xl" />
+
                 {formSubmitted ? (
-                  <div className="py-16 text-center space-y-6">
-                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500">
+                  <div className="py-12 text-center space-y-6 animate-fade-in">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100/50 dark:border-emerald-900/30">
                       <CheckCircle className="h-8 w-8" />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-bold">Inquiry Received</h3>
-                      <p className="mx-auto max-w-sm text-xs leading-relaxed text-muted-foreground">
-                        Thank you for reaching out! A technical solutions engineer from our team
-                        will email you shortly.
+                      <h2 className="text-2xl font-black text-neutral-900 dark:text-white">
+                        Specification Received
+                      </h2>
+                      <p className="mx-auto max-w-sm text-sm text-muted-foreground leading-relaxed">
+                        Thank you for reaching out. Our engineering leads will review your request and contact you shortly.
                       </p>
                     </div>
-                    <Button
-                      variant="outline"
-                      onClick={() => setFormSubmitted(false)}
-                      className="rounded-xl px-5 border-border/80 text-xs font-semibold h-10"
-                    >
-                      Send Another Message
-                    </Button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5 text-left">
-                    <h3 className="text-xl font-extrabold text-neutral-900 dark:text-white">
-                      Project Specification Form
-                    </h3>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-muted-foreground uppercase">
-                          Full Name
+                          Full Name *
                         </label>
                         <input
                           type="text"
@@ -178,7 +207,7 @@ export default function ContactPage() {
 
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-muted-foreground uppercase">
-                          Email Address
+                          Email Address *
                         </label>
                         <input
                           type="email"
@@ -186,12 +215,12 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-indigo-600 transition-colors"
-                          placeholder="elena@company.com"
+                          placeholder="elena@example.com"
                         />
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-muted-foreground uppercase">
                           Phone Number
@@ -201,7 +230,7 @@ export default function ContactPage() {
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-indigo-600 transition-colors"
-                          placeholder="+91 98765 43210"
+                          placeholder="+1 (555) 019-9000"
                         />
                       </div>
 
@@ -224,18 +253,15 @@ export default function ContactPage() {
                         Project Type
                       </label>
                       <select
-                        value={formData.projectType}
+                        value={selectedProjectType}
                         onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                         className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-indigo-600 transition-colors"
                       >
-                        <option value="software">Custom Enterprise Software / ERP</option>
-                        <option value="website">Headless E-Commerce / Website</option>
-                        <option value="mobile">Mobile Application (iOS / Android)</option>
-                        <option value="ai">AI Agent / LLM Integration</option>
-                        <option value="devops">Cloud Infrastructure & DevOps</option>
-                        <option value="data">Data Engineering & Analytics</option>
-                        <option value="design">UI/UX Design & Prototyping</option>
-                        <option value="consulting">Operational Tech Consulting</option>
+                        {finalOptions.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
                       </select>
                     </div>
 
@@ -269,5 +295,17 @@ export default function ContactPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen flex-col bg-background text-foreground antialiased items-center justify-center">
+        <span className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+      </div>
+    }>
+      <ContactFormContent />
+    </Suspense>
   );
 }

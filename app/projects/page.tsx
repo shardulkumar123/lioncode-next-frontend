@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/common/navbar";
 import { Footer } from "@/components/common/footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight, ExternalLink, X } from "lucide-react";
 
 import { useProjects } from "@/features/projects/hooks/use-projects";
 import { Project } from "@/features/admin/types";
@@ -65,6 +65,7 @@ const defaultProjectsData: Project[] = [
 export default function ProjectsPage() {
   const { data: apiProjects = [], isLoading } = useProjects();
   const [activeTab, setActiveTab] = useState("All");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const activeProjectsList = apiProjects.length > 0 ? apiProjects : defaultProjectsData;
 
@@ -131,53 +132,54 @@ export default function ProjectsPage() {
               {filteredProjects.map((project, index) => (
                 <div
                   key={project.id || index}
-                className="group relative flex flex-col justify-between rounded-3xl border border-border/60 bg-card overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
-              >
-                {/* Header Graphic Gradient */}
-                <div className={`h-2 bg-gradient-to-r ${project.color}`} />
+                  onClick={() => setSelectedProject(project)}
+                  className="group relative flex flex-col justify-between rounded-3xl border border-border/60 bg-card overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+                >
+                  {/* Header Graphic Gradient */}
+                  <div className={`h-2 bg-gradient-to-r ${project.color}`} />
 
-                <div className="p-8 space-y-6">
-                  {/* Category Badges */}
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded bg-muted text-muted-foreground border border-border/40">
-                      {project.category}
-                    </span>
-                    <span className="text-xs font-bold font-mono text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-0.5 rounded-md border border-indigo-100/50 dark:border-indigo-900/30">
-                      {project.stats}
-                    </span>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {project.longDesc}
-                    </p>
-                  </div>
-
-                  {/* Tech stack badges */}
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {project.techStack.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[10px] font-medium px-2 py-0.5 rounded bg-muted/60 text-neutral-600 dark:text-neutral-300 border border-border/20"
-                      >
-                        {tech}
+                  <div className="p-8 space-y-6">
+                    {/* Category Badges */}
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded bg-muted text-muted-foreground border border-border/40">
+                        {project.category}
                       </span>
-                    ))}
+                      <span className="text-xs font-bold font-mono text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-0.5 rounded-md border border-indigo-100/50 dark:border-indigo-900/30">
+                        {project.stats}
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-muted-foreground">
+                        {project.desc || project.longDesc}
+                      </p>
+                    </div>
+
+                    {/* Tech stack badges */}
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {project.techStack.map((tech, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[10px] font-medium px-2 py-0.5 rounded bg-muted/60 text-neutral-600 dark:text-neutral-300 border border-border/20"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="p-8 pt-0 mt-auto border-t border-border/20 flex items-center justify-between">
+                    <span className="text-xs font-bold group-hover:underline flex items-center gap-1">
+                      Request Integration Details{" "}
+                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <ExternalLink className="h-4 w-4 text-muted-foreground/60" />
                   </div>
                 </div>
-
-                <div className="p-8 pt-0 mt-auto border-t border-border/20 flex items-center justify-between">
-                  <span className="text-xs font-bold group-hover:underline flex items-center gap-1 cursor-pointer">
-                    Request Integration Details{" "}
-                    <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground/60" />
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
           )}
         </section>
@@ -205,6 +207,94 @@ export default function ProjectsPage() {
       </main>
 
       <Footer />
+
+      {/* Project Details Modal */}
+      {selectedProject && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto"
+          onClick={() => setSelectedProject(null)}
+        >
+          <div 
+            className="relative w-full max-w-2xl rounded-3xl border border-border/40 bg-card p-0 overflow-hidden shadow-2xl space-y-0"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header Graphic Gradient */}
+            <div className={`h-2.5 bg-gradient-to-r ${selectedProject.color}`} />
+            
+            <div className="p-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-2 items-center">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded bg-muted text-muted-foreground border border-border/40">
+                    {selectedProject.category}
+                  </span>
+                  <span className="text-xs font-bold font-mono text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-0.5 rounded border border-indigo-100/50 dark:border-indigo-900/30">
+                    {selectedProject.stats}
+                  </span>
+                </div>
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="h-9 w-9 inline-flex items-center justify-center rounded-xl border border-border hover:bg-muted text-muted-foreground hover:text-foreground transition-all"
+                  aria-label="Close"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-2xl font-black tracking-tight text-neutral-900 dark:text-white">
+                  {selectedProject.title}
+                </h3>
+                <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400 leading-relaxed">
+                  {selectedProject.desc}
+                </p>
+                <div className="border-t border-border/40 my-4" />
+                <div className="space-y-2">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Project Overview
+                  </h4>
+                  <p className="text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
+                    {selectedProject.longDesc}
+                  </p>
+                </div>
+              </div>
+
+              {/* Tech stack badges */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Technologies Deployed
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedProject.techStack.map((tech, idx) => (
+                    <span
+                      key={idx}
+                      className="text-xs font-bold px-3 py-1 rounded-lg bg-muted text-neutral-700 dark:text-neutral-300 border border-border/40"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-border/25 pt-6 flex items-center justify-between">
+                <Button
+                  asChild
+                  className="rounded-xl px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-11"
+                >
+                  <Link href={`/contact?type=${encodeURIComponent(selectedProject.title)}`} className="flex items-center gap-2">
+                    Request Integration Details <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="text-xs font-bold text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Close Case Study
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
