@@ -228,6 +228,44 @@ export const INITIAL_INDUSTRIES: Industry[] = [
       "Strict Role-Based Access Control (RBAC)",
     ],
   },
+  {
+    id: "travel",
+    name: "Travel & Tourism",
+    slug: "travel",
+    description: "Custom flight/hotel booking engines, GDS integrations, itinerary builders, and agent portals.",
+    icon: "Plane",
+    status: "Active",
+    createdAt: "2026-06-20T10:00:00Z",
+    tagline: "Operations",
+    color: "from-blue-600 to-teal-500",
+    stats: { value: "40%", label: "Booking flow automation" },
+    solutions: [
+      "GDS API Integrations (Amadeus/Sabre)",
+      "B2B/B2C Booking Engines",
+      "Custom Itinerary Planners",
+      "Payment Gateway & Ledger Rails",
+      "Agent Commission Management",
+    ],
+  },
+  {
+    id: "custom-software",
+    name: "Custom Software & Websites",
+    slug: "custom-software",
+    description: "Tailor-made web applications, bespoke CMS integrations, responsive websites, and enterprise systems.",
+    icon: "Code2",
+    status: "Active",
+    createdAt: "2026-06-22T10:00:00Z",
+    tagline: "Engineering",
+    color: "from-indigo-500 to-purple-600",
+    stats: { value: "100%", label: "Bespoke custom solutions" },
+    solutions: [
+      "Responsive Next.js Frontend Websites",
+      "Scalable NestJS Backend APIs",
+      "Bespoke Content Management (CMS)",
+      "Enterprise System Architectures",
+      "Third-Party API Integrations",
+    ],
+  },
 ];
 
 export const INITIAL_SERVICES: Service[] = [
@@ -342,6 +380,34 @@ export const INITIAL_SERVICES: Service[] = [
     technologies: ["Next.js", "Redux Toolkit", "Tailwind CSS", "Framer Motion"],
     status: "Active",
     createdAt: "2026-06-15T14:00:00Z"
+  },
+  {
+    id: "srv-9",
+    name: "Travel Booking Engines & GDS Integration",
+    description: "Tailor-made flight, hotel, and holiday package booking engines with direct GDS and third-party travel API integrations.",
+    features: [
+      "Amadeus & Sabre GDS Integrations",
+      "Dynamic Itinerary Builders",
+      "Multi-currency Payment Rails",
+      "Agent & Customer Dashboards",
+    ],
+    technologies: ["Next.js", "NestJS", "PostgreSQL", "Amadeus API"],
+    status: "Active",
+    createdAt: "2026-06-20T10:00:00Z"
+  },
+  {
+    id: "srv-10",
+    name: "Bespoke Web & Custom Software Development",
+    description: "Custom-tailored Next.js frontend applications, performant Node.js backends, and responsive corporate websites engineered to automate your business.",
+    features: [
+      "Next.js & React Frontend Webapps",
+      "NestJS & Express Backend APIs",
+      "Custom CMS & Headless Integrations",
+      "Search Engine & Core Web Vitals Optimization",
+    ],
+    technologies: ["Next.js", "NestJS", "TypeScript", "Tailwind CSS"],
+    status: "Active",
+    createdAt: "2026-06-22T10:00:00Z"
   }
 ];
 
