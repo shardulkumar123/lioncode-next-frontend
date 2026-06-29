@@ -37,6 +37,7 @@ import {
 import { useProjects } from "@/features/projects/hooks/use-projects";
 import { Project } from "@/features/admin/types";
 import { useIndustries } from "@/features/industries/hooks/use-industries";
+import { INITIAL_PROJECTS } from "@/constants/admin-dummy";
 
 // Testimonials data
 const testimonials = [
@@ -145,8 +146,10 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<string>("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
-  const { data: activeProjectsList = [] } = useProjects();
+  const { data: apiProjectsList = [] } = useProjects();
   const { data: apiIndustries = [] } = useIndustries();
+
+  const activeProjectsList = apiProjectsList.length > 0 ? apiProjectsList : INITIAL_PROJECTS;
 
   // Map API models directly
   const resolvedIndustries = apiIndustries.map((ind) => ({
