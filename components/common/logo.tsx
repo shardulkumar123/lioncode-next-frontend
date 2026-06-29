@@ -17,54 +17,47 @@ export function Logo({ className = "", size = 36 }: LogoProps) {
     >
       <defs>
         {/* Deep tech gradients matching the premium aesthetic */}
-        <linearGradient id="hopes-left" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="elevix-primary" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="var(--indigo-400)" />
           <stop offset="100%" stopColor="var(--indigo-700)" />
         </linearGradient>
-        <linearGradient id="hopes-right" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="elevix-accent" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="var(--cyan-400)" />
           <stop offset="100%" stopColor="var(--indigo-600)" />
         </linearGradient>
-        <linearGradient id="hopes-glow" x1="0%" y1="100%" x2="100%" y2="0%">
+        <linearGradient id="elevix-glow" x1="0%" y1="100%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="var(--indigo-500)" />
           <stop offset="100%" stopColor="var(--cyan-300)" />
         </linearGradient>
       </defs>
 
-      {/* Left wing / pillar of 'H' */}
+      {/* Slanted spine on the left */}
       <polygon
-        points="22,25 38,32 38,78 22,70"
-        fill="url(#hopes-left)"
-        rx="2"
+        points="25,20 40,20 30,80 15,80"
+        fill="url(#elevix-primary)"
       />
 
-      {/* Right wing / pillar of 'H' */}
+      {/* Top Bar of the "E" */}
       <polygon
-        points="62,32 78,25 78,70 62,78"
-        fill="url(#hopes-right)"
-        rx="2"
+        points="40,20 80,20 75,35 37,35"
+        fill="url(#elevix-glow)"
       />
 
-      {/* Upward soaring central chevron 1 (Hope / Growth) */}
+      {/* Middle Bar of the "E" */}
       <polygon
-        points="50,15 62,35 50,29 38,35"
-        fill="url(#hopes-glow)"
+        points="35,47 70,47 65,60 32,60"
+        fill="url(#elevix-accent)"
+        opacity="0.9"
       />
 
-      {/* Connecting middle chevron 2 */}
+      {/* Bottom Bar of the "E" */}
       <polygon
-        points="50,38 62,53 50,47 38,53"
-        fill="url(#hopes-glow)"
+        points="30,72 80,72 75,85 25,85"
+        fill="url(#elevix-primary)"
         opacity="0.8"
-      />
-
-      {/* Lower connecting chevron 3 */}
-      <polygon
-        points="50,60 62,72 50,67 38,72"
-        fill="url(#hopes-left)"
-        opacity="0.6"
       />
     </svg>
   );
 }
+
 

@@ -35,7 +35,7 @@ export default function AboutPage() {
 
   const title = about?.title || "Engineering High-Performance";
   const subtitle = about?.subtitle || "Software";
-  const description = about?.description || "Hopes Technologies is a specialized software engineering studio building performant digital tools, secure enterprise portals, and bespoke AI applications.";
+  const description = about?.description || "Elevix Technologies is a specialized software engineering studio building performant digital tools, secure enterprise portals, and bespoke AI applications.";
   const missionTitle = about?.missionTitle || "Our Core Mission";
   const missionPoints = about?.missionPoints || [
     "We believe that software should fit your business operations perfectly, rather than forcing you to adjust your workflows to generic template solutions.",

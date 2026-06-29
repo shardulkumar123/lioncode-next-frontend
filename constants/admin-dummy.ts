@@ -415,7 +415,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-1",
     name: "Aditya Vardhan",
-    email: "aditya@hopestechnologies.com",
+    email: "aditya@elevixtechnologies.com",
     role: "Super Admin",
     status: "Active",
     joinedDate: "2024-01-10"
@@ -423,7 +423,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-2",
     name: "Neha Sharma",
-    email: "neha.s@hopestechnologies.com",
+    email: "neha.s@elevixtechnologies.com",
     role: "Editor",
     status: "Active",
     joinedDate: "2025-03-15"
@@ -431,7 +431,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-3",
     name: "Shardul Kumar",
-    email: "shardul@hopestechnologies.com",
+    email: "shardul@elevixtechnologies.com",
     role: "Super Admin",
     status: "Active",
     joinedDate: "2024-06-20"
@@ -439,7 +439,7 @@ export const INITIAL_STAFF: StaffMember[] = [
   {
     id: "staff-4",
     name: "Rohan Verma",
-    email: "rohan.v@hopestechnologies.com",
+    email: "rohan.v@elevixtechnologies.com",
     role: "Recruiter",
     status: "Active",
     joinedDate: "2025-11-01"
@@ -520,8 +520,8 @@ export const INITIAL_QUERIES: ContactQuery[] = [
 ];
 
 export const INITIAL_SETTINGS: SystemSettings = {
-  siteName: "Hopes Technologies Portal",
-  siteEmail: "admin@hopestechnologies.com",
+  siteName: "Elevix Technologies Portal",
+  siteEmail: "admin@elevixtechnologies.com",
   contactPhone: "+91 98765 43210",
   address: "Sector 62, Noida, Uttar Pradesh, India",
   maintenanceMode: false,
@@ -529,31 +529,31 @@ export const INITIAL_SETTINGS: SystemSettings = {
   maxUploadSizeMb: 15,
   supportHours: "Mon - Fri: 9:00 AM - 6:00 PM IST",
   privacyPolicy: `# Privacy Policy
-
+ 
 Effective Date: June 17, 2026
-
-At Hopes Technologies, we value your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website or use our services.
-
+ 
+At Elevix Technologies, we value your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website or use our services.
+ 
 ## 1. Information We Collect
 We collect information that you voluntarily provide to us when submitting inquiries, requesting consultations, or applying for jobs. This may include your name, email address, phone number, company name, and resume.
-
+ 
 ## 2. How We Use Your Information
 We use the collected information to respond to your queries, process job applications, and improve our services. We do not sell or lease your personal information to third parties.
-
+ 
 ## 3. Contact Us
-If you have any questions about this privacy policy, please contact us at support@hopestechnologies.com.`,
+If you have any questions about this privacy policy, please contact us at support@elevixtechnologies.com.`,
   termsOfService: `# Terms of Service
-
+ 
 Last Updated: June 17, 2026
-
-Welcome to Hopes Technologies. By accessing or using our services, you agree to comply with and be bound by the following terms of service.
-
+ 
+Welcome to Elevix Technologies. By accessing or using our services, you agree to comply with and be bound by the following terms of service.
+ 
 ## 1. Acceptable Use
 You agree to use our portal and services only for lawful purposes. You must not use our services to distribute harmful or malicious code, or engage in unauthorized access.
-
+ 
 ## 2. Intellectual Property
-All code, designs, graphics, and content on this portal are the intellectual property of Hopes Technologies Inc. and may not be reproduced without prior written consent.
-
+All code, designs, graphics, and content on this portal are the intellectual property of Elevix Technologies Inc. and may not be reproduced without prior written consent.
+ 
 ## 3. Disclaimers
 Our services are provided on an "as-is" and "as-available" basis. We make no warranties regarding uninterrupted or error-free operations.`
 };
@@ -594,10 +594,10 @@ export const INITIAL_PROJECTS: Project[] = [
   },
   {
     id: "project-4",
-    title: "HopesStream Edge Cache",
+    title: "ElevixStream Edge Cache",
     category: "Cloud API",
     desc: "Custom edge routing middleware designed to optimize dynamic API requests and reduce database stress under extreme load spikes.",
-    longDesc: "Built for dynamic e-commerce catalog API loads, HopesStream caches complex database query results at the network edge, ensuring sub-15ms response latencies and seamless auto-scaling.",
+    longDesc: "Built for dynamic e-commerce catalog API loads, ElevixStream caches complex database query results at the network edge, ensuring sub-15ms response latencies and seamless auto-scaling.",
     stats: "15ms avg latency",
     techStack: ["Go", "Cloudflare Workers", "gRPC", "Redis Enterprise"],
     color: "from-amber-500 to-orange-500",

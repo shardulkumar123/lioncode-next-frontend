@@ -41,7 +41,7 @@ import { useIndustries } from "@/features/industries/hooks/use-industries";
 const testimonials = [
   {
     quote:
-      "Hopes Technologies transformed our backend system into a high-performance engine. Their architecture scales seamlessly and their attention to detail is outstanding.",
+      "Elevix Technologies transformed our backend system into a high-performance engine. Their architecture scales seamlessly and their attention to detail is outstanding.",
     author: "Elena Rostova",
     role: "VP of Engineering, Justravels",
     stars: 5,

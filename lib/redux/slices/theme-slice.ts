@@ -17,18 +17,18 @@ export const themeSlice = createSlice({
     toggleTheme: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
       if (typeof window !== "undefined") {
-        localStorage.setItem("hopes_theme", state.mode);
+        localStorage.setItem("elevix_theme", state.mode);
       }
     },
     setTheme: (state, action: PayloadAction<ThemeMode>) => {
       state.mode = action.payload;
       if (typeof window !== "undefined") {
-        localStorage.setItem("hopes_theme", action.payload);
+        localStorage.setItem("elevix_theme", action.payload);
       }
     },
     syncThemeFromStorage: (state) => {
       if (typeof window !== "undefined") {
-        const saved = localStorage.getItem("hopes_theme") as ThemeMode | null;
+        const saved = localStorage.getItem("elevix_theme") as ThemeMode | null;
         if (saved === "light" || saved === "dark") {
           state.mode = saved;
         } else {

@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hopes Technologies | IT Services & Consulting",
+  title: "Elevix Technologies | IT Services & Consulting",
   description:
     "Enterprise-grade software engineering, IT systems consulting, and state-of-the-art AI solutions.",
 };

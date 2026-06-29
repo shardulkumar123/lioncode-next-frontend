@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
               Privacy Policy
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Read how Hopes Technologies safeguards your personal information.
+              Read how Elevix Technologies safeguards your personal information.
             </p>
           </div>
         </section>

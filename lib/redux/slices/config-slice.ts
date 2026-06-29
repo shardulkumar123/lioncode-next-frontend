@@ -6,7 +6,7 @@ interface ConfigState {
 }
 
 const initialState: ConfigState = {
-  appName: "Hopes Technologies",
+  appName: "Elevix Technologies",
   userName: "Guest",
 };
 

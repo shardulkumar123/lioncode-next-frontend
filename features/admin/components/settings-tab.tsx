@@ -128,7 +128,7 @@ export function SettingsTab() {
                 required
                 value={siteName}
                 onChange={(e) => setSiteName(e.target.value)}
-                placeholder="e.g. Hopes Technologies Portal"
+                placeholder="e.g. Elevix Technologies Portal"
                 className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
               />
             </div>
@@ -165,7 +165,7 @@ export function SettingsTab() {
                 required
                 value={siteEmail}
                 onChange={(e) => setSiteEmail(e.target.value)}
-                placeholder="admin@hopestechnologies.com"
+                placeholder="admin@elevixtechnologies.com"
                 className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
               />
             </div>
@@ -310,7 +310,7 @@ export function SettingsTab() {
               rows={2}
               value={aboutDesc}
               onChange={(e) => setAboutDesc(e.target.value)}
-              placeholder="Hopes Technologies is a specialized software engineering studio..."
+              placeholder="Elevix Technologies is a specialized software engineering studio..."
               className="w-full rounded-xl border border-border bg-muted/10 px-3 py-2 text-xs font-semibold focus:border-indigo-600 focus:outline-none"
             />
           </div>

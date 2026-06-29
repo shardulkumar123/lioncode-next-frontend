@@ -72,7 +72,7 @@ export function AdminSidebar({ activeTab, collapsed, setCollapsed, onNavigate }:
           <Logo size={collapsed ? 28 : 34} />
           {!collapsed && (
             <span className="font-extrabold text-sm tracking-tight bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
-              HOPES TECH
+              ELEVIX TECH
             </span>
           )}
         </Link>

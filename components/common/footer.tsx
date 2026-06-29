@@ -30,8 +30,8 @@ export function Footer() {
         { id: "fallback-5", name: "Custom Admin Portals", href: "/services" },
       ];
 
-  const brandName = settings?.siteName || "Hopes Technologies";
-  const contactEmail = settings?.siteEmail || "hello@hopestechnologies.com";
+  const brandName = settings?.siteName || "Elevix Technologies";
+  const contactEmail = settings?.siteEmail || "hello@elevixtechnologies.com";
   const contactPhone = settings?.contactPhone || "+91 98765 43210";
   const address = settings?.address || "Indiranagar, Bangalore, Karnataka, India — 560038";
   const supportHours = settings?.supportHours || "Mon - Fri: 9:00 AM - 6:00 PM IST";

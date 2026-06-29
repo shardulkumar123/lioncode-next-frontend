@@ -62,7 +62,7 @@ function ContactFormContent() {
     return match ? match.value : (initialType || finalOptions[0]?.value || "");
   })();
 
-  const contactEmail = settings?.siteEmail || "hello@hopestechnologies.com";
+  const contactEmail = settings?.siteEmail || "hello@elevixtechnologies.com";
   const address = settings?.address || "Indiranagar, Bangalore, Karnataka, India — 560038";
   const supportHours = settings?.supportHours || "Monday - Friday: 9:00 AM - 6:00 PM IST";
 

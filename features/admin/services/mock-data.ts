@@ -74,7 +74,7 @@ export const INITIAL_ABOUT: About = {
   id: "about-singleton",
   title: "Engineering High-Performance",
   subtitle: "Software",
-  description: "Hopes Technologies is a specialized software engineering studio building performant digital tools, secure enterprise portals, and bespoke AI applications.",
+  description: "Elevix Technologies is a specialized software engineering studio building performant digital tools, secure enterprise portals, and bespoke AI applications.",
   missionTitle: "Our Core Mission",
   missionPoints: [
     "We believe that software should fit your business operations perfectly, rather than forcing you to adjust your workflows to generic template solutions.",

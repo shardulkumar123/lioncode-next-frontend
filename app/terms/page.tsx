@@ -31,7 +31,7 @@ export default function TermsOfServicePage() {
               Terms of Service
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Understand your rights and terms when using Hopes Technologies.
+              Understand your rights and terms when using Elevix Technologies.
             </p>
           </div>
         </section>

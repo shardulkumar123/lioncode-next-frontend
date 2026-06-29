@@ -100,10 +100,10 @@ export default function AdminLoginPage() {
       
       // 2. Offline simulation fallback: Allow testing with seeded roles
       if (
-        (email === "shardul@hopestechnologies.com" || email === "aditya@hopestechnologies.com" || email === "neha.s@hopestechnologies.com" || email === "rohan.v@hopestechnologies.com") &&
+        (email === "shardul@elevixtechnologies.com" || email === "aditya@elevixtechnologies.com" || email === "neha.s@elevixtechnologies.com" || email === "rohan.v@elevixtechnologies.com") &&
         password === "admin123"
       ) {
-        const role = email === "shardul@hopestechnologies.com" || email === "aditya@hopestechnologies.com" ? "ADMIN" : "EDITOR";
+        const role = email === "shardul@elevixtechnologies.com" || email === "aditya@elevixtechnologies.com" ? "ADMIN" : "EDITOR";
         const simulatedPayload = {
           sub: "simulated_id",
           email,
@@ -117,7 +117,7 @@ export default function AdminLoginPage() {
         setSuccessMsg("Logged in successfully (Offline Sandbox)! Redirecting...");
       } else {
         setErrorMsg(
-          error.message || "Invalid credentials. Use 'shardul@hopestechnologies.com' and 'admin123' to test offline."
+          error.message || "Invalid credentials. Use 'shardul@elevixtechnologies.com' and 'admin123' to test offline."
         );
       }
     } finally {
@@ -274,14 +274,14 @@ export default function AdminLoginPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => handleQuickFill("shardul@hopestechnologies.com")}
+                    onClick={() => handleQuickFill("shardul@elevixtechnologies.com")}
                     className="rounded-lg border border-border hover:bg-muted py-1.5 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors"
                   >
                     Shardul (Admin)
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleQuickFill("neha.s@hopestechnologies.com")}
+                    onClick={() => handleQuickFill("neha.s@elevixtechnologies.com")}
                     className="rounded-lg border border-border hover:bg-muted py-1.5 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors"
                   >
                     Neha (Editor)
