@@ -30,10 +30,8 @@ import {
   Workflow,
   Heart,
   X,
-  ExternalLink,
   Plane,
   Hotel,
-  BriefcaseBusiness,
 } from "lucide-react";
 
 import { useProjects } from "@/features/projects/hooks/use-projects";
