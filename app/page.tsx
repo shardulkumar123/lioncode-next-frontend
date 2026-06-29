@@ -31,6 +31,9 @@ import {
   Heart,
   X,
   ExternalLink,
+  Plane,
+  Hotel,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 import { useProjects } from "@/features/projects/hooks/use-projects";
@@ -87,6 +90,57 @@ const getIndustryColorStyles = (colorStr?: string) => {
   }
   return "bg-indigo-500/10 text-indigo-500 dark:bg-indigo-500/20";
 };
+
+const PRODUCTS_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  Plane,
+  Hotel,
+  Utensils,
+};
+
+const products = [
+  {
+    title: "Elevix Travel Engine",
+    tagline: "Global Booking System",
+    desc: "A unified booking solution for agencies and tour operators. Integrated directly with Sabre and Amadeus GDS, offering multi-currency checkouts and real-time inventory management.",
+    features: [
+      "Amadeus & Sabre GDS Integration",
+      "Dynamic Tour & Itinerary Builder",
+      "Automated Agent Commission Ledger",
+    ],
+    color: "from-blue-600 to-cyan-500",
+    colorBg: "bg-blue-500/10 border-blue-500/20 text-blue-500",
+    icon: "Plane",
+    stats: "45% faster booking flows",
+  },
+  {
+    title: "Elevix Hotel PMS",
+    tagline: "Property Management System",
+    desc: "An all-in-one property management dashboard that controls reservations, coordinates housekeeping dispatch, manages room billing grids, and integrates guest check-in portals.",
+    features: [
+      "Real-Time Room Status Matrix",
+      "Automated Housekeeping Queues",
+      "Channel Manager Synced Instantly",
+    ],
+    color: "from-indigo-600 to-purple-500",
+    colorBg: "bg-indigo-500/10 border-indigo-500/20 text-indigo-500",
+    icon: "Hotel",
+    stats: "50% reservation speedup",
+  },
+  {
+    title: "Elevix POS & Table Ordering",
+    tagline: "Food & Beverage Operations",
+    desc: "A contactless customer ordering platform for restaurants and cafés. Pairs immediate QR-code ordering directly with kitchen displays and loyalty point tracking.",
+    features: [
+      "Contactless QR-Code Table Ordering",
+      "Kitchen Display System (KDS) Feed",
+      "Customer Loyalty Engine Built-In",
+    ],
+    color: "from-orange-600 to-red-500",
+    colorBg: "bg-orange-500/10 border-orange-500/20 text-orange-500",
+    icon: "Utensils",
+    stats: "30% reduced manual labor",
+  },
+];
 
 export default function Home() {
   const config = useAppSelector((state) => state.config);
@@ -383,6 +437,87 @@ export default function Home() {
                     <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground dark:text-[#9b97a2]">
                       {service.desc}
                     </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* 2.5. PRODUCTS SECTION */}
+        <section
+          id="products"
+          className="mx-auto max-w-7xl px-4 pt-12 pb-12 sm:pt-16 sm:pb-16 lg:px-8 border-b border-border/40 scroll-mt-20"
+        >
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-xs font-semibold leading-7 text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">
+              Ready-Made Software
+            </h2>
+            <p className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl text-neutral-900 dark:text-white">
+              Our Products
+            </p>
+            <p className="mt-4 text-base text-muted-foreground">
+              Production-ready platforms designed to deploy rapidly and customize around your specific requirements.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-16 max-w-7xl grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {products.map((product, index) => {
+              const IconComp = PRODUCTS_ICON_MAP[product.icon] || Globe;
+              return (
+                <div
+                  key={index}
+                  className="flex flex-col justify-between rounded-3xl border border-border bg-card p-8 shadow-sm hover:shadow-md hover:-translate-y-1 hover:border-indigo-500/20 dark:hover:border-indigo-500/30 dark:bg-[#141118] dark:border-white/[0.04] transition-all duration-300"
+                >
+                  <div>
+                    {/* Header Row: Icon + Tag */}
+                    <div className="flex items-center justify-between">
+                      <div
+                        className={`flex h-12 w-12 items-center justify-center rounded-xl ${product.colorBg}`}
+                      >
+                        <IconComp className="h-6 w-6" />
+                      </div>
+                      <span className="text-[10px] font-bold tracking-wider px-2.5 py-1 rounded bg-neutral-100 dark:bg-[#221e25] text-muted-foreground dark:text-[#8e8a94] border border-transparent dark:border-white/[0.04]">
+                        {product.tagline}
+                      </span>
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="mt-8 text-xl font-bold text-neutral-900 dark:text-white">
+                      {product.title}
+                    </h3>
+                    <p className="mt-3 text-xs leading-relaxed text-muted-foreground dark:text-[#9b97a2]">
+                      {product.desc}
+                    </p>
+
+                    {/* Features checklist */}
+                    <ul className="mt-6 space-y-2.5">
+                      {product.features.map((feat, idx) => (
+                        <li
+                          key={idx}
+                          className="flex items-start gap-2.5 text-xs text-neutral-700 dark:text-neutral-300"
+                        >
+                          <CheckCircle2 className="h-4 w-4 text-indigo-500 shrink-0 mt-0.5" />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-border/40 flex items-center justify-between">
+                    <span className="text-xs font-mono text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2.5 py-0.5 rounded border border-indigo-100/50 dark:border-indigo-900/30">
+                      {product.stats}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      asChild
+                      className="text-xs font-semibold hover:bg-muted text-neutral-800 dark:text-neutral-200"
+                    >
+                      <Link href="/contact" className="flex items-center gap-1">
+                        Get Demo <ArrowRight className="h-3 w-3" />
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               );
