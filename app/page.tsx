@@ -462,6 +462,88 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Featured Flagship Product Spotlight */}
+          <div className="mx-auto mt-12 max-w-5xl rounded-3xl border border-indigo-500/30 bg-gradient-to-br from-indigo-950/20 via-background to-cyan-950/20 p-8 sm:p-10 shadow-xl relative overflow-hidden group">
+            {/* Ambient Background Glow */}
+            <div className="absolute top-0 right-0 h-72 w-72 bg-gradient-to-br from-indigo-500 to-cyan-500 opacity-10 blur-[80px] -z-10 group-hover:opacity-15 transition-opacity" />
+            
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-12 md:items-center">
+              {/* Info Column */}
+              <div className="md:col-span-8 space-y-6 text-left">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                    Featured Product
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 px-3 py-1 text-xs font-bold text-amber-600 dark:text-amber-400">
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse" />
+                    Coming Soon
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 dark:text-white">
+                    TravelERP
+                  </h3>
+                  <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                    Complete ERP Solution for Travel Businesses
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    TravelERP is an all-in-one cloud-based ERP platform designed for travel agencies, tour operators, DMCs, and travel businesses. Manage leads, quotations, bookings, partners, finances, operations, and customer relationships from a single dashboard.
+                  </p>
+                </div>
+
+                {/* Bullet Highlights */}
+                <div className="grid grid-cols-2 gap-4 pt-2">
+                  <div className="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-500" />
+                    <span>Lead Management</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-500" />
+                    <span>Quotation Builder</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-500" />
+                    <span>Invoice & Accounting</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-500" />
+                    <span>GDS & API Integrations</span>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex flex-wrap gap-4">
+                  <Button
+                    size="default"
+                    asChild
+                    className="rounded-xl px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold"
+                  >
+                    <Link href="/products/travelerp">Explore TravelERP</Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="default"
+                    asChild
+                    className="rounded-xl px-5 border-border/80 font-bold bg-background hover:bg-muted"
+                  >
+                    <Link href="/products/travelerp#demo-form">Request a Demo</Link>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Stats / Graphic Column */}
+              <div className="md:col-span-4 flex flex-col items-center justify-center p-6 bg-indigo-500/5 border border-indigo-500/10 rounded-2xl md:h-full">
+                <Plane className="h-12 w-12 text-indigo-500 mb-4 animate-bounce" />
+                <div className="text-4xl font-black text-indigo-600 dark:text-indigo-400">
+                  50%
+                </div>
+                <div className="text-[11px] font-bold text-muted-foreground mt-1 text-center">
+                  Reduction in manual operations
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="mx-auto mt-16 max-w-7xl grid grid-cols-1 gap-8 lg:grid-cols-3">
             {products.map((product, index) => {
               const IconComp = PRODUCTS_ICON_MAP[product.icon] || Globe;
